@@ -1,6 +1,6 @@
 <?php
 // public/index.php
-require_once '../includes/auth.php';
+require_once  '/../includes/auth.php';
 error_reporting(E_ALL);
 
 if (Auth::isLoggedIn()) {
@@ -14,12 +14,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     $site_url = $_POST['site_url'] ?? '';
     
-    echo "DEBUG: Tentative inscription pour $email<br>";
+    // echo "DEBUG: Tentative inscription pour $email<br>";
     
     $userId = Auth::register($email, $password);
     
-    echo "DEBUG: Auth::register a retourné: " . ($userId ? "ID $userId" : "FALSE") . "<br>";
-    echo "DEBUG: Session user_id: " . ($_SESSION['user_id'] ?? 'VIDE') . "<br>";
+    // echo "DEBUG: Auth::register a retourné: " . ($userId ? "ID $userId" : "FALSE") . "<br>";
+    // echo "DEBUG: Session user_id: " . ($_SESSION['user_id'] ?? 'VIDE') . "<br>";
     
     if ($userId) {
         // Si URL fournie, créer le site automatiquement
@@ -29,15 +29,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $public_key = bin2hex(random_bytes(32));
             $site_name = parse_url($site_url, PHP_URL_HOST) ?: 'Mon site';
             
-            echo "DEBUG: Création site pour user_id: $userId<br>";
+            // echo "DEBUG: Création site pour user_id: $userId<br>";
             
             $stmt = $pdo->prepare("INSERT INTO user_sites (user_id, site_name, domain, tracking_code, public_key) VALUES (?, ?, ?, ?, ?)");
             $stmt->execute([$userId, $site_name, $site_url, $tracking_code, $public_key]);
         }
         
-        echo "DEBUG: Redirection vers dashboard.php<br>";
-        // header('Location: dashboard.php');
-        // exit();
+        // echo "DEBUG: Redirection vers dashboard.php<br>";
+        header('Location: dashboard.php');
+        exit();
     } else {
         $error = 'Cet email existe déjà';
     }

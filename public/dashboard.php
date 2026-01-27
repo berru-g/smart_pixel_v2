@@ -1,11 +1,6 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
-// === MODIFICATIONS OBLIGATOIRES ===
-// 1. Inclusion de l'authentification
-require_once '../includes/config.php';
+require_once __DIR__ . '/../includes/auth.php';
 //session_start();
 
 // Vérifier si l'utilisateur est connecté
@@ -281,7 +276,7 @@ if (count($sessionData) > 0) {
             <!-- En-tête de la sidebar -->
             <div class="sidebar-header">
                 <div class="logo-container">
-                    <div class="logo-icon">◰</div>
+                    <!--<div class="logo-icon">◰</div>-->
                     <div class="logo-text">
                         <h3>Smart Pixel</h3>
                         <small class="user-email"><?= htmlspecialchars($_SESSION['user_email'] ?? 'Utilisateur') ?></small>

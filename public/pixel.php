@@ -1,6 +1,6 @@
 <?php
 // public/pixel.php
-require_once '../includes/config.php';
+require_once  '/../includes/config.php';
 
 header('Content-Type: image/gif');
 header('Cache-Control: no-store, no-cache');

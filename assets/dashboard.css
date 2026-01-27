@@ -1090,7 +1090,7 @@ canvas {
   border-width: 3px;
   border-color: var(--primary-color);
 }
-
+/*
 .plan-badge {
   position: absolute;
   top: 20px;
@@ -1104,7 +1104,7 @@ canvas {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
-
+*/
 .plan-card.recommended .plan-badge {
   background: var(--gradient-pro);
 }

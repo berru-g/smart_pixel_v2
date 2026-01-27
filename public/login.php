@@ -1,5 +1,9 @@
 <?php
-// public/login.php
+// TOP du fichier public/login.php - AJOUTE CES 3 LIGNES
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+//session_start();
 require_once '../includes/auth.php';
 
 if (Auth::isLoggedIn()) {
@@ -32,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="login-card">
             <div class="login-header">
                 <div class="login-logo">
-                    <div class="login-logo-icon">📊</div>
+                    <div class="login-logo-icon">◰</div>
                     <h1>Smart Pixel</h1>
                 </div>
                 <p class="login-subtitle">Analytics intelligentes pour votre succès</p>
@@ -44,12 +48,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <form method="POST" class="login-form">
                 <div class="form-group">
-                    <label for="email">📧 Email</label>
+                    <label for="email"></label>
                     <input type="email" name="email" id="email" placeholder="votre@email.com" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="password">🔒 Mot de passe</label>
+                    <label for="password"></label>
                     <input type="password" name="password" id="password" placeholder="Votre mot de passe" required>
                 </div>
 
