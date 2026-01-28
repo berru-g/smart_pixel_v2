@@ -1,60 +1,36 @@
 <?php
-// kill_all_bugs.php
-session_start();
+// repair_passwords.php - À placer à la racine
+require_once '../includes/config.php';
 
-// DÉFINIR L'URL DE BASE UNE FOIS POUR TOUTES
-$base_url = 'http://' . $_SERVER['HTTP_HOST'] . '/smart_phpixel/smart_pixel_v2/public/';
+echo "<h3>Réparation des mots de passe</h3>";
 
-echo "<h1 style='color: #f00;'>🔪 TUER TOUS LES BUGS</h1>";
+$pdo = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME, DB_USER, DB_PASS);
 
-echo "<div style='background: #000; color: #0f0; padding: 20px; font-family: monospace;'>";
+// 1. Voir tous les utilisateurs
+$stmt = $pdo->query("SELECT id, email, password_hash FROM users");
+$users = $stmt->fetchAll();
 
-echo "=== ÉTAPE 1: CORRECTION DES URL ===\n\n";
-echo "URL de base: $base_url\n\n";
+foreach ($users as $user) {
+    echo "<p>Utilisateur #{$user['id']} : {$user['email']}</p>";
+    
+    // Vérifier le hash
+    if (password_verify('password123', $user['password_hash'])) {
+        echo "<span style='color:green'>✓ Fonctionne avec 'password123'</span><br>";
+    } elseif (password_verify('admin123', $user['password_hash'])) {
+        echo "<span style='color:green'>✓ Fonctionne avec 'admin123'</span><br>";
+    } else {
+        echo "<span style='color:red'>✗ Hash invalide</span><br>";
+        
+        // Réparer ce mot de passe
+        $newHash = password_hash('password123', PASSWORD_DEFAULT);
+        $update = $pdo->prepare("UPDATE users SET password_hash = ? WHERE id = ?");
+        $update->execute([$newHash, $user['id']]);
+        echo "<span style='color:orange'>→ Réparé avec mot de passe: 'password123'</span><br>";
+    }
+    echo "<hr>";
+}
 
-echo "=== ÉTAPE 2: TEST SESSION ===\n";
-$_SESSION['user_id'] = 2;
-$_SESSION['user_email'] = 'test@test.com';
-echo "Session user_id: " . ($_SESSION['user_id'] ?? 'NULL') . "\n";
-echo "Session email: " . ($_SESSION['user_email'] ?? 'NULL') . "\n\n";
-
-echo "=== ÉTAPE 3: TEST DASHBOARD ===\n";
-echo "<a href='{$base_url}dashboard.php' style='color: cyan; font-size: 20px;' target='_blank'>
-      🔥 TEST DASHBOARD (ouvre nouvel onglet)
-      </a>\n\n";
-
-echo "=== ÉTAPE 4: CORRECTION FORMULAIRES ===\n";
-echo "Pour index.php, ajoute dans le formulaire:\n";
-echo "<pre style='color: yellow;'>
-&lt;form method='POST' action='&lt;?php echo htmlspecialchars(\$_SERVER['PHP_SELF']); ?&gt;'&gt;
-</pre>\n\n";
-
-echo "=== ÉTAPE 5: CORRECTION REDIRECTIONS ===\n";
-echo "Dans login.php, index.php, dashboard.php:\n";
-echo "<pre style='color: yellow;'>
-header('Location: " . $base_url . "dashboard.php');
-// TOUJOURS utiliser l'URL complète
-</pre>\n";
-
-echo "</div>";
-
-// TEST PRATIQUE
-echo "<h2>🎯 TEST IMMÉDIAT</h2>";
-echo "<iframe src='{$base_url}dashboard.php' width='100%' height='500px' style='border: 2px solid red;'></iframe>";
-
-echo "<h2>📝 FICHIERS À CORRIGER (30 secondes)</h2>";
-echo "<ol>
-<li><strong>public/login.php</strong> - Ligne ~10:<br>
-    <code>header('Location: {$base_url}dashboard.php');</code>
-</li>
-<li><strong>public/index.php</strong> - Ligne ~34:<br>
-    <code>header('Location: {$base_url}dashboard.php');</code><br>
-    Et dans le formulaire: <code>action='<?php echo htmlspecialchars(\$_SERVER[\"PHP_SELF\"]); ?>'</code>
-</li>
-<li><strong>public/dashboard.php</strong> - Ligne ~13:<br>
-    <code>header('Location: {$base_url}login.php');</code>
-</li>
-</ol>";
-
-echo "<h2 style='color: green;'>💥 EXÉCUTE CES 3 CHANGEMENTS PUIS RAFRAÎCHIS CETTE PAGE</h2>";
+echo "<h3>Pour tester maintenant :</h3>";
+echo "<p>Email: admin@example.com | Mot de passe: <strong>password123</strong></p>";
+echo "<p>OU utilise l'email de n'importe quel utilisateur avec le mot de passe: <strong>password123</strong></p>";
 ?>

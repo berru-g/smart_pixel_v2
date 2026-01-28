@@ -1,14 +1,13 @@
 <?php
-// TOP du fichier public/login.php - AJOUTE CES 3 LIGNES
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-//session_start();
-require_once '../includes/auth.php';
+require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/auth.php';
 
-if (Auth::isLoggedIn()) {
-    header('Location: dashboard.php');
-    exit();
+// DÉBUT DU FIX - JUSTE CES 3 LIGNES
+session_start();
+if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+    $alreadyLoggedIn = true;
+} else {
+    $alreadyLoggedIn = false;
 }
 
 $error = '';
@@ -32,6 +31,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
+    <!--test de session-->
+    <?php if ($alreadyLoggedIn): ?>
+        <div style="background: yellow; padding: 10px; border: 2px solid orange; margin: 10px 0;">
+            <strong>ATTENTION :</strong> Session déja Active <strong><?php echo htmlspecialchars($_SESSION['user_email'] ?? ''); ?></strong><br>
+            <a href="dashboard.php">→ Aller au Dashboard</a> |
+            <a href="logout.php">→ Se déconnecter</a>
+        </div>
+    <?php endif; ?>
+    <!--fin de test -->
     <div class="login-container">
         <div class="login-card">
             <div class="login-header">

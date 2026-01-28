@@ -1,6 +1,6 @@
 <?php
 // public/index.php
-require_once  '/../includes/auth.php';
+require_once  '../includes/auth.php';
 error_reporting(E_ALL);
 
 if (Auth::isLoggedIn()) {
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="POST">
         <input type="email" name="email" placeholder="Email" required>
         <input type="password" name="password" placeholder="Mot de passe" required>
-        <input type="url" name="site_url" placeholder="URL de votre site (optionnel)">
+        <input type="url" name="site_url" placeholder="URL de votre site" required>
         <button type="submit">Créer mon compte gratuit</button>
     </form>
     

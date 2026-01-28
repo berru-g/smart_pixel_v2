@@ -1,12 +1,13 @@
 <?php
 
+require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/auth.php';
-//session_start();
 
-// Vérifier si l'utilisateur est connecté
-if (!isset($_SESSION['user_id'])) {
+// Vérifie si connecté
+if (!Auth::isLoggedIn()) {
+    // Redirige UNIQUEMENT si pas connecté
     header('Location: login.php');
-    exit();
+    exit;
 }
 
 $user_id = $_SESSION['user_id'];
@@ -55,10 +56,11 @@ if (isset($_POST['create_site'])) {
 
 // 2. Si pas de sites, FORCER l'affichage du formulaire
 // 2. Si pas de sites ET qu'on n'est pas déjà sur la page de création
-if (empty($userSites) && !isset($_GET['create'])) {
-    header('Location: dashboard.php');
-    exit();
-} 
+// 2. Si pas de sites, afficher le formulaire de création
+if (empty($userSites)) {
+    // Afficher directement le formulaire, pas de redirection
+    $showCreateForm = true;
+}
 
 /* 3. Site sélectionné (depuis GET ou premier site)
 $selectedSiteId = $_GET['site_id'] ?? $userSites[0]['id'];
@@ -402,7 +404,7 @@ if (count($sessionData) > 0) {
 
     <!-- === TON CONTENU EXISTANT (décalé à droite) === -->
     <div class="main-content">
-        <?php if (isset($_GET['create'])): ?>
+        <?php if (isset($_GET['create']) || (isset($showCreateForm) && $showCreateForm)): ?>
             <?php
             // Récupérer les infos de limite si elles existent
             $limitReached = $_SESSION['limit_reached'] ?? false;
