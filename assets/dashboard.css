@@ -750,7 +750,7 @@ canvas {
 
 .copy-btn {
   background: transparent;
-  border: 1px solid var(--border-color);
+  border: none;
   border-radius: 6px;
   width: 28px;
   height: 28px;

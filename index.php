@@ -13,8 +13,7 @@ $dashboard_url = 'http://' . $_SERVER['HTTP_HOST'] . '/smart_phpixel/smart_pixel
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Ton style dashboard -->
     <link rel="stylesheet" href="./assets/dashboard.css">
-    <script data-sp-id="SP_00811b80" src="http://localhost/smart_phpixel/smart_pixel_v2/public/tracker.js" async></script>
-
+    <script data-sp-id="SP_5a52936f" src="http://localhost/smart_phpixel/smart_pixel_v2/public/tracker.js" async></script>
     <!-- Style landing page -->
     <style>
         /* ====== OVERRIDE & EXTENSIONS ====== */

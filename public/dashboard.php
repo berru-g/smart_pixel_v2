@@ -114,7 +114,7 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([$selectedSiteId, $dateFilter]);
 $uniqueVisitorsPeriod = $stmt->fetchColumn();
-
+ 
 // MODIFICATION 4 : Ajout de WHERE site_id = ?
 $stmt = $pdo->prepare("
     SELECT source, COUNT(*) as count 
@@ -267,8 +267,8 @@ if (count($sessionData) > 0) {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     <link rel="stylesheet" href="../assets/dashboard.css">
-    <!--testpixel-->
-    <script data-sp-id="SP_940a81dd" src="http://localhost/smart_phpixel/smart_pixel_v2/public/tracker.js" async></script>
+    <!--testpixel FONCTIONNEL ✅
+    <script data-sp-id="SP_940a81dd" src="http://localhost/smart_phpixel/smart_pixel_v2/public/tracker.js" async></script>-->
 </head>
 
 <body>
@@ -357,7 +357,7 @@ if (count($sessionData) > 0) {
                 </div>
             </div>
 
-            <!-- Code d'intégration -->
+            <!-- Code snippet d'intégration -->
             <?php
             $currentSite = array_filter($userSites, fn($s) => $s['id'] == $selectedSiteId);
             $currentSite = reset($currentSite);
@@ -474,12 +474,12 @@ if (count($sessionData) > 0) {
 
             <?php else: ?>
                 <!-- Formulaire de création normal -->
-                <div style="max-width: 500px; margin: 50px auto;">
+                <div class="login-container">
                     <h2><?= isset($_GET['first']) ? 'Créez votre premier site' : 'Ajouter un nouveau site' ?></h2>
-                    <form method="POST">
+                    <form method="POST" class="login-form">
                         <input type="text" name="site_name" placeholder="Nom du site" required>
                         <input type="text" name="site_domain" placeholder="mondomaine.com" required>
-                        <button type="submit" name="create_site">Créer le site</button>
+                        <button type="submit" name="create_site" class="login-button">Créer le site</button>
                     </form>
                 </div>
             <?php endif; ?>
@@ -928,7 +928,7 @@ if (count($sessionData) > 0) {
                 datasets: [{
                     data: sources.map(s => s.count),
                     backgroundColor: [
-                        'var(--primary-color)', '#4ecdc4', '#ff6b8b', '#ffe66d', '#7ae582'
+                        'var(--primary-color)', '#4ecdc4', '#ff6b8b', '#ffe66d', '#9d86ff'
                     ]
                 }]
             },
@@ -958,7 +958,7 @@ if (count($sessionData) > 0) {
                 datasets: [{
                     label: 'Visites',
                     data: countries.map(c => c.visits),
-                    backgroundColor: '#7ae582'
+                    backgroundColor: '#9d86ff'
                 }]
             },
             options: {
@@ -987,7 +987,7 @@ if (count($sessionData) > 0) {
                 datasets: [{
                     data: sources.map(s => s.count),
                     backgroundColor: [
-                        'var(--primary-color)', '#4ecdc4', '#ff6b8b', '#ffe66d', '#7ae582'
+                        'var(--primary-color)', '#4ecdc4', '#ff6b8b', '#ffe66d', '#9d86ff'
                     ]
                 }]
             },
@@ -1010,7 +1010,7 @@ if (count($sessionData) > 0) {
                 datasets: [{
                     label: 'Utilisations',
                     data: browsers.map(b => b.count),
-                    backgroundColor: '#7ae582'
+                    backgroundColor: '#9d86ff'
                 }]
             },
             options: {
@@ -1076,7 +1076,7 @@ if (count($sessionData) > 0) {
                 datasets: [{
                     data: browsers.map(b => b.count),
                     backgroundColor: [
-                        'var(--primary-color)', '#4ecdc4', '#ff6b8b', '#ffe66d', '#7ae582'
+                        'var(--primary-color)', '#4ecdc4', '#ff6b8b', '#ffe66d', '#9d86ff'
                     ]
                 }]
             },

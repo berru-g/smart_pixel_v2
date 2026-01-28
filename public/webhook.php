@@ -11,7 +11,7 @@ $signature = $_SERVER['HTTP_X_SIGNATURE'] ?? '';
 if (!hash_equals(hash_hmac('sha256', $payload, $lemonSecret), $signature)) {
     http_response_code(401);
     exit('Signature invalide');
-}
+} 
 
 $data = json_decode($payload, true);
 $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
