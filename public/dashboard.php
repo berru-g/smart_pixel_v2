@@ -267,7 +267,8 @@ if (count($sessionData) > 0) {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     <link rel="stylesheet" href="../assets/dashboard.css">
-    <script data-sp-id="SP_00811b80" src="tracker.js" async></script>
+    <!--testpixel-->
+    <script data-sp-id="SP_940a81dd" src="http://localhost/smart_phpixel/smart_pixel_v2/public/tracker.js" async></script>
 </head>
 
 <body>
@@ -372,7 +373,7 @@ if (count($sessionData) > 0) {
                         </button>
                     </div>
                     <code class="integration-code">
-                        &lt;script data-sp-id="<?= $currentSite['tracking_code'] ?>" src="tracker.js" async&gt;&lt;/script&gt;
+                        &lt;script data-sp-id="<?= $currentSite['tracking_code'] ?>" src="<?= APP_URL ?>tracker.js" async&gt;&lt;/script&gt;
                     </code>
                 </div>
             <?php endif; ?>
