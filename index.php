@@ -1,5 +1,4 @@
 <?php
-// ====== CONFIGURATION & INCLUDES ======
 $dashboard_url = 'http://' . $_SERVER['HTTP_HOST'] . '/smart_phpixel/smart_pixel_v2/public/dashboard.php?user_id=2&demo=true';
 ?>
 <!DOCTYPE html>
@@ -8,74 +7,56 @@ $dashboard_url = 'http://' . $_SERVER['HTTP_HOST'] . '/smart_phpixel/smart_pixel
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Pixel Analytics — L'alternative souveraine à Google Analytics</title>
-    <!-- Fonts -->
+    <title>Smart Pixel Analytics — Souverain & Éthique</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Ton style dashboard -->
-    <link rel="stylesheet" href="./assets/dashboard.css">
     <script data-sp-id="SP_5a52936f" src="http://localhost/smart_phpixel/smart_pixel_v2/public/tracker.js" async></script>
-    <!-- Style landing page -->
+    
     <style>
-        /* ====== OVERRIDE & EXTENSIONS ====== */
         :root {
             --primary: #7c3aed;
             --primary-dark: #5b21b6;
-            --secondary: #0f172a;
             --accent: #06d6a0;
+            --secondary: #0f172a;
             --light: #f8fafc;
-            --gray: #64748b;
-            --gray-light: #e2e8f0;
-            --dark: #0f172a;
-            --border: 1px solid rgba(255, 255, 255, 0.08);
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25);
-            --radius: 8px;
+            --gray-light: #cbd5e1;
+            --radius: 10px;
             --transition: all 0.3s ease;
         }
 
-        body.landing-page {
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
             background: var(--secondary);
             color: var(--light);
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
             overflow-x: hidden;
         }
 
-        .landing-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* ====== HEADER LANDING ====== */
-        .landing-header {
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: var(--border);
-            padding: 1rem 0;
+        /* ===== HEADER ===== */
+        header {
             position: fixed;
             width: 100%;
             top: 0;
-            z-index: 1000;
-        }
-
-        .landing-nav {
+            left: 0;
+            padding: 1rem 2rem;
+            background: rgba(15,23,42,0.85);
+            backdrop-filter: blur(10px);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            z-index: 1000;
         }
 
-        .landing-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .logo {
             font-weight: 700;
             font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             color: white;
             text-decoration: none;
         }
 
-        .landing-logo-icon {
+        .logo-icon {
             background: var(--primary);
             width: 36px;
             height: 36px;
@@ -85,97 +66,122 @@ $dashboard_url = 'http://' . $_SERVER['HTTP_HOST'] . '/smart_phpixel/smart_pixel
             justify-content: center;
         }
 
-        .landing-cta-button {
-            background: var(--primary);
-            color: white;
-            border: none;
+        nav a.cta {
+            background: var(--accent);
+            color: var(--secondary);
             padding: 0.75rem 1.5rem;
             border-radius: var(--radius);
             font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
             text-decoration: none;
-            display: inline-block;
+            transition: var(--transition);
         }
 
-        .landing-cta-button:hover {
-            background: var(--primary-dark);
+        nav a.cta:hover {
             transform: translateY(-2px);
         }
 
-        /* ====== HERO SECTION ====== */
-        .landing-hero {
-            padding: 140px 0 80px;
+        /* ===== HERO ===== */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
+            padding: 0 20px;
+            position: relative;
         }
 
-        .landing-hero h1 {
+        .hero h1 {
             font-size: 3.5rem;
             font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(90deg, #a78bfa 0%, #7dd3fc 100%);
+            margin: 0;
+            background: linear-gradient(90deg, #a78bfa, #7dd3fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .landing-hero-subtitle {
+        .hero p {
             font-size: 1.2rem;
             color: var(--gray-light);
             max-width: 700px;
-            margin: 0 auto 3rem;
-            line-height: 1.6;
+            margin: 1rem auto 2rem;
         }
 
-        /* ====== DEMO SECTION ====== */
-        .landing-demo {
-            background: rgba(30, 41, 59, 0.5);
+        .hero a.cta {
+            font-size: 1.1rem;
+        }
+
+        /* ===== STATS ANIMÉES ===== */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: rgba(15,23,42,0.7);
+            padding: 1.5rem 2rem;
             border-radius: var(--radius);
-            border: var(--border);
-            padding: 2rem;
-            margin: 3rem 0;
+            min-width: 150px;
+            font-weight: 600;
+            transition: var(--transition);
         }
 
-        .dashboard-iframe-container {
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            background: white;
-            position: relative;
-            height: 600px;
+        .stat-card h3 {
+            font-size: 2rem;
+            margin: 0;
+            color: var(--accent);
         }
 
-        #dashboardLivePreview {
+        .stat-card p {
+            margin: 0.5rem 0 0;
+            color: var(--gray-light);
+            font-size: 0.9rem;
+        }
+
+        /* ===== DEMO DASHBOARD ===== */
+        .demo {
+            padding: 4rem 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .demo iframe {
             width: 100%;
-            height: 100%;
+            max-width: 1000px;
+            height: 600px;
+            border-radius: var(--radius);
             border: none;
-            display: block;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.25);
         }
 
-        /* ====== CODE DEMO SECTION ====== */
-        .landing-code-demo {
-            background: rgba(15, 23, 42, 0.7);
-            border-radius: var(--radius);
-            border: var(--border);
-            padding: 2rem;
-            margin: 3rem 0;
+        /* ===== INTÉGRATION ===== */
+        .integration {
+            padding: 3rem 20px;
+            text-align: center;
+        }
+
+        .integration h2 {
+            margin-bottom: 1rem;
         }
 
         .code-snippet {
-            background: var(--dark);
-            border-radius: 6px;
+            background: rgba(15,23,42,0.8);
+            color: var(--light);
             padding: 1.5rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            line-height: 1.8;
+            border-radius: var(--radius);
             overflow-x: auto;
-            margin: 1.5rem 0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 1rem;
         }
 
-        /* ====== PRICING SECTION ====== */
-        .landing-pricing {
-            margin: 4rem 0;
+        /* ===== PRICING ===== */
+        .pricing {
+            padding: 4rem 20px;
+            text-align: center;
         }
 
         .pricing-cards {
@@ -186,299 +192,158 @@ $dashboard_url = 'http://' . $_SERVER['HTTP_HOST'] . '/smart_phpixel/smart_pixel
         }
 
         .pricing-card {
-            background: rgba(30, 41, 59, 0.6);
-            border: var(--border);
+            background: rgba(15,23,42,0.6);
             border-radius: var(--radius);
             padding: 2rem;
             transition: var(--transition);
         }
 
         .pricing-card:hover {
-            border-color: var(--primary);
             transform: translateY(-5px);
+            border: 2px solid var(--accent);
         }
 
         .pricing-card.featured {
-            border-color: var(--accent);
-            background: rgba(30, 41, 59, 0.8);
+            border: 2px solid var(--accent);
+            background: rgba(15,23,42,0.85);
         }
 
-        .price-tag {
-            font-size: 3rem;
-            font-weight: 700;
-            margin: 1rem 0;
-        }
+        .pricing-card h3 { margin-top: 0; }
+        .price { font-size: 2.5rem; font-weight: 700; margin: 1rem 0; }
 
-        .price-tag span {
-            font-size: 1rem;
-            color: var(--gray);
-        }
-
-        /* ====== FOOTER ====== */
-        .landing-footer {
-            border-top: var(--border);
-            padding: 3rem 0;
-            margin-top: 4rem;
+        /* ===== FOOTER ===== */
+        footer {
             text-align: center;
-            color: var(--gray);
+            padding: 3rem 20px;
+            color: var(--gray-light);
         }
 
-        /* ====== RESPONSIVE ====== */
-        @media (max-width: 768px) {
-            .landing-hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .landing-hero-subtitle {
-                font-size: 1rem;
-            }
-
-            .dashboard-iframe-container {
-                height: 400px;
-            }
-
-            .pricing-cards {
-                grid-template-columns: 1fr;
-            }
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1rem; }
+            .demo iframe { height: 400px; }
         }
     </style>
 </head>
 
-<body class="landing-page">
-    <!-- ====== HEADER ====== -->
-    <header class="landing-header">
-        <div class="landing-container">
-            <nav class="landing-nav">
-                <a href="#" class="landing-logo">
-                    <div class="landing-logo-icon">◰</div>
-                    Smart Pixel
-                </a>
-                <a href="#pricing" class="landing-cta-button">Voir les offres</a>
-            </nav>
-        </div>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <a href="#" class="logo">
+            <div class="logo-icon">◰</div>Smart Pixel
+        </a>
+        <nav>
+            <a href="#pricing" class="cta">Voir les offres</a>
+        </nav>
     </header>
 
-    <!-- ====== HERO ====== -->
-    <section class="landing-hero">
-        <div class="landing-container">
-            <h1>Analytics souverains<br>pour développeurs conscients</h1>
-            <p class="landing-hero-subtitle">
-                Alternative éthique à Google Analytics. Code open-source, hébergement français,
-                données chiffrées. Pour ceux qui refusent la confiscation de leurs données.
-            </p>
-            <a href="#demo" class="landing-cta-button" style="padding: 1rem 2rem; font-size: 1.1rem;">
-                Voir le dashboard en direct →
-            </a>
+    <!-- HERO -->
+    <section class="hero">
+        <h1>Analytics souverains<br>pour développeurs conscients</h1>
+        <p>Alternative éthique à Google Analytics. Données hébergées en France, open-source et chiffrées.</p>
+        <a href="#demo" class="cta">Voir le dashboard en direct →</a>
+
+        <div class="stats">
+            <div class="stat-card"><h3 id="visitors">0</h3><p>Visiteurs uniques</p></div>
+            <div class="stat-card"><h3 id="pages">0</h3><p>Pages vues</p></div>
+            <div class="stat-card"><h3 id="duration">0s</h3><p>Durée moyenne</p></div>
         </div>
     </section>
 
-    <!-- ====== DEMO LIVE ====== -->
-    <section id="demo" class="landing-container">
-        <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 1rem;">Votre futur tableau de bord</h2>
-        <p style="text-align: center; color: var(--gray-light); margin-bottom: 2rem;">
-            Interface réelle, données de démonstration pour l'utilisateur #2
-        </p>
+    <!-- DEMO DASHBOARD -->
+    <section class="demo" id="demo">
+        <iframe src="<?php echo htmlspecialchars($dashboard_url); ?>" title="Dashboard Smart Pixel"></iframe>
+    </section>
 
-        <div class="landing-demo">
-            <div class="dashboard-iframe-container">
-                <!-- IFRAME AVEC LE DASHBOARD RÉEL -->
-                <iframe
-                    id="dashboardLivePreview"
-                    src="<?php echo htmlspecialchars($dashboard_url); ?>"
-                    title="Tableau de bord Smart Pixel en direct"
-                    loading="lazy">
-                </iframe>
-            </div>
-            <p style="text-align: center; color: var(--gray); margin-top: 1rem; font-size: 0.9rem;">
-                <i class="fas fa-info-circle"></i> Dashboard fonctionnel avec données simulées
-            </p>
+    <!-- INTÉGRATION -->
+    <section class="integration">
+        <h2>Intégration en 30 secondes</h2>
+        <p>Remplacez Google Analytics par une seule ligne de code :</p>
+        <div class="code-snippet">
+&lt;script src="https://cdn.smart-pixel.fr/v2/pixel.js" data-sp-id="VOTRE_ID"&gt;&lt;/script&gt;
         </div>
     </section>
 
-    <!-- ====== INTÉGRATION ====== -->
-    <section class="landing-container">
-        <div class="landing-code-demo">
-            <h2 style="margin-bottom: 1.5rem;">Intégration en 30 secondes</h2>
-            <p style="color: var(--gray-light); margin-bottom: 1.5rem;">
-                Remplacez Google Analytics par une seule ligne de code
-            </p>
-
-            <div class="code-snippet">
-                &lt;!-- Smart Pixel Analytics --&gt;
-                &lt;script src="https://cdn.smart-pixel.fr/v2/pixel.js"
-                data-sp-id="VOTRE_ID"
-                data-domain="votresite.com"&gt;
-                &lt;/script&gt;
-
-                &lt;!-- Configuration optionnelle --&gt;
-                &lt;script&gt;
-                window.SP_CONFIG = {
-                respectDNT: true,
-                server: 'fr-par-1', // Hébergement France
-                autoTrack: true
-                };
-                &lt;/script&gt;
-            </div>
-
-            <div style="display: flex; align-items: center; gap: 2rem; margin-top: 2rem; padding: 1.5rem; background: rgba(124, 58, 237, 0.1); border-radius: var(--radius);">
-                <div style="flex: 1;">
-                    <h3 style="margin-bottom: 0.5rem;">🎬 Démo d'installation</h3>
-                    <p style="color: var(--gray-light); font-size: 0.9rem;">
-                        GIF montrant l'installation en 3 clics (à produire)
-                    </p>
-                </div>
-                <div style="width: 200px; height: 150px; background: linear-gradient(45deg, #1e293b, #334155); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; color: var(--gray); border: 2px dashed var(--gray);">
-                    <div style="text-align: center;">
-                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📹</div>
-                        <div>GIF démo</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ====== PRICING ====== -->
-    <section id="pricing" class="landing-pricing landing-container">
-        <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 1rem;">Plans transparents</h2>
-        <p style="text-align: center; color: var(--gray-light); margin-bottom: 3rem;">
-            Payez pour l'hébergement et le support, pas pour vos données
-        </p>
-
+    <!-- PRICING -->
+    <section class="pricing" id="pricing">
+        <h2>Plans transparents</h2>
         <div class="pricing-cards">
             <div class="pricing-card">
                 <h3>Free</h3>
-                <div class="price-tag">0€<span>/mois</span></div>
-                <ul style="list-style: none; padding: 0; margin: 1.5rem 0;">
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);">✓ 1 site</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);">✓ 10k vues/mois</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);">✓ Dashboard basique</li>
-                    <li style="padding: 0.5rem 0;">✓ Support communautaire</li>
+                <div class="price">0€<span>/mois</span></div>
+                <ul>
+                    <li>✓ 1 site</li>
+                    <li>✓ 10k vues/mois</li>
+                    <li>✓ Dashboard basique</li>
+                    <li>✓ Support communautaire</li>
                 </ul>
-                <a href="./public/login.php" class="landing-cta-button" style="width: 100%; text-align: center;">Commencer</a>
+                <a href="./public/login.php" class="cta">Commencer</a>
             </div>
-
             <div class="pricing-card featured">
-                <div style="background: var(--accent); color: var(--dark); padding: 0.25rem 1rem; border-radius: 20px; display: inline-block; margin-bottom: 1rem; font-weight: 600; font-size: 0.9rem;">
-                    POPULAIRE
-                </div>
                 <h3>Pro</h3>
-                <div class="price-tag">9€<span>/mois</span></div>
-                <ul style="list-style: none; padding: 0; margin: 1.5rem 0;">
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);">✓ <strong>10 sites</strong></li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);">✓ 100k vues/mois</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);">✓ Dashboard complet</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);">✓ Export CSV/PDF</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);">✓ API d'accès</li>
-                    <li style="padding: 0.5rem 0;">✓ Support prioritaire</li>
+                <div class="price">9€<span>/mois</span></div>
+                <ul>
+                    <li>✓ 10 sites</li>
+                    <li>✓ 100k vues/mois</li>
+                    <li>✓ Dashboard complet</li>
+                    <li>✓ Export CSV/PDF</li>
+                    <li>✓ API d'accès</li>
+                    <li>✓ Support prioritaire</li>
                 </ul>
-                <a href="#" class="landing-cta-button" style="width: 100%; text-align: center; background: var(--accent); color: var(--dark);">Essai 14 jours</a>
+                <a href="#" class="cta" style="background: var(--accent); color: var(--secondary);">Essai 14 jours</a>
             </div>
-
             <div class="pricing-card">
                 <h3>Business</h3>
-                <div class="price-tag">29€<span>/mois</span></div>
-                <ul style="list-style: none; padding: 0; margin: 1.5rem 0;">
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);">✓ <strong>50 sites</strong></li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);">✓ Visites illimitées</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);">✓ Toutes features Pro</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);">✓ Collaboration équipe</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);">✓ Support téléphone</li>
-                    <li style="padding: 0.5rem 0;">✓ Intégrations custom</li>
+                <div class="price">29€<span>/mois</span></div>
+                <ul>
+                    <li>✓ 50 sites</li>
+                    <li>✓ Visites illimitées</li>
+                    <li>✓ Toutes features Pro</li>
+                    <li>✓ Collaboration équipe</li>
+                    <li>✓ Support téléphone</li>
+                    <li>✓ Intégrations custom</li>
                 </ul>
-                <a href="#" class="landing-cta-button" style="width: 100%; text-align: center;">Contact</a>
+                <a href="#" class="cta">Contact</a>
             </div>
         </div>
     </section>
 
-    <!-- ====== FOOTER ====== -->
-    <footer class="landing-footer">
-        <div class="landing-container">
-            <div style="margin-bottom: 2rem;">
-                <div class="landing-logo" style="justify-content: center; margin-bottom: 1rem;">
-                    <div class="landing-logo-icon">◰</div>
-                    Smart Pixel Analytics
-                </div>
-                <p style="color: var(--gray); max-width: 600px; margin: 0 auto;">
-                    Alternative open-source aux GAFAM. Code propre, données souveraines.
-                </p>
-            </div>
-
-            <div style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem;">
-                <a href="https://github.com/berru-g" style="color: var(--gray);">GitHub</a>
-                <a href="#" style="color: var(--gray);">Documentation</a>
-                <a href="#" style="color: var(--gray);">RGPD</a>
-                <a href="#" style="color: var(--gray);">Contact</a>
-            </div>
-
-            <p style="color: var(--gray); font-size: 0.9rem;">
-                © 2024 Smart Pixel Analytics — Développé avec <span style="color: #ef4444;">♥</span> et du code sur-mesure
-            </p>
-        </div>
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2024 Smart Pixel Analytics — Développé avec <span style="color: #ef4444;">♥</span> et code sur-mesure</p>
     </footer>
 
     <script>
-        // ====== GESTION IFRAME FALLBACK ======
-        const dashboardIframe = document.getElementById('dashboardLivePreview');
+        // ====== ANIMATION STATS SIMULÉES ======
+        let visitors = 1247, pages = 4892, duration = '2m 41s';
+        function animateStats() {
+            const v = document.getElementById('visitors');
+            const p = document.getElementById('pages');
+            const d = document.getElementById('duration');
 
-        // Fallback si l'iframe ne charge pas (localhost en production)
-        dashboardIframe.addEventListener('error', function() {
-            console.log('Fallback pour dashboard');
-            this.srcdoc = `
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <link rel="stylesheet" href="https://raw.githubusercontent.com/berru-g/smart_pixel_v2/refs/heads/main/assets/dashboard.css">
-                <style>
-                    body { font-family: 'Inter', sans-serif; padding: 20px; background: #f8fafc; color: #0f172a; }
-                    .demo-header { text-align: center; margin-bottom: 30px; }
-                    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
-                    .stat-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-                </style>
-            </head>
-            <body>
-                <div class="demo-header">
-                    <h2 style="color: #7c3aed;">Dashboard Smart Pixel (Démo)</h2>
-                    <p>Données simulées pour l'utilisateur #2</p>
-                </div>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h3>1,247</h3>
-                        <p>Visiteurs uniques</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3>4,892</h3>
-                        <p>Pages vues</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3>2m 41s</h3>
-                        <p>Durée moyenne</p>
-                    </div>
-                </div>
-                <p style="text-align: center; color: #64748b; font-style: italic;">
-                    En production: vos données en temps réel
-                </p>
-            </body>
-            </html>
-        `;
-        });
+            let vCount = 0, pCount = 0;
+            const interval = setInterval(() => {
+                if(vCount < visitors) vCount += Math.ceil(visitors/50); else vCount = visitors;
+                if(pCount < pages) pCount += Math.ceil(pages/50); else pCount = pages;
+                v.textContent = vCount.toLocaleString();
+                p.textContent = pCount.toLocaleString();
+                d.textContent = duration;
+                if(vCount >= visitors && pCount >= pages) clearInterval(interval);
+            }, 30);
+        }
+        animateStats();
 
         // ====== SMOOTH SCROLL ======
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) window.scrollTo({top: target.offsetTop-80, behavior:'smooth'});
             });
         });
     </script>
-</body>
 
+</body>
 </html>

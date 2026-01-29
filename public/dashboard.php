@@ -114,7 +114,7 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([$selectedSiteId, $dateFilter]);
 $uniqueVisitorsPeriod = $stmt->fetchColumn();
- 
+
 // MODIFICATION 4 : Ajout de WHERE site_id = ?
 $stmt = $pdo->prepare("
     SELECT source, COUNT(*) as count 
@@ -256,6 +256,39 @@ if (count($sessionData) > 0) {
     }
     $avgSessionTime = round($totalSessionTime / count($sessionData) / 60, 1);
 }
+// MAP
+// Ajoutez cette fonction quelque part dans votre PHP, avant l'affichage HTML
+function getCountryCodeSimple($countryName)
+{
+    $countryMap = [
+        'france' => 'FR',
+        'united states' => 'US',
+        'germany' => 'DE',
+        'united kingdom' => 'GB',
+        'canada' => 'CA',
+        'australia' => 'AU',
+        'japan' => 'JP',
+        'china' => 'CN',
+        'brazil' => 'BR',
+        'india' => 'IN',
+        'italy' => 'IT',
+        'spain' => 'ES',
+        'netherlands' => 'NL',
+        'belgium' => 'BE',
+        'switzerland' => 'CH',
+        'portugal' => 'PT',
+        'russia' => 'RU',
+        'mexico' => 'MX',
+        'south korea' => 'KR',
+        'singapore' => 'SG',
+        'usa' => 'US',
+        'uk' => 'GB',
+    ];
+
+    $normalized = strtolower(trim($countryName));
+    return $countryMap[$normalized] ?? null;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -267,8 +300,17 @@ if (count($sessionData) > 0) {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     <link rel="stylesheet" href="../assets/dashboard.css">
-    <!--testpixel FONCTIONNEL ✅
-    <script data-sp-id="SP_940a81dd" src="http://localhost/smart_phpixel/smart_pixel_v2/public/tracker.js" async></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- amCharts 5 (version complète sans modules séparés) -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 </head>
 
 <body>
@@ -286,8 +328,9 @@ if (count($sessionData) > 0) {
                     </div>
                 </div>
                 <button class="sidebar-toggle" id="sidebarToggle" title="Réduire/Étendre">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M15 18l-6-6 6-6" />
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="2" y="2" width="20" height="20" rx="2" stroke-linejoin="round" />
+                        <path stroke-linecap="round" d="M6.8 2V22" />
                     </svg>
                 </button>
             </div>
@@ -418,11 +461,11 @@ if (count($sessionData) > 0) {
             <?php if ($limitReached): ?>
                 <!-- Afficher les options d'upgrade (refaire css car ce fdp ia est teubé) -->
                 <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-                    <h3>🚫 Limite atteinte</h3>
+                    <h3>Limite atteinte</h3>
                     <p><?= $errorMessage ?></p>
 
                     <div style="margin-top: 15px; padding: 15px; background: white; border-radius: 5px;">
-                        <h4>🔒 Passez à un plan supérieur</h4>
+                        <h4>Passez à un plan supérieur</h4>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 15px;">
                             <!-- Plan PRO -->
                             <div style="border: 2px solid var(--primary-color); border-radius: 8px; padding: 15px;">
@@ -489,6 +532,7 @@ if (count($sessionData) > 0) {
                 <div class="container">
                     <div class="header-content">
                         <h1>Smart Pixel Analytics</h1>
+                        <p><i class="fa-regular fa-bell"></i></p>
                         <div class="period-filter">
                             <span>Période :</span>
                             <select id="periodSelect" onchange="changePeriod(this.value)">
@@ -600,28 +644,66 @@ if (count($sessionData) > 0) {
                     </div>
 
                     <!-- ONGLET GÉOGRAPHIE -->
+                    <!-- ONGLET GÉOGRAPHIE -->
                     <div id="geography" class="tab-content">
-                        <div class="chart-container">
-                            <h3 class="chart-title">Top pays par visites</h3>
-                            <canvas id="countriesChart" height="200"></canvas>
+                        <div class="data-grid">
+                            <!-- Colonne gauche : Map -->
+                            <div class="chart-container">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                    <h3 class="chart-title">Carte mondiale des visites</h3>
+                                    <div class="map-controls">
+                                        <button onclick="zoomIn()" class="map-btn" title="Zoom avant">
+                                            <i class="fas fa-search-plus"></i>
+                                        </button>
+                                        <button onclick="zoomOut()" class="map-btn" title="Zoom arrière">
+                                            <i class="fas fa-search-minus"></i>
+                                        </button>
+                                        <button onclick="resetMap()" class="map-btn" title="Réinitialiser">
+                                            <i class="fas fa-home"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="mapChart" style="width: 100%; height: 400px; background: var(--bg-color); border-radius: 8px;"></div>
+                                <div id="mapLegend" style="margin-top: 10px; text-align: center; font-size: 12px; color: #666;">
+                                    <span style="background: var(--primary-color); width: 12px; height: 12px; display: inline-block; border-radius: 50%; margin-right: 5px;"></span> Haut
+                                    <span style="margin: 0 10px;">→</span>
+                                    <span style="background: #6772e5; width: 12px; height: 12px; display: inline-block; border-radius: 50%; margin-right: 5px;"></span> Bas
+                                </div>
+                            </div>
+
+                            <!-- Colonne droite : Top pays -->
+                            <div class="chart-container">
+                                <h3 class="chart-title">Top pays par visites</h3>
+                                <canvas id="countriesChart" height="300"></canvas>
+                            </div>
                         </div>
 
-                        <div class="chart-container">
-                            <h3 class="chart-title">Répartition géographique</h3>
+                        <!-- Tableau en dessous -->
+                        <div class="chart-container" style="margin-top: 30px;">
+                            <h3 class="chart-title">Répartition géographique détaillée</h3>
                             <table class="data-table">
                                 <thead>
                                     <tr>
                                         <th>Pays</th>
                                         <th>Visites</th>
                                         <th>Part du trafic</th>
+                                        <th>Code pays</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($countries as $country): ?>
+                                    <?php foreach ($countries as $country):
+                                        $countryCode = getCountryCodeSimple($country['country']);
+                                    ?>
                                         <tr>
-                                            <td><?= htmlspecialchars($country['country']) ?></td>
+                                            <td>
+                                                <?php if ($countryCode): ?>
+                                                    <span class="flag-icon" style="margin-right: 8px;"><?= $countryCode ?></span>
+                                                <?php endif; ?>
+                                                <?= htmlspecialchars($country['country']) ?>
+                                            </td>
                                             <td><?= number_format($country['visits']) ?></td>
                                             <td><?= round(($country['visits'] / $uniqueVisitorsPeriod) * 100, 1) ?>%</td>
+                                            <td><code><?= $countryCode ?: 'N/A' ?></code></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -1045,6 +1127,305 @@ if (count($sessionData) > 0) {
                 }
             }
         });
+        // ============================================
+        // FONCTIONS POUR LA MAP AMCHARTS
+        // ============================================
+
+        // Helper simplifié pour les codes pays
+        function getCountryCodeSimple(countryName) {
+            const countryMap = {
+                // Noms complets
+                'france': 'FR',
+                'united states': 'US',
+                'germany': 'DE',
+                'united kingdom': 'GB',
+                'canada': 'CA',
+                'australia': 'AU',
+                'japan': 'JP',
+                'china': 'CN',
+                'brazil': 'BR',
+                'india': 'IN',
+                'italy': 'IT',
+                'spain': 'ES',
+                'netherlands': 'NL',
+                'belgium': 'BE',
+                'switzerland': 'CH',
+                'portugal': 'PT',
+                'russia': 'RU',
+                'mexico': 'MX',
+                'south korea': 'KR',
+                'singapore': 'SG',
+
+                // Variantes
+                'usa': 'US',
+                'uk': 'GB',
+                'deutschland': 'DE',
+                'italia': 'IT',
+                'españa': 'ES',
+                'españa': 'ES',
+                'nederland': 'NL',
+                'schweiz': 'CH',
+                'suisse': 'CH',
+                'brasil': 'BR'
+            };
+
+            const normalized = countryName.toLowerCase().trim();
+            return countryMap[normalized] || null;
+        }
+
+        // Données de pays préparées pour amCharts
+        function prepareMapData() {
+            return countries.map(country => {
+                const code = getCountryCodeSimple(country.country);
+                return code ? {
+                    id: code,
+                    name: country.country,
+                    value: country.visits
+                } : null;
+            }).filter(item => item !== null);
+        }
+
+        // Variables globales pour la map
+        let mapRoot = null;
+        let mapChart = null;
+
+        // Initialisation de la map
+        function initMapChart() {
+            // Nettoyer l'ancienne map si elle existe
+            if (mapRoot) {
+                try {
+                    mapRoot.dispose();
+                } catch (e) {
+                    console.log('Nettoyage map précédente');
+                }
+            }
+
+            // Préparer les données
+            const mapData = prepareMapData();
+
+            if (mapData.length === 0) {
+                document.getElementById('mapChart').innerHTML =
+                    '<div style="text-align: center; padding: 50px; color: #666;">' +
+                    'Aucune donnée géographique disponible pour afficher la carte.' +
+                    '</div>';
+                return;
+            }
+
+            try {
+                // Créer la racine
+                mapRoot = am5.Root.new("mapChart");
+
+                // Thème
+                mapRoot.setThemes([
+                    am5themes_Animated.new(mapRoot)
+                ]);
+
+                // Créer la carte
+                mapChart = mapRoot.container.children.push(
+                    am5map.MapChart.new(mapRoot, {
+                        panX: "rotateX",
+                        panY: "rotateY",
+                        projection: am5map.geoMercator(),
+                        paddingBottom: 20,
+                        paddingTop: 20,
+                        paddingLeft: 20,
+                        paddingRight: 20
+                    })
+                );
+
+                // Série des polygones (pays)
+                const polygonSeries = mapChart.series.push(
+                    am5map.MapPolygonSeries.new(mapRoot, {
+                        geoJSON: am5geodata_worldLow,
+                        exclude: ["AQ"] // Exclure Antarctique
+                    })
+                );
+
+                polygonSeries.mapPolygons.template.setAll({
+                    tooltipText: "{name}: {value} visites",
+                    fill: am5.color(0xe0e0e0),
+                    stroke: am5.color(0xffffff),
+                    strokeWidth: 1
+                });
+
+                // État hover
+                polygonSeries.mapPolygons.template.states.create("hover", {
+                    fill: am5.color(0x6772e5)
+                });
+
+                // Définir les données
+                polygonSeries.data.setAll(mapData);
+
+                // Configurer les couleurs basées sur les valeurs
+                polygonSeries.mapPolygons.template.adapters.add("fill", function(fill, target) {
+                    const dataItem = target.dataItem;
+                    if (dataItem) {
+                        const value = dataItem.dataContext.value;
+                        const maxValue = Math.max(...mapData.map(d => d.value));
+                        const ratio = value / maxValue;
+
+                        // Définir les couleurs selon l'intensité
+                        if (ratio > 0.8) return am5.color(0xff6b8b);
+                        if (ratio > 0.6) return am5.color(0xff8e6b);
+                        if (ratio > 0.4) return am5.color(0x9d86ff);
+                        if (ratio > 0.2) return am5.color(0x4ecdc4);
+                        return am5.color(0x6772e5);
+                    }
+                    return fill;
+                });
+
+                // Série des points (bulles)
+                const pointSeries = mapChart.series.push(
+                    am5map.MapPointSeries.new(mapRoot, {})
+                );
+
+                pointSeries.bullets.push(function(root, series, dataItem) {
+                    const value = dataItem.dataContext.value;
+                    const size = Math.max(15, Math.min(50, Math.sqrt(value) * 0.7));
+
+                    const circle = am5.Circle.new(root, {
+                        radius: size,
+                        fill: am5.color(0xff6b8b),
+                        stroke: am5.color(0xffffff),
+                        strokeWidth: 2,
+                        tooltipText: "{name}: {value} visites"
+                    });
+
+                    const label = am5.Label.new(root, {
+                        text: value.toString(),
+                        fill: am5.color(0xffffff),
+                        fontSize: Math.max(10, size / 3),
+                        centerY: am5.p50,
+                        centerX: am5.p50
+                    });
+
+                    return am5.Bullet.new(root, {
+                        sprite: am5.Container.new(root, {
+                            children: [circle, label]
+                        })
+                    });
+                });
+
+                pointSeries.data.setAll(mapData);
+
+                // Zoom au démarrage
+                polygonSeries.events.on("datavalidated", function() {
+                    mapChart.goHome();
+                    mapChart.zoomToGeoPoint({
+                        latitude: 20,
+                        longitude: 0
+                    }, 2);
+                });
+
+                // Contrôles de zoom intégrés
+                mapChart.set("zoomControl", am5map.ZoomControl.new(mapRoot, {}));
+
+                console.log('Map amCharts initialisée avec succès');
+
+            } catch (error) {
+                console.error('Erreur lors de l\'initialisation de la map:', error);
+                document.getElementById('mapChart').innerHTML =
+                    '<div style="text-align: center; padding: 50px; color: #ff6b6b;">' +
+                    'Erreur lors du chargement de la carte.<br>' +
+                    '<small>' + error.message + '</small>' +
+                    '</div>';
+            }
+        }
+
+        // Fonctions de contrôle de la map
+        function zoomIn() {
+            if (mapChart) {
+                mapChart.zoomIn();
+            }
+        }
+
+        function zoomOut() {
+            if (mapChart) {
+                mapChart.zoomOut();
+            }
+        }
+
+        function resetMap() {
+            if (mapChart) {
+                mapChart.goHome();
+            }
+        }
+
+        // Gestion des onglets - Version simplifiée sans MutationObserver
+        function setupMapTabListener() {
+            const tabs = document.querySelectorAll('.tab');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Vérifier si c'est l'onglet Géographie
+                    const tabText = this.textContent || '';
+                    if (tabText.toLowerCase().includes('géographie') ||
+                        tabText.toLowerCase().includes('geographie')) {
+
+                        // Petit délai pour laisser le DOM se mettre à jour
+                        setTimeout(() => {
+                            // Vérifier si le conteneur existe
+                            const mapContainer = document.getElementById('mapChart');
+                            if (mapContainer && !mapRoot) {
+                                initMapChart();
+                            }
+                        }, 100);
+                    } else {
+                        // Nettoyer la map si on quitte l'onglet
+                        if (mapRoot) {
+                            setTimeout(() => {
+                                try {
+                                    mapRoot.dispose();
+                                    mapRoot = null;
+                                    mapChart = null;
+                                } catch (e) {
+                                    console.log('Map déjà nettoyée');
+                                }
+                            }, 500);
+                        }
+                    }
+                });
+            });
+        }
+
+        // Détecter quand l'onglet Géographie devient actif
+        function checkGeographyTabActive() {
+            const geographyTab = document.getElementById('geography');
+            if (geographyTab && geographyTab.classList.contains('active')) {
+                // Attendre un peu pour être sûr que tout est chargé
+                setTimeout(() => {
+                    if (!mapRoot && document.getElementById('mapChart')) {
+                        initMapChart();
+                    }
+                }, 300);
+            }
+        }
+
+        // Initialisation au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurer les écouteurs d'onglets
+            setupMapTabListener();
+
+            // Vérifier si l'onglet Géographie est actif au départ
+            checkGeographyTabActive();
+
+            // Observer les changements d'URL (pour les filtres de période)
+            const originalOpenTab = window.openTab;
+            window.openTab = function(tabName) {
+                originalOpenTab(tabName);
+
+                // Si c'est l'onglet Géographie, initialiser la map
+                if (tabName === 'geography') {
+                    setTimeout(() => {
+                        if (!mapRoot && document.getElementById('mapChart')) {
+                            initMapChart();
+                        }
+                    }, 200);
+                }
+            };
+        });
+
+
 
         // Graphique des types d'appareils
         const deviceTypesCtx = document.getElementById('deviceTypesChart').getContext('2d');
@@ -1196,10 +1577,24 @@ if (count($sessionData) > 0) {
 
         // Fonction de déconnexion
         function confirmLogout() {
-            if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
-                window.location.href = 'logout.php';
-            }
+            Swal.fire({
+                title: 'Êtes-vous sûr ',
+                text: 'de vouloir vous déconnecter ?',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#f87171', // Rouge pour le bouton "Oui"
+                cancelButtonColor: '#3085d6', // Bleu pour "Annuler"
+                confirmButtonText: 'Oui',
+                cancelButtonText: 'Annuler'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Si l'utilisateur clique sur "Oui, déconnecter"
+                    window.location.href = 'logout.php';
+                }
+                // Sinon, rien ne se passe, le popup disparaît
+            });
         }
+
 
         // Fermer le menu mobile lors du redimensionnement
         window.addEventListener('resize', () => {

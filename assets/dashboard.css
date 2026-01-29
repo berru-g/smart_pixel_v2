@@ -243,6 +243,61 @@ header {
   border-bottom: 1px solid var(--border-color);
 }
 
+/* Ajouter dans dashboard.css */
+.map-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.map-btn {
+    background: var(--primary-color, #6772e5);
+    color: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+}
+
+.map-btn:hover {
+    background: var(--primary-dark, #5a67d8);
+}
+
+.flag-icon {
+    font-size: 14px;
+    font-weight: bold;
+    background: #f1f1f1;
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+}
+
+/* Style pour le conteneur de la map */
+#mapChart {
+    min-height: 400px;
+    border: 1px solid #e0e0e0;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    #mapChart {
+        height: 350px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    #mapChart {
+        height: 300px !important;
+    }
+    
+    .data-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
 /* ===== TABLES DE DONNÉES ===== */
 .data-table {
   width: 100%;
