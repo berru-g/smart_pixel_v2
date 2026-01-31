@@ -18,9 +18,6 @@ $stmt = $pdo->prepare("SELECT * FROM user_sites WHERE user_id = ? ORDER BY id DE
 $stmt->execute([$user_id]);
 $userSites = $stmt->fetchAll();
 
-// 3. Gérer la création de site (si pas de sites)
-// REMPLACE la section problématique (lignes 27-53) par :
-
 // 3. Gérer la création de site (TOUJOURS disponible, pas seulement si empty($userSites))
 // === CORRECTION DE LA LOGIQUE DE CRÉATION DE SITE ===
 
@@ -301,10 +298,10 @@ function getCountryCodeSimple($countryName)
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     <link rel="stylesheet" href="../assets/dashboard.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- amCharts 5 (version complète sans modules séparés) -->
     <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
@@ -323,7 +320,10 @@ function getCountryCodeSimple($countryName)
                 <div class="logo-container">
                     <!--<div class="logo-icon">◰</div>-->
                     <div class="logo-text">
-                        <h3>Smart Pixel</h3>
+                        <h3><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg></h3>
                         <small class="user-email"><?= htmlspecialchars($_SESSION['user_email'] ?? 'Utilisateur') ?></small>
                     </div>
                 </div>
@@ -366,6 +366,7 @@ function getCountryCodeSimple($countryName)
                         </div>
                     <?php endif; ?>
                 </div>
+               
             </div>
 
             <!-- Section des sites -->
@@ -460,7 +461,7 @@ function getCountryCodeSimple($countryName)
 
             <?php if ($limitReached): ?>
                 <!-- Afficher les options d'upgrade (refaire css car ce fdp ia est teubé) -->
-                <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <div style="background: #fff3cd; border: 1px solid #ffeaa7; color: #333; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
                     <h3>Limite atteinte</h3>
                     <p><?= $errorMessage ?></p>
 
@@ -517,14 +518,25 @@ function getCountryCodeSimple($countryName)
 
             <?php else: ?>
                 <!-- Formulaire de création normal -->
-                <div class="login-container">
-                    <h2><?= isset($_GET['first']) ? 'Créez votre premier site' : 'Ajouter un nouveau site' ?></h2>
-                    <form method="POST" class="login-form">
-                        <input type="text" name="site_name" placeholder="Nom du site" required>
-                        <input type="text" name="site_domain" placeholder="mondomaine.com" required>
-                        <button type="submit" name="create_site" class="login-button">Créer le site</button>
+                <div style="background-color: var(--bg-color); color: var(--text-color); text-align: center; padding: 2rem; max-width: 500px; margin: 0 auto; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <h2 style="margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+                        <?= isset($_GET['first']) ? 'Créez votre premier site' : 'Ajouter un nouveau site' ?>
+                    </h2>
+
+                    <form method="POST" class="login-form" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <input type="text" name="site_name" placeholder="Nom du site" required
+                            style="padding: 0.75rem 1rem; border: 1px solid grey; border-radius: 4px; font-size: 1rem;">
+
+                        <input type="text" name="site_domain" placeholder="mondomaine.com" required
+                            style="padding: 0.75rem 1rem; border: 1px solid grey; border-radius: 4px; font-size: 1rem;">
+
+                        <button type="submit" name="create_site" class="btn-primary"
+                            style="background-color: var(--primary-color); color: var(--text-color); border: none; padding: 0.75rem 1.5rem; border-radius: 4px; font-size: 1rem; font-weight: 500; cursor: pointer; margin-top: 0.5rem;">
+                            Créer le site
+                        </button>
                     </form>
                 </div>
+
             <?php endif; ?>
         <?php else: ?>
             <!-- Header existant -->
@@ -532,7 +544,7 @@ function getCountryCodeSimple($countryName)
                 <div class="container">
                     <div class="header-content">
                         <h1>Smart Pixel Analytics</h1>
-                        <p><i class="fa-regular fa-bell"></i></p>
+                        <div style="color:grey;"><i class="fa-regular fa-bell"></i></div>
                         <div class="period-filter">
                             <span>Période :</span>
                             <select id="periodSelect" onchange="changePeriod(this.value)">
@@ -556,6 +568,7 @@ function getCountryCodeSimple($countryName)
                         <div class="tab" onclick="openTab('content')">Contenu</div>
                         <div class="tab" onclick="openTab('sessions')">Sessions</div>
                         <div class="tab" onclick="openTab('details')">Détails</div>
+                        <div class="tab" onclick="openTab('insights')">Insights</div>
                     </div>
 
                     <!-- ONGLET APERÇU -->
@@ -651,7 +664,7 @@ function getCountryCodeSimple($countryName)
                             <div class="chart-container">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                                     <h3 class="chart-title">Carte mondiale des visites</h3>
-                                    <div class="map-controls">
+                                   <!--<div class="map-controls">
                                         <button onclick="zoomIn()" class="map-btn" title="Zoom avant">
                                             <i class="fas fa-search-plus"></i>
                                         </button>
@@ -661,11 +674,11 @@ function getCountryCodeSimple($countryName)
                                         <button onclick="resetMap()" class="map-btn" title="Réinitialiser">
                                             <i class="fas fa-home"></i>
                                         </button>
-                                    </div>
+                                    </div>-->
                                 </div>
                                 <div id="mapChart" style="width: 100%; height: 400px; background: var(--bg-color); border-radius: 8px;"></div>
                                 <div id="mapLegend" style="margin-top: 10px; text-align: center; font-size: 12px; color: #666;">
-                                    <span style="background: var(--primary-color); width: 12px; height: 12px; display: inline-block; border-radius: 50%; margin-right: 5px;"></span> Haut
+                                    <span style="background: #ff6b8b; width: 12px; height: 12px; display: inline-block; border-radius: 50%; margin-right: 5px;"></span> Haut
                                     <span style="margin: 0 10px;">→</span>
                                     <span style="background: #6772e5; width: 12px; height: 12px; display: inline-block; border-radius: 50%; margin-right: 5px;"></span> Bas
                                 </div>
@@ -709,6 +722,7 @@ function getCountryCodeSimple($countryName)
                                 </tbody>
                             </table>
                         </div>
+
                     </div>
 
                     <!-- ONGLET APPAREILS -->
@@ -800,7 +814,7 @@ function getCountryCodeSimple($countryName)
 
                         <?php if (count($clickData) > 0): ?>
                             <div class="chart-container">
-                                <h3 class="chart-title">Données de clics récentes</h3>
+                                <h3 class="chart-title"><i class="fa-solid fa-arrow-pointer"></i> Données de clics récentes</h3>
                                 <table class="data-table">
                                     <thead>
                                         <tr>
@@ -839,7 +853,7 @@ function getCountryCodeSimple($countryName)
                     <!-- ONGLET SESSIONS -->
                     <div id="sessions" class="tab-content">
                         <div class="chart-container">
-                            <h3 class="chart-title">Sessions les plus actives</h3>
+                            <h3 class="chart-title"><i class="fa-solid fa-user-clock"></i> Sessions les plus actives</h3>
                             <table class="data-table">
                                 <thead>
                                     <tr>
@@ -971,7 +985,7 @@ function getCountryCodeSimple($countryName)
                 datasets: [{
                         label: 'Visites',
                         data: dailyStats.map(stat => stat.visits),
-                        borderColor: 'var(--primary-color)',
+                        borderColor: '#9d86ff',
                         backgroundColor: 'rgba(67, 97, 238, 0.1)',
                         tension: 0.3,
                         fill: true
@@ -1010,7 +1024,7 @@ function getCountryCodeSimple($countryName)
                 datasets: [{
                     data: sources.map(s => s.count),
                     backgroundColor: [
-                        'var(--primary-color)', '#4ecdc4', '#ff6b8b', '#ffe66d', '#9d86ff'
+                        '#9d86ff', '#4ecdc4', '#ff6b8b', '#ffe66d', '#ff86e9'
                     ]
                 }]
             },
@@ -1025,7 +1039,7 @@ function getCountryCodeSimple($countryName)
                 labels: devices.map(d => d.device),
                 datasets: [{
                     data: devices.map(d => d.count),
-                    backgroundColor: ['var(--primary-color)', '#4ecdc4', '#ff6b8b']
+                    backgroundColor: ['#9d86ff', '#4ecdc4', '#ff86e9']
                 }]
             },
             options: smallChartOptions
@@ -1040,7 +1054,7 @@ function getCountryCodeSimple($countryName)
                 datasets: [{
                     label: 'Visites',
                     data: countries.map(c => c.visits),
-                    backgroundColor: '#9d86ff'
+                    backgroundColor: ['#4ecdc4', '#ff6b8b', '#ffe66d', '#ff86e9']
                 }]
             },
             options: {
@@ -1069,7 +1083,7 @@ function getCountryCodeSimple($countryName)
                 datasets: [{
                     data: sources.map(s => s.count),
                     backgroundColor: [
-                        'var(--primary-color)', '#4ecdc4', '#ff6b8b', '#ffe66d', '#9d86ff'
+                        '#9d86ff', '#4ecdc4', '#ff6b8b', '#ffe66d', '#ff86e9'
                     ]
                 }]
             },
@@ -1092,7 +1106,7 @@ function getCountryCodeSimple($countryName)
                 datasets: [{
                     label: 'Utilisations',
                     data: browsers.map(b => b.count),
-                    backgroundColor: '#9d86ff'
+                    backgroundColor: ['#9d86ff', '#4ecdc4', '#ff86e9']
                 }]
             },
             options: {
@@ -1114,7 +1128,7 @@ function getCountryCodeSimple($countryName)
                 datasets: [{
                     label: 'Visites',
                     data: countries.map(c => c.visits),
-                    backgroundColor: 'var(--primary-color)'
+                    backgroundColor: ['#9d86ff', '#4ecdc4', '#ff6b8b', '#ffe66d', '#ff86e9']
                 }]
             },
             options: {
@@ -1435,7 +1449,7 @@ function getCountryCodeSimple($countryName)
                 labels: devices.map(d => d.device),
                 datasets: [{
                     data: devices.map(d => d.count),
-                    backgroundColor: ['var(--primary-color)', '#4ecdc4', '#ff6b8b']
+                    backgroundColor: ['#9d86ff', '#4ecdc4', '#ff6b8b']
                 }]
             },
             options: {
@@ -1457,7 +1471,7 @@ function getCountryCodeSimple($countryName)
                 datasets: [{
                     data: browsers.map(b => b.count),
                     backgroundColor: [
-                        'var(--primary-color)', '#4ecdc4', '#ff6b8b', '#ffe66d', '#9d86ff'
+                        '#9d86ff', '#ff86e9', '#4ecdc4', '#ff6b8b', '#ffe66d'
                     ]
                 }]
             },
@@ -1564,7 +1578,7 @@ function getCountryCodeSimple($countryName)
                 if (copyBtn) {
                     const originalHTML = copyBtn.innerHTML;
                     copyBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
-                    copyBtn.style.color = 'var(--positive)';
+                    copyBtn.style.color = '#34d399';
                     setTimeout(() => {
                         copyBtn.innerHTML = originalHTML;
                         copyBtn.style.color = '';
@@ -1583,7 +1597,7 @@ function getCountryCodeSimple($countryName)
                 icon: 'info',
                 showCancelButton: true,
                 confirmButtonColor: '#f87171', // Rouge pour le bouton "Oui"
-                cancelButtonColor: '#3085d6', // Bleu pour "Annuler"
+                cancelButtonColor: '#34d399', // Bleu pour "Annuler"
                 confirmButtonText: 'Oui',
                 cancelButtonText: 'Annuler'
             }).then((result) => {
