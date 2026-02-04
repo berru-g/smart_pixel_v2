@@ -462,7 +462,7 @@ function getCountryCodeSimple($countryName)
         </button>
     </div>
 
-    <!-- === TON CONTENU EXISTANT (décalé à droite) === -->
+    <!-- === MAIN CONTENT === -->
     <div class="main-content">
         <?php if (isset($_GET['create']) || (isset($showCreateForm) && $showCreateForm)): ?>
             <?php
@@ -573,7 +573,7 @@ function getCountryCodeSimple($countryName)
                     </div>
                 </div>
             </header>
-
+            <!-- CONTAINER PRINCIPAL DU DASHBOARD -->
             <div class="container">
                 <div class="dashboard-tabs">
                     <div class="tabs">
@@ -585,7 +585,7 @@ function getCountryCodeSimple($countryName)
                         <div class="tab" onclick="openTab('sessions')">Sessions</div>
                         <div class="tab" onclick="openTab('details')">Détails</div>
                         <div class="tab" onclick="openTab('insights')">Insights</div>
-                        <div class="tab" onclick="openTab('InPlusTab')">In+</div>
+                        <!--<div class="tab" onclick="openTab('InPlusTab')">In+</div>-->
                     </div>
 
                     <!-- ONGLET APERÇU -->
@@ -618,6 +618,110 @@ function getCountryCodeSimple($countryName)
                             <canvas id="trafficChart" height="80"></canvas>
                         </div>
 
+                        <!-- Section 2: Corrélation Trafic & Tendances -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Analyse des Tendances</h3>
+                                </div>
+                                <div class="card-body">
+                                    
+                                    <div class="insight-tip">
+                                        <strong>Insight :</strong>
+                                        <?php
+                                        if (count($dailyStats) >= 2) {
+                                            $firstDay = $dailyStats[0]['visits'];
+                                            $lastDay = end($dailyStats)['visits'];
+                                            $growth = $firstDay > 0 ? (($lastDay - $firstDay) / $firstDay) * 100 : 0;
+
+                                            if ($growth > 20) {
+                                                echo "Votre trafic a augmenté de <strong>" . round($growth) . "%</strong> cette semaine ! Excellente progression.";
+                                            } elseif ($growth > 0) {
+                                                echo "Votre trafic progresse doucement (+" . round($growth) . "%). Continuez vos efforts !";
+                                            } else {
+                                                echo "Votre trafic est stable. Pensez à lancer de nouvelles campagnes pour stimuler la croissance.";
+                                            }
+                                        } else {
+                                            echo "Collectez plus de données pour obtenir des insights détaillés sur vos tendances.";
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Points d'Amélioration</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-container">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Métrique</th>
+                                                <th>Valeur actuelle</th>
+                                                <th>Cible idéale</th>
+                                                <th>Statut</th>
+                                                <th>Action recommandée</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            // Calculer les métriques
+                                            $avgPagesPerSession = $sessionData ? array_sum(array_column($sessionData, 'page_views')) / count($sessionData) : 0;
+                                            $avgSessionTime = $avgSessionTime; // Déjà calculé
+                                            $bounceRateEstimate = 100 - ($avgPagesPerSession > 1 ? 70 : 40); // Estimation simplifiée
+
+                                            // Liste des métriques à analyser
+                                            $metrics = [
+                                                [
+                                                    'name' => 'Pages/Session',
+                                                    'current' => round($avgPagesPerSession, 1),
+                                                    'target' => '3.0+',
+                                                    'status' => $avgPagesPerSession >= 2.5 ? 'good' : ($avgPagesPerSession >= 1.5 ? 'average' : 'poor'),
+                                                    'action' => $avgPagesPerSession >= 2.5 ?
+                                                        'Excellent engagement !' :
+                                                        'Ajoutez des liens internes et du contenu intéressant.'
+                                                ],
+                                                [
+                                                    'name' => 'Temps moyen',
+                                                    'current' => $avgSessionTime . ' min',
+                                                    'target' => '3+ min',
+                                                    'status' => $avgSessionTime >= 3 ? 'good' : ($avgSessionTime >= 1.5 ? 'average' : 'poor'),
+                                                    'action' => $avgSessionTime >= 3 ?
+                                                        'Temps d\'engagement optimal.' :
+                                                        'Améliorez la qualité du contenu pour retenir les visiteurs.'
+                                                ],
+                                                [
+                                                    'name' => 'Taux de rebond (est.)',
+                                                    'current' => round($bounceRateEstimate) . '%',
+                                                    'target' => '< 40%',
+                                                    'status' => $bounceRateEstimate < 40 ? 'good' : ($bounceRateEstimate < 60 ? 'average' : 'poor'),
+                                                    'action' => $bounceRateEstimate < 40 ?
+                                                        'Très bon taux de rétention.' :
+                                                        'Optimisez les pages d\'atterrissage et le contenu.'
+                                                ]
+                                            ];
+
+                                            foreach ($metrics as $metric) {
+                                                $statusClass = $metric['status'] == 'good' ? 'tip-success' : ($metric['status'] == 'average' ? 'tip-info' : 'tip-warning');
+
+                                                echo '<tr>';
+                                                echo '<td>' . $metric['name'] . '</td>';
+                                                echo '<td><strong>' . $metric['current'] . '</strong></td>';
+                                                echo '<td>' . $metric['target'] . '</td>';
+                                                echo '<td><span class="' . $statusClass . '">' .
+                                                    ($metric['status'] == 'good' ? '✅ Bon' : ($metric['status'] == 'average' ? '⚠️ Moyen' : '❌ À améliorer')) .
+                                                    '</span></td>';
+                                                echo '<td>' . htmlspecialchars($metric['action']) . '</td>';
+                                                echo '</tr>';
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="data-grid compact">
                             <div class="chart-container small">
                                 <h3 class="chart-title">Sources de trafic</h3>
@@ -635,7 +739,7 @@ function getCountryCodeSimple($countryName)
                             </div>
                         </div>
                     </div>
-
+                    <!-- LISTE DES ONGLETS -->
                     <!-- ONGLET TRAFIC -->
                     <div id="traffic" class="tab-content">
                         <div class="data-grid">
@@ -673,7 +777,7 @@ function getCountryCodeSimple($countryName)
                         </div>
                     </div>
 
-                    <!-- ONGLET GÉOGRAPHIE -->
+
                     <!-- ONGLET GÉOGRAPHIE -->
                     <div id="geography" class="tab-content">
                         <div class="data-grid">
@@ -1028,9 +1132,7 @@ function getCountryCodeSimple($countryName)
                                     <h3 class="card-title">Analyse des Tendances</h3>
                                 </div>
                                 <div class="card-body">
-                                    <div class="chart-container">
-                                        <canvas id="trendsChart" height="250"></canvas>
-                                    </div>
+                                    
                                     <?php
                                     // Préparer les données pour les tendances
                                     $trendLabels = [];
@@ -2527,7 +2629,7 @@ Votre croissance est ${growth > 0 ? 'positive' : 'à améliorer'}. ${growth > 20
             // Initialiser le Gantt quand l'onglet est visible
             const inPlusTab = document.getElementById('InPlusTab');
             const observer = new MutationObserver(function() {
-                if (inPlusTab.style.display !== 'none') {
+                if (inPlusTab.style.display !== 'flex') {
                     initGantt();
                     observer.disconnect();
                 }
