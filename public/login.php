@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <!--test de session-->
+    <!--test de session
     <?php if ($alreadyLoggedIn): ?>
         <div style="background: #9d86ff; padding: 10px; margin: 10px 0;">
             <strong>Session Active :</strong>  <strong><?php echo htmlspecialchars($_SESSION['user_email'] ?? ''); ?></strong><br>
@@ -39,15 +39,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="logout.php">→ Se déconnecter</a>
         </div>
     <?php endif; ?>
-    <!--fin de test -->
+    fin de test -->
     <div class="login-container">
         <div class="login-card">
             <div class="login-header">
                 <div class="login-logo">
-                    <div class="login-logo-icon">◰</div>
+                    <div class="login-logo-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                        </svg></div>
                     <h1>Smart Pixel</h1>
                 </div>
-                <p class="login-subtitle">Analytics intelligentes et libre</p>
+                <p class="login-subtitle">solution analytics souveraine</p>
             </div>
 
             <?php if ($error): ?>

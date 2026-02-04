@@ -13,7 +13,7 @@ if (!Auth::isLoggedIn()) {
 $user_id = $_SESSION['user_id'];
 $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
 
-// 2. Récupérer les sites de l'utilisateur
+// 2. Récupérer les sites de l'utilisateur // dégager query pour prepare 
 $stmt = $pdo->prepare("SELECT * FROM user_sites WHERE user_id = ? ORDER BY id DESC");
 $stmt->execute([$user_id]);
 $userSites = $stmt->fetchAll();
@@ -308,6 +308,10 @@ function getCountryCodeSimple($countryName)
     <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/gantt.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 </head>
 
 <body>
@@ -369,6 +373,8 @@ function getCountryCodeSimple($countryName)
 
             </div>
 
+
+
             <!-- Section des sites -->
             <div class="sites-section">
                 <div class="section-header">
@@ -424,6 +430,15 @@ function getCountryCodeSimple($countryName)
 
             <!-- Bouton de déconnexion -->
             <div class="logout-section">
+
+                <button class="logout-btn" onclick="confirmParametre()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                    </svg>
+                    <span>Parametre</span>
+                </button>
+                <br>
                 <button class="logout-btn" onclick="confirmLogout()">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
@@ -461,7 +476,7 @@ function getCountryCodeSimple($countryName)
 
             <?php if ($limitReached): ?>
                 <!-- Afficher les options d'upgrade (refaire css car ce fdp ia est teubé) -->
-                <div style="background: #fff3cd; border: 1px solid #ffeaa7; color: #333; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <div style="background: var(--bg-color); border: 1px solid #ffeaa7; color: var(--text-color); padding: 15px; border-radius: 8px; margin-bottom: 20px;">
                     <h3>Limite atteinte</h3>
                     <p><?= $errorMessage ?></p>
 
@@ -473,7 +488,7 @@ function getCountryCodeSimple($countryName)
                                 <h3>PRO</h3>
                                 <p><strong>9€/mois</strong></p>
                                 <ul style="padding-left: 20px;">
-                                    <li>5 sites maximum</li>
+                                    <li>12 sites maximum</li>
                                     <li>10 000 visites/mois</li>
                                     <li>Stats avancées</li>
                                     <li>Export PDF</li>
@@ -488,7 +503,7 @@ function getCountryCodeSimple($countryName)
                                 <h3>BUSINESS</h3>
                                 <p><strong>29€/mois</strong></p>
                                 <ul style="padding-left: 20px;">
-                                    <li>20 sites maximum</li>
+                                    <li>50 sites maximum</li>
                                     <li>1M de visites/mois</li>
                                     <li>Support prioritaire</li>
                                     <li>API complète</li>
@@ -520,6 +535,7 @@ function getCountryCodeSimple($countryName)
                 <!-- Formulaire de création normal -->
                 <div style="background-color: var(--bg-color); color: var(--text-color); text-align: center; padding: 2rem; max-width: 500px; margin: 0 auto; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
                     <h2 style="margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+                        <i class="fa-regular fa-square-plus"></i>
                         <?= isset($_GET['first']) ? 'Créez votre premier site' : 'Ajouter un nouveau site' ?>
                     </h2>
 
@@ -569,6 +585,7 @@ function getCountryCodeSimple($countryName)
                         <div class="tab" onclick="openTab('sessions')">Sessions</div>
                         <div class="tab" onclick="openTab('details')">Détails</div>
                         <div class="tab" onclick="openTab('insights')">Insights</div>
+                        <div class="tab" onclick="openTab('InPlusTab')">In+</div>
                     </div>
 
                     <!-- ONGLET APERÇU -->
@@ -929,198 +946,223 @@ function getCountryCodeSimple($countryName)
 
                     <!-- ===== ONGLET INSIGHTS AVANCÉS ===== -->
                     <div id="insights" class="tab-content">
-                        <!-- Section 1: Performance Marketing -->
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Performance Marketing & Recommendations</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-container">
-                                    <table class="data-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Page</th>
-                                                <th>Visites</th>
-                                                <th>% du trafic</th>
-                                                <th>Potentiel</th>
-                                                <th>Recommandation</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            // Récupérer les données nécessaires
+                        <div class="chart-container">
+                            <!-- Section 1: Performance Marketing -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Performance Marketing & Recommendations</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-container">
+                                        <table class="data-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Page</th>
+                                                    <th>Visites</th>
+                                                    <th>% du trafic</th>
+                                                    <th>Potentiel</th>
+                                                    <th>Recommandation</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                // Récupérer les données nécessaires
 
 
-                                            $totalVisits = 0;
-                                            foreach ($topPages as $page) {
-                                                $totalVisits += $page['views'];
-                                            }
-
-                                            $insights = [];
-                                            foreach ($topPages as $page) {
-                                                $pageUrl = $page['page_url'];
-                                                $views = $page['views'];
-
-                                                // Calcul du pourcentage
-                                                $percentage = $totalVisits > 0 ? ($views / $totalVisits) * 100 : 0;
-
-                                                // Évaluation du potentiel
-                                                $potential = '';
-                                                $tipClass = 'tip-info';
-
-                                                if ($percentage > 20) {
-                                                    $potential = '<span class="tip-success">Très haute</span>';
-                                                    $recommendation = "Page principale ! Optimisez la conversion avec des CTA clairs.";
-                                                } elseif ($percentage > 10) {
-                                                    $potential = '<span class="tip-success">Haute</span>';
-                                                    $recommendation = "Bon trafic. Testez des variantes de contenu pour améliorer l'engagement.";
-                                                } elseif ($percentage > 5) {
-                                                    $potential = '<span class="tip-info">Moyenne</span>';
-                                                    $recommendation = "Trafic modéré. Améliorez le SEO et les liens internes.";
-                                                } else {
-                                                    $potential = '<span class="tip-warning">Faible</span>';
-                                                    $recommendation = "Peu de trafic. Considérez une refonte ou une meilleure promotion.";
+                                                $totalVisits = 0;
+                                                foreach ($topPages as $page) {
+                                                    $totalVisits += $page['views'];
                                                 }
 
-                                                // Limiter la longueur de l'URL pour l'affichage
-                                                $displayUrl = strlen($pageUrl) > 40 ? substr($pageUrl, 0, 40) . '...' : $pageUrl;
+                                                $insights = [];
+                                                foreach ($topPages as $page) {
+                                                    $pageUrl = $page['page_url'];
+                                                    $views = $page['views'];
 
-                                                echo '<tr>';
-                                                echo '<td title="' . htmlspecialchars($pageUrl) . '">' . htmlspecialchars($displayUrl) . '</td>';
-                                                echo '<td>' . number_format($views) . '</td>';
-                                                echo '<td>' . round($percentage, 1) . '%</td>';
-                                                echo '<td>' . $potential . '</td>';
-                                                echo '<td><span class="' . $tipClass . '">' . htmlspecialchars($recommendation) . '</span></td>';
-                                                echo '</tr>';
-                                            }
+                                                    // Calcul du pourcentage
+                                                    $percentage = $totalVisits > 0 ? ($views / $totalVisits) * 100 : 0;
 
-                                            if (empty($topPages)) {
-                                                echo '<tr><td colspan="5" class="text-center">Aucune donnée disponible pour l\'analyse</td></tr>';
-                                            }
-                                            ?>
-                                        </tbody>
-                                    </table>
+                                                    // Évaluation du potentiel
+                                                    $potential = '';
+                                                    $tipClass = 'tip-info';
+
+                                                    if ($percentage > 20) {
+                                                        $potential = '<span class="tip-success">Très haute</span>';
+                                                        $recommendation = "Page principale ! Optimisez la conversion avec des CTA clairs.";
+                                                    } elseif ($percentage > 10) {
+                                                        $potential = '<span class="tip-success">Haute</span>';
+                                                        $recommendation = "Bon trafic. Testez des variantes de contenu pour améliorer l'engagement.";
+                                                    } elseif ($percentage > 5) {
+                                                        $potential = '<span class="tip-info">Moyenne</span>';
+                                                        $recommendation = "Trafic modéré. Améliorez le SEO et les liens internes.";
+                                                    } else {
+                                                        $potential = '<span class="tip-warning">Faible</span>';
+                                                        $recommendation = "Peu de trafic. Considérez une refonte ou une meilleure promotion.";
+                                                    }
+
+                                                    // Limiter la longueur de l'URL pour l'affichage
+                                                    $displayUrl = strlen($pageUrl) > 40 ? substr($pageUrl, 0, 40) . '...' : $pageUrl;
+
+                                                    echo '<tr>';
+                                                    echo '<td title="' . htmlspecialchars($pageUrl) . '">' . htmlspecialchars($displayUrl) . '</td>';
+                                                    echo '<td>' . number_format($views) . '</td>';
+                                                    echo '<td>' . round($percentage, 1) . '%</td>';
+                                                    echo '<td>' . $potential . '</td>';
+                                                    echo '<td><span class="' . $tipClass . '">' . htmlspecialchars($recommendation) . '</span></td>';
+                                                    echo '</tr>';
+                                                }
+
+                                                if (empty($topPages)) {
+                                                    echo '<tr><td colspan="5" class="text-center">Aucune donnée disponible pour l\'analyse</td></tr>';
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Section 2: Corrélation Trafic & Tendances -->
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Analyse des Tendances</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="chart-container">
-                                    <canvas id="trendsChart" height="250"></canvas>
+                            <!-- Section 2: Corrélation Trafic & Tendances -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Analyse des Tendances</h3>
                                 </div>
-                                <?php
-                                // Préparer les données pour les tendances
-                                $trendLabels = [];
-                                $trendVisits = [];
-                                $trendUnique = [];
-
-                                foreach ($dailyStats as $stat) {
-                                    $trendLabels[] = date('d/m', strtotime($stat['date']));
-                                    $trendVisits[] = $stat['visits'];
-                                    $trendUnique[] = $stat['unique_visitors'];
-                                }
-                                ?>
-                                <div class="insight-tip">
-                                    <strong>Insight :</strong>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="trendsChart" height="250"></canvas>
+                                    </div>
                                     <?php
-                                    if (count($dailyStats) >= 2) {
-                                        $firstDay = $dailyStats[0]['visits'];
-                                        $lastDay = end($dailyStats)['visits'];
-                                        $growth = $firstDay > 0 ? (($lastDay - $firstDay) / $firstDay) * 100 : 0;
+                                    // Préparer les données pour les tendances
+                                    $trendLabels = [];
+                                    $trendVisits = [];
+                                    $trendUnique = [];
 
-                                        if ($growth > 20) {
-                                            echo "Votre trafic a augmenté de <strong>" . round($growth) . "%</strong> cette semaine ! Excellente progression.";
-                                        } elseif ($growth > 0) {
-                                            echo "Votre trafic progresse doucement (+" . round($growth) . "%). Continuez vos efforts !";
-                                        } else {
-                                            echo "Votre trafic est stable. Pensez à lancer de nouvelles campagnes pour stimuler la croissance.";
-                                        }
-                                    } else {
-                                        echo "Collectez plus de données pour obtenir des insights détaillés sur vos tendances.";
+                                    foreach ($dailyStats as $stat) {
+                                        $trendLabels[] = date('d/m', strtotime($stat['date']));
+                                        $trendVisits[] = $stat['visits'];
+                                        $trendUnique[] = $stat['unique_visitors'];
                                     }
                                     ?>
+                                    <div class="insight-tip">
+                                        <strong>Insight :</strong>
+                                        <?php
+                                        if (count($dailyStats) >= 2) {
+                                            $firstDay = $dailyStats[0]['visits'];
+                                            $lastDay = end($dailyStats)['visits'];
+                                            $growth = $firstDay > 0 ? (($lastDay - $firstDay) / $firstDay) * 100 : 0;
+
+                                            if ($growth > 20) {
+                                                echo "Votre trafic a augmenté de <strong>" . round($growth) . "%</strong> cette semaine ! Excellente progression.";
+                                            } elseif ($growth > 0) {
+                                                echo "Votre trafic progresse doucement (+" . round($growth) . "%). Continuez vos efforts !";
+                                            } else {
+                                                echo "Votre trafic est stable. Pensez à lancer de nouvelles campagnes pour stimuler la croissance.";
+                                            }
+                                        } else {
+                                            echo "Collectez plus de données pour obtenir des insights détaillés sur vos tendances.";
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 3: Analyse des Performances -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Points d'Amélioration</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-container">
+                                        <table class="data-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Métrique</th>
+                                                    <th>Valeur actuelle</th>
+                                                    <th>Cible idéale</th>
+                                                    <th>Statut</th>
+                                                    <th>Action recommandée</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                // Calculer les métriques
+                                                $avgPagesPerSession = $sessionData ? array_sum(array_column($sessionData, 'page_views')) / count($sessionData) : 0;
+                                                $avgSessionTime = $avgSessionTime; // Déjà calculé
+                                                $bounceRateEstimate = 100 - ($avgPagesPerSession > 1 ? 70 : 40); // Estimation simplifiée
+
+                                                // Liste des métriques à analyser
+                                                $metrics = [
+                                                    [
+                                                        'name' => 'Pages/Session',
+                                                        'current' => round($avgPagesPerSession, 1),
+                                                        'target' => '3.0+',
+                                                        'status' => $avgPagesPerSession >= 2.5 ? 'good' : ($avgPagesPerSession >= 1.5 ? 'average' : 'poor'),
+                                                        'action' => $avgPagesPerSession >= 2.5 ?
+                                                            'Excellent engagement !' :
+                                                            'Ajoutez des liens internes et du contenu intéressant.'
+                                                    ],
+                                                    [
+                                                        'name' => 'Temps moyen',
+                                                        'current' => $avgSessionTime . ' min',
+                                                        'target' => '3+ min',
+                                                        'status' => $avgSessionTime >= 3 ? 'good' : ($avgSessionTime >= 1.5 ? 'average' : 'poor'),
+                                                        'action' => $avgSessionTime >= 3 ?
+                                                            'Temps d\'engagement optimal.' :
+                                                            'Améliorez la qualité du contenu pour retenir les visiteurs.'
+                                                    ],
+                                                    [
+                                                        'name' => 'Taux de rebond (est.)',
+                                                        'current' => round($bounceRateEstimate) . '%',
+                                                        'target' => '< 40%',
+                                                        'status' => $bounceRateEstimate < 40 ? 'good' : ($bounceRateEstimate < 60 ? 'average' : 'poor'),
+                                                        'action' => $bounceRateEstimate < 40 ?
+                                                            'Très bon taux de rétention.' :
+                                                            'Optimisez les pages d\'atterrissage et le contenu.'
+                                                    ]
+                                                ];
+
+                                                foreach ($metrics as $metric) {
+                                                    $statusClass = $metric['status'] == 'good' ? 'tip-success' : ($metric['status'] == 'average' ? 'tip-info' : 'tip-warning');
+
+                                                    echo '<tr>';
+                                                    echo '<td>' . $metric['name'] . '</td>';
+                                                    echo '<td><strong>' . $metric['current'] . '</strong></td>';
+                                                    echo '<td>' . $metric['target'] . '</td>';
+                                                    echo '<td><span class="' . $statusClass . '">' .
+                                                        ($metric['status'] == 'good' ? '✅ Bon' : ($metric['status'] == 'average' ? '⚠️ Moyen' : '❌ À améliorer')) .
+                                                        '</span></td>';
+                                                    echo '<td>' . htmlspecialchars($metric['action']) . '</td>';
+                                                    echo '</tr>';
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Section 3: Analyse des Performances -->
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Points d'Amélioration</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-container">
-                                    <table class="data-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Métrique</th>
-                                                <th>Valeur actuelle</th>
-                                                <th>Cible idéale</th>
-                                                <th>Statut</th>
-                                                <th>Action recommandée</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            // Calculer les métriques
-                                            $avgPagesPerSession = $sessionData ? array_sum(array_column($sessionData, 'page_views')) / count($sessionData) : 0;
-                                            $avgSessionTime = $avgSessionTime; // Déjà calculé
-                                            $bounceRateEstimate = 100 - ($avgPagesPerSession > 1 ? 70 : 40); // Estimation simplifiée
+                    <!-- Section pour le nouvel onglet "In+" -->
+                    <div id="InPlusTab" class="tab-content">
+                        <h2>📅 Calendrier de publication</h2>
 
-                                            // Liste des métriques à analyser
-                                            $metrics = [
-                                                [
-                                                    'name' => 'Pages/Session',
-                                                    'current' => round($avgPagesPerSession, 1),
-                                                    'target' => '3.0+',
-                                                    'status' => $avgPagesPerSession >= 2.5 ? 'good' : ($avgPagesPerSession >= 1.5 ? 'average' : 'poor'),
-                                                    'action' => $avgPagesPerSession >= 2.5 ?
-                                                        'Excellent engagement !' :
-                                                        'Ajoutez des liens internes et du contenu intéressant.'
-                                                ],
-                                                [
-                                                    'name' => 'Temps moyen',
-                                                    'current' => $avgSessionTime . ' min',
-                                                    'target' => '3+ min',
-                                                    'status' => $avgSessionTime >= 3 ? 'good' : ($avgSessionTime >= 1.5 ? 'average' : 'poor'),
-                                                    'action' => $avgSessionTime >= 3 ?
-                                                        'Temps d\'engagement optimal.' :
-                                                        'Améliorez la qualité du contenu pour retenir les visiteurs.'
-                                                ],
-                                                [
-                                                    'name' => 'Taux de rebond (est.)',
-                                                    'current' => round($bounceRateEstimate) . '%',
-                                                    'target' => '< 40%',
-                                                    'status' => $bounceRateEstimate < 40 ? 'good' : ($bounceRateEstimate < 60 ? 'average' : 'poor'),
-                                                    'action' => $bounceRateEstimate < 40 ?
-                                                        'Très bon taux de rétention.' :
-                                                        'Optimisez les pages d\'atterrissage et le contenu.'
-                                                ]
-                                            ];
+                        <!-- Heatmap avec vos données réelles -->
+                        <div class="chart-container">
+                            <h3>Fréquentation par heure</h3>
+                            <canvas id="heatmapChart" height="250"></canvas>
+                        </div>
 
-                                            foreach ($metrics as $metric) {
-                                                $statusClass = $metric['status'] == 'good' ? 'tip-success' : ($metric['status'] == 'average' ? 'tip-info' : 'tip-warning');
+                        <!-- Planning Gantt -->
+                        <div class="chart-container">
+                            <h3>Planning recommandé</h3>
+                            <div id="ganttChart" style="width: 100%; height: 400px;"></div>
+                        </div>
 
-                                                echo '<tr>';
-                                                echo '<td>' . $metric['name'] . '</td>';
-                                                echo '<td><strong>' . $metric['current'] . '</strong></td>';
-                                                echo '<td>' . $metric['target'] . '</td>';
-                                                echo '<td><span class="' . $statusClass . '">' .
-                                                    ($metric['status'] == 'good' ? '✅ Bon' : ($metric['status'] == 'average' ? '⚠️ Moyen' : '❌ À améliorer')) .
-                                                    '</span></td>';
-                                                echo '<td>' . htmlspecialchars($metric['action']) . '</td>';
-                                                echo '</tr>';
-                                            }
-                                            ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                        <!-- Top contenus - Utilise vos données existantes -->
+                        <div class="chart-container">
+                            <h3>Contenus performants</h3>
+                            <div id="topPagesList"></div>
                         </div>
                     </div>
 
@@ -1131,20 +1173,20 @@ function getCountryCodeSimple($countryName)
         <?php endif; ?>
     </div>
 
-    <!-- Dans dashboard.php, juste avant </body> -->
+    <!-- ASSISTANT PSEUDO IA EN COURS -->
     <div class="ai-assistant-container" id="aiAssistantContainer">
         <button class="ai-toggle-btn" onclick="toggleAIAssistant()">
             <span class="ai-icon"><i class="fa-regular fa-message"></i></span>
-            <span class="ai-text">IA</span>
+            <span class="ai-text"></span>
             <span class="ai-badge">NEW</span>
         </button>
 
         <div class="ai-panel" id="aiPanel">
             <div class="ai-header">
                 <div class="ai-title">
-                    <span class="ai-avatar">🫡</span>
+                    <!--<span class="ai-avatar">🫡</span>-->
                     <h3>Smart Assistant</h3>
-                    <small>Analyse vos données en temps réel</small>
+                    <small>- fonction en developpement -</small>
                 </div>
                 <button class="ai-close" onclick="toggleAIAssistant()">×</button>
             </div>
@@ -1318,7 +1360,11 @@ Votre croissance est ${growth > 0 ? 'positive' : 'à améliorer'}. ${growth > 20
 
                 "Avec {visits} visites en {period} jours, vous pourriez générer environ {conversions} conversions avec un taux de 3%.",
 
-                "Le temps moyen de session est de {time} minutes. C'est {verdict} pour votre secteur !"
+                "Le temps moyen de session est de {time} minutes. C'est {verdict} pour votre secteur !",
+
+                "Pour maximiser vos résultats, concentrez-vous sur l'amélioration de votre taux de conversion actuel.",
+
+                "Cette Assistant IA est en développement ... il se peut qu'il ne réponde pas toujours de manière pertinente. Pour toute question, contactez le developpeur contact@gael-berru.com"
             ]
         };
 
@@ -2163,6 +2209,12 @@ Votre croissance est ${growth > 0 ? 'positive' : 'à améliorer'}. ${growth > 20
             }
         }
 
+        function confirmParametre() {
+            if (confirm('En cours de developpement. Merci de votre patience !')) {
+                window.location.href = '#';
+            }
+        }
+
         function showUpgradeForm(plan) {
             document.getElementById('newPlanInput').value = plan;
             document.getElementById('upgradeForm').style.display = 'block';
@@ -2380,7 +2432,7 @@ Votre croissance est ${growth > 0 ? 'positive' : 'à améliorer'}. ${growth > 20
                         newInsight.className = 'insight-tip';
                         newInsight.style.marginTop = '15px';
                         newInsight.style.padding = '10px';
-                        newInsight.style.background = '#f8f9fa';
+                        newInsight.style.background = '#2436f95b';
                         newInsight.style.borderRadius = '5px';
                         newInsight.innerHTML = `<strong>Opportunité :</strong>${additionalInsight}`;
 
@@ -2394,6 +2446,125 @@ Votre croissance est ${growth > 0 ? 'positive' : 'à améliorer'}. ${growth > 20
             }, 100);
         });
 
+        // 1. HEATMAP avec vos données existantes
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof visitsByHour !== 'undefined') {
+                const ctx = document.getElementById('heatmapChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(visitsByHour),
+                        datasets: [{
+                            label: 'Visites',
+                            data: Object.values(visitsByHour),
+                            backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+
+            // 2. Afficher le top des pages (données existantes)
+            if (typeof pagesData !== 'undefined') {
+                const topPages = pagesData.slice(0, 5);
+                const listHtml = topPages.map(page =>
+                    `<div class="page-item">${page.page} - <strong>${page.views} vues</strong></div>`
+                ).join('');
+                document.getElementById('topPagesList').innerHTML = listHtml;
+            }
+
+            // 3. GANTT CHART avec amCharts
+            function initGantt() {
+                am5.ready(function() {
+                    const root = am5.Root.new("ganttChart");
+                    root.setThemes([am5.themes.Animated.new(root)]);
+
+                    const gantt = root.container.children.push(
+                        am5gantt.Gantt.new(root, {})
+                    );
+
+                    // Données basées sur les heures de fréquentation
+                    const now = new Date();
+                    const peakHour = getPeakHour(visitsByHour || {});
+
+                    gantt.yAxis.data.setAll([{
+                            name: "Publication Social",
+                            id: "social"
+                        },
+                        {
+                            name: "Article Blog",
+                            id: "blog"
+                        }
+                    ]);
+
+                    gantt.series.data.setAll([{
+                            start: setHour(now, peakHour).getTime(),
+                            duration: 0,
+                            id: "social",
+                            name: "Post optimal"
+                        },
+                        {
+                            start: setHour(addDays(now, 2), peakHour).getTime(),
+                            duration: 2,
+                            id: "blog",
+                            name: "Création contenu"
+                        }
+                    ]);
+
+                    gantt.appear(1000, 100);
+                });
+            }
+
+            // Initialiser le Gantt quand l'onglet est visible
+            const inPlusTab = document.getElementById('InPlusTab');
+            const observer = new MutationObserver(function() {
+                if (inPlusTab.style.display !== 'none') {
+                    initGantt();
+                    observer.disconnect();
+                }
+            });
+            observer.observe(inPlusTab, {
+                attributes: true,
+                attributeFilter: ['style']
+            });
+        });
+
+        // Fonctions utilitaires
+        function getPeakHour(hourData) {
+            if (!hourData) return 14;
+            const entries = Object.entries(hourData);
+            const peak = entries.reduce((max, [hour, count]) =>
+                count > max.count ? {
+                    hour: parseInt(hour),
+                    count
+                } : max, {
+                    hour: 14,
+                    count: 0
+                }
+            );
+            return peak.hour;
+        }
+
+        function setHour(date, hour) {
+            const newDate = new Date(date);
+            newDate.setHours(hour, 0, 0, 0);
+            return newDate;
+        }
+
+        function addDays(date, days) {
+            const newDate = new Date(date);
+            newDate.setDate(newDate.getDate() + days);
+            return newDate;
+        }
         // Fonction pour basculer vers l'onglet insights (au cas où)
         function openInsightsTab() {
             openTab('insights');
