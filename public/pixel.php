@@ -5,17 +5,6 @@ require_once __DIR__ . '/../includes/config.php';
 header('Content-Type: image/gif');
 header('Cache-Control: no-store, no-cache');
 
-// CAUTION : On utilise HTTP_X_FORWARDED_FOR sans validation → risque de spoofing
-// Aucun rate limiting sur le pixel → risque de DDoS
-// Pas de purge des vieilles données → la BDD va grossir indéfiniment
-if ($_SERVER['REQUEST_METHOD'] !== 'GET') exit();
-if (empty($_SERVER['HTTP_REFERER'])) exit(); // Optionnel
-// Rate limiting basique
-$ip_key = 'rate_limit_' . md5($ip . date('Y-m-d-H'));
-//$requests = apcu_fetch($ip_key) ?: 0;
-if ($requests > 1000) exit(); // 1000 req/jour/ip
-//apcu_store($ip_key, $requests + 1, 86400);
-
 // 1. Récupérer le code de tracking
 $tracking_code = $_GET['t'] ?? '';
 if (empty($tracking_code)) exit();
