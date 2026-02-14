@@ -866,7 +866,7 @@
                     <a href="#fonctionnalites" itemprop="url">Fonctionnalités</a>
                     <a href="#integration" itemprop="url">Intégration</a>
                     <a href="#tarifs" itemprop="url">Tarifs</a>
-                    <a href="./smart_pixel_v2/public/login.php" class="btn btn-secondary">Connexion</a>
+                    <a href="./public/login.php" class="btn btn-secondary">Connexion</a>
                 </div>
 
                 <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu mobile" aria-expanded="false">
@@ -896,7 +896,7 @@
                 </p>
 
                 <div class="hero-cta">
-                    <a href="./smart_pixel_v2/public/index.php" class="btn btn-primary" style="font-size: 1.1rem; padding: 20px 40px;">
+                    <a href="./public/index.php" class="btn btn-primary" style="font-size: 1.1rem; padding: 20px 40px;">
                         <i class="fas fa-bolt"></i>
                         <strong>CRÉER MON PREMIER DASHBOARD</strong><br>
                         <!--<small style="font-size: 0.8rem; opacity: 0.9;">Aucune CB requise</small>-->
@@ -1154,7 +1154,7 @@
             </div>
 
             <div style="text-align: center;">
-                <a href="./smart_pixel_v2/public/index.php" class="btn btn-primary" style="padding: 20px 50px; font-size: 1.1rem;">
+                <a href="./public/index.php" class="btn btn-primary" style="padding: 20px 50px; font-size: 1.1rem;">
                     <i class="fas fa-rocket"></i>
                     Créer des maintenant
                 </a>
@@ -1185,7 +1185,7 @@
                         <li><i class="fas fa-check feature-check"></i> Support communautaire</li>
                     </ul>
 
-                    <a href="./smart_pixel_v2/public/index.php" class="btn btn-secondary" style="margin-top: auto;">
+                    <a href="./public/index.php" class="btn btn-secondary" style="margin-top: auto;">
                         Commencer gratuitement
                     </a>
                 </div>
@@ -1207,7 +1207,7 @@
                         <li><i class="fas fa-check feature-check"></i> Support prioritaire</li>
                     </ul>
 
-                    <a href="./smart_pixel_v2/public/index.php?plan=pro" class="btn btn-primary" style="margin-top: auto;">
+                    <a href="./public/index.php?plan=pro" class="btn btn-primary" style="margin-top: auto;">
                         <i class="fas fa-gem"></i>
                         Devenir Pro
                     </a>
