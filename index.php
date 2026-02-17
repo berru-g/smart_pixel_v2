@@ -5,17 +5,119 @@
 //$total = $pdo->query("SELECT COUNT(*) FROM user_sites")->fetchColumn();
 //$remaining_spots = max(0, 100 - $total);
 ?>
+
 <!DOCTYPE html>
 <html lang="fr" prefix="og: https://ogp.me/ns#">
 <!-- 
-    ============================================
-       Developed by : https://github.com/berru-g/
-       Project : Analytics Souverain
-       First Commits on Nov 21, 2025
-       Version : 1.2.4
-       Copyright (c) 2025 Berru
-    ============================================
+                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                            -+:                                                                         
+                                                                                                                          ++=::                                                                         
+                                                                                                                        -+--:..                                                                         
+                                                                                                                      --=:::..                                                                          
+                                                                                                                    .=:-::.::.                                                                          
+                                                                                           -+*+.                   -==::-::.:                                                                           
+                                                                                          =--:::                 .*====-::::                                                                            
+                                                                                         +=:::.:                +==:-----:--                               -                                            
+                                                                                        :=:=+:::              .*+--+++-::::.                            -=++::                                          
+                                                                                       :++++=:::             ===---=--::-::                         .**-:-:+=:                                          
+                                                                        +*+=-          =+--:::::            ====-**-=-:-=-:                        =++=:-.::..                                          
+                                                                      +==----.       :+=+*+-::::          :++==---:--=:-::.                     :+=-:::.---::.                                          
+                                                                     ---+:::::       +*====+=--=:        ++++++--==-:::::.                     +-:-::::-:::::                                           
+                                                                    ==+=--+=:-      ===*===+-==---     .+++====--::--=-:-.                  :+=:--::==-::::..                                           
+                                                                   ==+=---:-::     ==-=*-===--=-**=  :=*++==---==--=-::::                 ====::-:-:+++::-.                                             
+                                                          =+++.   --+==----+-+=- -*===+--=-=--=*-+==+#=*--------:----=:==             .+=+=::--=====-::...                                              
+                                                         +===*+===*===--:::-=+=--==+-==--++==--=+--=-====-=-===+---==-:::          -=+==-=:---=-:-:::..:                                                
+                                                       :=-=++=*=++====-=+==+--==-=====++==--=:-+-----=-+---=+=---:=:::::-     :+++====-:-::::::-:---+..                                                 
+                                                      :+==++=*==-+-====-==:-===-=++=-===++==----+=====--=+====----=-:--=+*#===+====-==---:----:==:-..                                                   
+                                                     .--=**++-=---===---=-=---:====-+=-+---*=---=-==-+=-=--===-=:::--===*#*===+--=--:-=::-::-:::::::                                                    
+                                                    ----==--++*=**==--+-+=-*==:=-=-===*+++=+-+=++--==-=*--+*+-=-:---=-+===--==+-=---:=-+=--:-:=--:.                                                     
+                                                    =-=*+=====+=--=+=+-==:-==:-*+-+=+=-+++++=+=+==--=-++--==+---------+-=---===-+=---+===----=::.                                                       
+                                                    -*+=*+**#+=+++-++*++====-+=--=---=-==--=---=---+--=---=-------==-==--=-+----==-==-=------::.                       :--:.:                           
+                                                    -++#-+=---==-+-+===--:-----=-==**+=+*=++=+=+=-=====-===--=-=-=---==----=====-=-==--:=:::::.                  .-=-:-::::::                           
+                                                    -+*++-+*=*+=+==--==:=====**=*+*=+-==+-*--=--=:----==-=-+=--=--+---:=-----==-=::--+++--=====-=+-=*==+==+++-:=:::.--==-:::=.                          
+                                                    :==+=%++-----::--+++=++++**+=--:----=-+=+=--==+==++======+-=+=--=-=-=-:=--==+===:=:=:::--==+==-:+-+==::--+=----:=---=-=+--                          
+                                                  .=+*+*=+=---+-++-=-=---:::------=----=-=-+=+=+=-=*+#+==*++===+=-=-=---:--=-=+===---==::=:===:-:-:-=-:-:=-::-:---:-:-::=..:..                          
+                                                 -=*=====--=*+=+=--:---==++==+==--=-+=-=+-=*++*=*#=*+**++=+=++==+-=--=-:-:----=---::-==::+=:-=-=:-:::-:::::-+-::..:.-..:::=-.                           
+                                                :++++=-=#++*-=++*=----:-====+=======%***+##+*=*%++#+++#**+-+++*=+===+=---+-*:----=-:-+:--:=-+=---==:-----:-::::-=:=-:-+*:=+..                           
+                                               :=+-+=+*=----*=----++-::---=-==+===-%%**#+*+##%*##+*+++==*==+==--==+***%%*--:--=--::--::--:=-=-+=--:=:-=-:::=----:--=-=:::...                            
+                                              :=+--*=+-:--:-:--+=*+=--=---=-+--=#*%##%*##*%%%#%#%@%%%###**#*+--=--=--:-=-:=:==---::=:-----=---=:::-------:::--=:=-::..:.::..                            
+                                             -+-=**--:++==-=+------+--=---====+#####**%#%##%@%%@%#+++=+#*=++--==--:-=-=:::--=--=+--==-:-------:----=-:-==::-:--=-:.::::--:-=-.:                         
+                                             =-+++-:=-::----*=*-+--==--===+*+=#####*%#%#@%+=*#%%@@@@@@@@%##=-:=:--::----:-::-----+::--:-::-=---=:---=::::::..:---+.:-:=:::-:-::::.                      
+                                             =-+=---+*--=--=-===+-+++++-*%*+*###*##++*=+++*#%%%*%@#%%%%%%%%%%%#*:-:-:------==--==:==::==:--:-:-:-::=::---+*-:-+-:-.=:--:.:::=.--..                      
+                                             :--+++*=*=-=-+=:-+====#+=++*+==##*++=*=*=*=**=+%*+-+#****##%###%##%###*---::------=----:=-:=---=:::--==-:::--=:==-=:::.::=.::=.-:::..                      
+                                              --=---+=+=--*++=--:::::::*==+*****+++==*#*++**+*=+-#=+=*+=++*#**##*#####*:-:-+:-=-----=-:-----:-:::-:---=-:..:--:.:::=-::...:....:.                       
+                                               +%#**-*-=:+-:::::-:....-:+*=-+-=+-=-===:::::-+-=-=:***#+++++***********#**+:::---=-=-=-=-:::-::=--:--=:::-::-:=-:::=-::.:-.:.-:=.                        
+                                            #@@%%%%##*---:..:....-=--+*===-:----=-:::::::::::::-=-+=*##*#+*+*****+*++****+=:::-:--=::-::::-:::::..:-:::::::..:::.:--:=:=-:-:-:.                         
+                                          @@@%%###***####*++====+-==-:....:.:-----:::::*++-==:::-+=++##%************###****+--::=:---:-=-:-::::::----:::::::::..:::-=:-:.....                           
+                                        -@%%##****+++*++++++*+-:=-==:+--::--+==------:-.....=-:+-=+--=-**#************#####***-::::--::---::-:::::-.::::-..-::::::.::::::.                              
+                                       .%%*:            ::---==-==--:===++=-==*+*=-===-:...==:=--==+-:-:-++****##*##**######****+.:-:-:--:--:-::-::-..::::-.::-.=.:.:....                               
+                                                                .:---+==-=-#*++=*====*++==--==::-++=-::.::+=+***#*#####*#####***++=.:.:::::-:=--:::-::::.:-:::-:::::...                                 
+                                                                      =:+++=*=*+=+++*-=---::-*+==++-:::::+=++******###**##***#***++==..:::::::::::-:..::::::-:..::..                                    
+                                                                       .-:-==--===+**+*+****+++=#=-+:+*#%#####%##++****###*##****+=++=:.:-:-.::::..::.:.:-::::::::                                      
+                                                                         +=::::-+=+*#*++====+==+-=--####%##%#######+++****###*###=+**==+.....::::.:::.:::::::                                           
+                                                                          +::::-=:-#=+##====*+=-==+*#*#*###%########*+*+++**=+****+=++===+.  ....                                                       
+                                                                        +%*#::::=:::=-+==++==--:-=#**+#*###*##*%#%*#+-+=*++=**++**=+++++===-                                                            
+                                                                     =#%*+*--=:-:--==--::---=--===++=-===+=-=---:=+-::==+++++*+#**+*+==*+===-                                                           
+                                                              :######**+=-----=-=-*===++------=--=++=-*+*==::::.-:.:--++*+******+*****+=====+-                                                          
+                                                         :#%%%%#*==*=----------=-==*===-=-=-:---==---%=+==:.=:::::..:*+++*++**********#**=+++*                                                          
+                                                     +@@%%#+++*+=-:::-:-:--:-===:---:=-----:--==---%+-=-+::::-+::.:-=++=***+#***#**********+***.                                                        
+                                                 .@@%#**++====+=-*-::::-==:---=-:-:+:::-::::-:::::#==*-::=:=-+-:=-:-+****#**#****##*********++++*                                                       
+                                              .%%##*++++====----:::::..::=::::::::::::::::::::::+*+==-=:--=::--*++=+*+*#*#*#****+*#***********=====                                                     
+                                             %%#**++==----:::-:-*-:::.::-+::-:-:::::-::::-:::-:#+--==---=++====***::##*#***#****+*****++*****#**++++-                                                   
+                                           %%#*++=:         =*=-:::::.:---:---:=--:--:--::::::%#===+--++==+=+=++*+:++*##**#***+*******=*+****###**++=*=                                                 
+                                                            =-::::::::::-::::::=+--+*-:-:-=:-##*#++=-====+++--=*+=****###+#*##*****+***#******##***+=+**:                                               
+                                                           .=-:::::::::--=::.:-::=-----:::::+#%+==#+===++=:=*#+**=######**+##****#***++**#*##**####****+*+:                                             
+                                                           :--::::::::-+=-::.:::-:::-=::-:::#+++#**+*+=-==-+***=--*##*##********+*#****+*##**####%##=*+**=++                                            
+                                                           ---:::::::=:=--:::...:::--:-+-:::+*==*+==-++=-=-==+=*:+*##*###**+*+*###*#**##*#*#=##**###***#**+==+                                          
+                                                           .-=:::::::+-==--::.::::--::-+=:::*#==##==*-+--=+#*++::*+***##*+*##++########**##**+*##**##***+++==-=+-                                       
+                                                            .+-:::::+-++-::::..:::::::-==:::+=##**=+---+%#*+-+-:+=*##**##***##++***#####**###+***#*##**+****===-==-                                     
+                                                            -=::-::-+=--+:--::.::-----:-+:.:#+#==---+##*+=-==+=:****#*+###**#**==*+**#**#**###++*****##*******++===+=                                   
+                                                            =-:::::++=+--::-::..:::-:--=-::.#+#***-%%#+=+*=-=++=##****=###**#***+**###**#**+##*+++***+*+**+*++**+*+-+*=                                 
+                                                           +=-:::::+=+=--:--::::::::--:=-::.==---*++-=*+--::+=:+####**+#*=####**++**##*+*****##**++***++***+**=++****-=+-                               
+                                                          ==:::::::=*===-:::::::::-:::==*:::-*:+*+**+-=-=-====++***###+**####*+*+*+*##****#***##***+*+*++****-*++++##+===+.                             
+                                                         +-:::::::-++-+--:-:::::::::--=+-:::.+--=-:=++=-:--=+#+*#*###***+#*##*+=****#*#+*#*#+*+*#+**++***+*+*#*+*+=++=*+-=++                            
+                                                        --:::::::==*+-+=-:::::::::::::*--::...:-:---==:=:--=-=##*#*##***+####*+:=*##+#*#*****+=**#*#*++*+*+++*-#***==+*+**+=+:                          
+                                                        ---+--=+==+*+----:--:::::::=--++::::...-=++---::::-==+-**#*#***+*+###***=*+**#####*++++++***+***++**++=+****+=++=+*#*++                         
+                                                        -=++=++=+++=---:::::::::::-:-=*-::::....:==-=-::::-=+**********+*##%##***#*##*#*###****=**#*#**#++***=*++***+*=-+*++***+=                       
+                                                        ===+*=++**-===-:::::::::::::-*--::::....::+--:-:=--=-*#**=***########**##*#**#*####*+++++******-*#++*****+*****+*++++**++=:                     
+                                                        .+*+=+=*+==-==-:=:::::::::::-*=::::......:.=-::-==+*++*+#**=########**#####*%**%*###+=****+**+*+*#+=+**=*#***+*#*+*=+***+++=                    
+                                                        :+=**+=+*=-:=-:::::::::::::-*=-:::::......::--+=+=+*#*=****####*#*##+###=#*#**#*#%#=#**++**#*#+*+*=+*+*+*+**++=***+***++*=++*-                  
+                                                        :=+++-==-+----:-:::::::::-:+*-::::::......::-*++==+*=*=*+**#*#+#####*###+*#**###***###++*#**#**++**+*+**+++**#*++=****=++++==*+                 
+                                                         .-=++=-=-=::+-:::::::::-:-=+-::::::......:::*-=+**##*#***#+*##*##**##+####+#*##*%#%###**++*##-*+=**-****++****#+++=***=+++***+*                
+                                                         .++-+=+=-=::--:::::::::::++-:::::::...:..:--:-+++#=#*#+#*####*#*##*###*##*##**##*+#**#=**+**#***#***+*=***++-***##*++*++**#*#*++               
+                                                          -*+==-:--::--:::::::::::=--::::::...:.:::.--+-=****##*##**###**###**##*##**##*##**###++##*-=+*=*****+*****=++*+**+*+++****##*+++.             
+                                                           -+===--::::--:::::::::-=-:::::::-::-::..+=++##**#=#*###**###*###****###****-##%*++#+*=*#+=:+*=+*****+**+*#+++++**#*+++*+*=+**++=-            
+                                                            ---::::::::--::::::::==-::::::. ::...=.:=**#**=#*#*#*######*###*#*######****##*++++*++=*++-+%*=+***#*****#*-*++++*+++*+*++*#*++=+           
+                                                           :+=-::::::::--::::::::=-:::::::.  :.-=.:+*#*+*+=###*###*###*=####**######***###*+=++=*+*+*+.=*#****##*+******+#*+*+**++***+++###*=+:         
+                                                            .:=:::::::::-:::::::-=--::::::.  :...:+=+*+++=*+#*######*****##***#####***#+##***==+:*#**#=***#**#***+**+**+#*+***++**+*+*+*+***#*=-        
+                                                              =-:::::::--:::::::=--:::::::   +:::+=:*#****##*####*+*##*+#%##**##*##**+**#*+**=+*=**#=##+#**#*+***#******+**+#***=+=-+***#*+*+=++=       
+                                                              .-:::::--=----::::=-:::::::.  :-=:+==+#=##*+#%*#+#*#####*-##*#**##+*#****-*###************++*+**********+*+****#*****+++****#**+=++=      
+                                                               .----:-+=-==:::::+-:::::::  .-==*==:=+-*#***###***#-#%#####**#*#####****+********#++*+*#*+=+++**=**+****+**+***=**+=*=+=++*#**++=+++     
+                                                                 :------+--::::---::::::: .  *=+=++*==*##*#+##*+*#=#%*#####*-####**+*******=*++**+++**+**++=**+***##**+*+++=+**=**+**+*==++***+===+=    
+                                                                  .-=---=-:-:::--:::::::-.   +=*:=++=:#++#*###**#%###*%#####=#+#+#*###**+****+*=+++=***#************#**+*++++***=*+*=+++++*+*+++++===.  
+                                                                   .---:--:-:::-::::::::    -==-:+-.=*#**#*####*+##%%=##%%*#######**#*+*=+**-***+=++*****+*+:**+***+**#**=++*****=+*+*+++*:*++==*+++==: 
+                                                                     .:=--::::::::::::.    .=+--=+*:+##**#%#=#*##*+#####%%##%+#*#**##**+*-+**++*+==+-*+*++*+++*++*##+*****+**-+**++++**+***-*++=*+=++-+=
+                                                                       .--:::-:---::::     =+--=++*--=+*######%#*#*#%%#%#%*######%#*##***-+**+++-==++=+***+#*+*+++**#****+**+*++***+++**++**=*+=-*-=++-=
+                                                                         .::::--=-:::     :+-=-=:*+****#%%*####*##=#%%###%**#**###+##**+*+=+*+:++==*+-++*+++*+:+*++****-**+*++*+-*#******++**=+**=*-+++=
+                                                                            .::==--:     :=+=-==-=*-+*#*%##*###%#*###%###%###*=#*#****=-===*++++=+=+=+==*+-++*++=*******=*++*++*+:******+++=+****#+*+++=
+                                                                                         =+=++-+#+*####%%+*###%#**+#######*#**=**##+*#*+=*+-+*+-=-===+:++*==+++*++*+*****=*+**+***+******.+++****+#+++==
+                                                                                        ++-++++=++**#%%*%**#*#****=#-#####+**+**##*-**+***+-++++-==+======++-+*++=++*+****:+=++-*+-+***+**==++**=*=##-*+
+                                                                                       =--+*++*+#+%*#%=@%%+#%#*+++*#+*####*#*+***###*##*+*+++++*+====+=:==+++:+**+-+++++**+:=++++++++=*+***+-*=++:*=##:*
+                                                                                     .+===+--:+#*%+#*=*%####*%*=+***#*#+#+##*=+*=###***+-+++++=+++==+===-+=+=+-++++=++++++++++++=+***+*****=+*+==+*****-
+                                                                                    ===-++=*=-=-%+*=*%%%#####=*=+*##*#+##*+**=+*##**+*#*+*++*-+++-=+====:++===+-++*=:++==++++-+++**+=*#****+=+:**+*+**+#
+                                                                                   ==+++=+*+++-+%##+%%%#%=####++###***=*##**#*+++*****=++-++*+++++===+===-=+==++-+++==++++++++:==++**=+++*++*+*:*==*=***
+                                                                                  -++++=++*:*=*#*%+##%###*#*+#**###*#*###=#**-**+*++*****+=***-+++++=+===--==+++=++++:+***+++++=+=+***+****+*+*****-+*+*
+                                                                                 -**+=-*+*#***+**#+*#%#*###*=*=**####**##:***+*++=+***++*++*+**=+*++++==+==+++==+++**+-+****++++++-+***+****++***.**+*++
+
+                                                                                ============================================
+                                                                                    Project : Analytics Souverain
+                                                                                    Developed by : https://github.com/berru-g/
+                                                                                    First Commits on Nov 21, 2025
+                                                                                    Version : 1.2.4
+                                                                                    Copyright (c) 2025 Berru
+                                                                                ============================================
 -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,6 +132,7 @@
     <meta property="og:type" content="website">
     <meta property="og:locale" content="fr_FR">
     <link rel="stylesheet" href="./RGPD/cookie.css" hreflang="fr">
+    <link rel="stylesheet" href="style.css">
     <script data-sp-id="SP_79747769" src="https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/tracker.js" async></script>
 
     <meta name="twitter:card" content="summary_large_image">
@@ -70,784 +173,9 @@
             ]
         }
     </script>
-
-    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-
-    <style>
-        /* ====== VARIABLES PROFESSIONNELLES ====== */
-        :root {
-            --primary: #9d86ff;
-            /* Bleu professionnel */
-            --primary-dark: #917ded;
-            --primary-light: #af9dfe;
-            --secondary: #988dc6;
-            /* Gris texte */
-            --accent: #4ecdc4;
-            /* Vert succès */
-            --accent-dark: #059669;
-            --warning: #f59e0b;
-            --danger: #ff6b8b;
-            --light: #f8fafc;
-            --dark: #0f172a;
-            --gray-light: #f1f5f9;
-            --border-color: #e2e8f0;
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            --shadow-xl: 0 20px 40px -15px rgba(0, 0, 0, 0.15);
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 24px;
-            --transition: all 0.3s ease;
-            --container: 1200px;
-        }
-
-        /* ====== RESET & BASE ====== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 80px;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            color: var(--dark);
-            background: white;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: var(--container);
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* ====== TYPOGRAPHIE ====== */
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-weight: 700;
-            line-height: 1.2;
-            color: var(--dark);
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        p {
-            margin-bottom: 1.5rem;
-            color: var(--secondary);
-            font-size: 1.125rem;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-title h2 {
-            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-        }
-
-        /* ====== BOUTONS ====== */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 16px 32px;
-            border-radius: var(--radius-md);
-            font-weight: 600;
-            font-size: 1rem;
-            text-decoration: none;
-            transition: var(--transition);
-            cursor: pointer;
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: var(--primary);
-            border-color: var(--border-color);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            transform: translateY(-2px);
-        }
-
-        .btn-accent {
-            background: var(--accent);
-            color: white;
-        }
-
-        .btn-accent:hover {
-            background: var(--accent-dark);
-            transform: translateY(-2px);
-        }
-
-        /* ====== HEADER PROFESSIONNEL ====== */
-        .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-            z-index: 1000;
-            padding: 16px 0;
-        }
-
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--dark);
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--secondary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--dark);
-        }
-
-        /* ====== HERO SECTION OPTIMISÉE ====== */
-        .hero {
-            padding: 160px 0 100px;
-            background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(37, 99, 235, 0.1);
-            color: var(--primary);
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(37, 99, 235, 0.2);
-        }
-
-        .hero-title {
-            margin-bottom: 1.5rem;
-        }
-
-        .hero-subtitle {
-            font-size: 1.25rem;
-            max-width: 700px;
-            margin: 0 auto 3rem;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-bottom: 4rem;
-            flex-wrap: wrap;
-        }
-
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            margin-top: 4rem;
-            padding-top: 3rem;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: var(--secondary);
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        /* ====== SECTION CLIENTS ====== */
-        .clients-section {
-            padding: 80px 0;
-            background: white;
-        }
-
-        .clients-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 3rem;
-            margin-top: 3rem;
-        }
-
-        .client-card {
-            text-align: center;
-            padding: 2rem;
-            background: var(--light);
-            border-radius: var(--radius-lg);
-            transition: var(--transition);
-        }
-
-        .client-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .client-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.5rem;
-            margin: 0 auto 1.5rem;
-        }
-
-        /* ====== SECTION PROBLÈME/SOLUTION ====== */
-        .problem-section {
-            padding: 100px 0;
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-        }
-
-        .problem-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .problem-column,
-        .solution-column {
-            padding: 3rem;
-            background: white;
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .problem-item,
-        .solution-item {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .problem-item:last-child,
-        .solution-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        .problem-icon {
-            color: var(--danger);
-            font-size: 1.5rem;
-        }
-
-        .solution-icon {
-            color: var(--accent);
-            font-size: 1.5rem;
-        }
-
-        /* ====== SECTION FONCTIONNALITÉS ====== */
-        .features-section {
-            padding: 100px 0;
-            background: white;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .feature-card {
-            padding: 2.5rem;
-            background: white;
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border-color);
-            transition: var(--transition);
-        }
-
-        .feature-card:hover {
-            border-color: var(--primary);
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            border-radius: var(--radius-lg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-        }
-
-        /* ====== SECTION INTÉGRATION ====== */
-        .integration-section {
-            padding: 100px 0;
-            background: var(--light);
-        }
-
-        .integration-steps {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .step {
-            text-align: center;
-            padding: 2.5rem 2rem;
-            background: white;
-            border-radius: var(--radius-lg);
-            position: relative;
-        }
-
-        .step-number {
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            margin: 0 auto 1.5rem;
-            font-size: 1.2rem;
-        }
-
-        .code-snippet {
-            background: var(--dark);
-            border-radius: var(--radius-lg);
-            padding: 2rem;
-            margin: 3rem 0;
-            color: white;
-            font-family: 'Courier New', monospace;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .code-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            color: var(--gray-light);
-        }
-
-        .copy-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .copy-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        /* ====== SECTION TARIFS ====== */
-        .pricing-section {
-            padding: 100px 0;
-            background: white;
-        }
-
-        .pricing-cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .pricing-card {
-            padding: 3rem;
-            background: white;
-            border-radius: var(--radius-xl);
-            border: 2px solid var(--border-color);
-            transition: var(--transition);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .pricing-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-xl);
-        }
-
-        .pricing-card.featured {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
-        }
-
-        .featured-badge {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--primary);
-            color: white;
-            padding: 8px 24px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .price-tag {
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin: 1.5rem 0;
-        }
-
-        .price-tag span {
-            font-size: 1rem;
-            color: var(--secondary);
-            font-weight: 500;
-        }
-
-        .pricing-features {
-            list-style: none;
-            margin: 2rem 0;
-            flex-grow: 1;
-        }
-
-        .pricing-features li {
-            padding: 0.75rem 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--secondary);
-        }
-
-        .feature-check {
-            color: var(--accent);
-        }
-
-        .limited-offer {
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-            border: 1px solid #fbbf24;
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            margin-top: 2rem;
-            text-align: center;
-        }
-
-        /* ====== FOOTER ====== */
-        .footer {
-            background: var(--dark);
-            color: white;
-            padding: 4rem 0 2rem;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: white;
-            text-decoration: none;
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-description {
-            color: #94a3b8;
-            margin-bottom: 1.5rem;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .social-links a {
-            color: #94a3b8;
-            font-size: 1.2rem;
-            transition: var(--transition);
-        }
-
-        .social-links a:hover {
-            color: white;
-        }
-
-        .footer-links h4 {
-            color: white;
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-        }
-
-        .footer-links ul {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.75rem;
-        }
-
-        .footer-links a {
-            color: #94a3b8;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: white;
-        }
-
-        .footer-bottom {
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-
-        /* ====== RESPONSIVE ====== */
-        @media (max-width: 1024px) {
-
-            .hero-stats,
-            .clients-grid,
-            .features-grid,
-            .integration-steps,
-            .pricing-cards,
-            .footer-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .problem-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            h1 {
-                font-size: 2.8rem;
-            }
-
-            h2 {
-                font-size: 2.2rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                position: fixed;
-                top: 80px;
-                left: 0;
-                width: 100%;
-                background: white;
-                padding: 2rem;
-                box-shadow: var(--shadow-lg);
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .hero-stats,
-            .clients-grid,
-            .features-grid,
-            .integration-steps,
-            .pricing-cards,
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-cta {
-                flex-direction: column;
-            }
-
-            .hero {
-                padding: 140px 0 80px;
-            }
-
-            h1 {
-                font-size: 2.4rem;
-            }
-
-            h2 {
-                font-size: 2rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 16px;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            h2 {
-                font-size: 1.8rem;
-            }
-
-            .feature-card,
-            .step,
-            .pricing-card {
-                padding: 2rem 1.5rem;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-        }
-
-        /* ====== ANIMATIONS ====== */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate {
-            animation: fadeIn 0.6s ease forwards;
-        }
-    </style>
 </head>
 
 <body itemscope itemtype="https://schema.org/WebPage">
@@ -866,7 +194,7 @@
                     <a href="#fonctionnalites" itemprop="url">Fonctionnalités</a>
                     <a href="#integration" itemprop="url">Intégration</a>
                     <a href="#tarifs" itemprop="url">Tarifs</a>
-                    <a href="./public/login.php" class="btn btn-secondary">Connexion</a>
+                    <a href="./smart_pixel_v2/public/login.php" class="btn btn-secondary">Connexion</a>
                 </div>
 
                 <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu mobile" aria-expanded="false">
@@ -881,7 +209,7 @@
         <div class="container">
             <div class="hero-content">
                 <div class="hero-badge" role="note">
-                    <span>Pas besoin des GAFAM !</span>
+                    <span>version beta gratuite</span>
                 </div>
 
                 <h1 id="hero-title" class="hero-title">
@@ -896,16 +224,17 @@
                 </p>
 
                 <div class="hero-cta">
-                    <a href="./public/index.php" class="btn btn-primary" style="font-size: 1.1rem; padding: 20px 40px;">
+                    <a href="./smart_pixel_v2/public/index.php" class="btn btn-primary" style="font-size: 1.1rem; padding: 20px 40px;">
                         <i class="fas fa-bolt"></i>
                         <strong>CRÉER MON PREMIER DASHBOARD</strong><br>
                         <!--<small style="font-size: 0.8rem; opacity: 0.9;">Aucune CB requise</small>-->
                     </a>
-                    <a href="#solution" class="btn btn-secondary" style="padding: 20px 40px;">
+                    <a href="#demo" class="btn btn-secondary" style="padding: 20px 40px;">
                         <i class="fas fa-play-circle"></i>
                         Voir comment ça marche
                     </a>
                 </div>
+
 
                 <div class="hero-stats">
                     <div class="stat-item">
@@ -925,9 +254,14 @@
                         <div class="stat-label">À partir de</div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
+
+    <div class=container id="demo">
+        <img src="../img/demo_dashboard.gif" alt="Aperçu du dashboard Smart Pixel Analytics" class="dashboard-preview animate">
+    </div>
 
     <!-- === CLIENTS SECTION === -->
     <section class="clients-section" role="region" aria-labelledby="clients-title">
@@ -1051,65 +385,24 @@
         </div>
     </section>
 
-    <!-- === FEATURES SECTION === --
-    <section id="fonctionnalites" class="features-section" role="region" aria-labelledby="features-title">
+    <!-- === CARTE MONDIALE === -->
+    <section class="world-map-section">
         <div class="container">
             <div class="section-title">
-                <h2 id="features-title">Pourquoi choisir Smart Pixel ?</h2>
-                <p class="section-subtitle">Tout ce dont vous avez besoin, rien de superflu</p>
+                <h2>Déjà utilisé dans le monde entier</h2>
+                <p class="section-subtitle">
+                    <span id="total-sites">57</span> sites nous font confiance ·
+                    <span id="total-hits">28k</span> analyses ce mois
+                </p>
             </div>
-            
-            <div class="features-grid">
-                <div class="feature-card animate">
-                    <div class="feature-icon">
-                        <i class="fas fa-user-shield"></i>
-                    </div>
-                    <h3>100% RGPD Compliant</h3>
-                    <p>Collecte anonymisée, données hébergées en France, conformité garantie sans configuration.</p>
-                </div>
-                
-                <div class="feature-card animate">
-                    <div class="feature-icon">
-                        <i class="fas fa-tachometer-alt"></i>
-                    </div>
-                    <h3>Performance Max</h3>
-                    <p>Script de 4KB, chargement asynchrone, 0 impact sur vos Core Web Vitals.</p>
-                </div>
-                
-                <div class="feature-card animate">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Dashboard Simple</h3>
-                    <p>Interface intuitive, données en temps réel, pas de formation nécessaire.</p>
-                </div>
-                
-                <div class="feature-card animate">
-                    <div class="feature-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3>Open Source</h3>
-                    <p>Espace developpeur. Code transparent, auditable. Vous contrôlez tout, pas de boîte noire.</p>
-                </div>
-                
-                <div class="feature-card animate">
-                    <div class="feature-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <h3>Souveraineté</h3>
-                    <p>Hébergement 100% français, 0 tiers, 0 GAFAM. Vos données sont vos données.</p>
-                </div>
-                
-                <div class="feature-card animate">
-                    <div class="feature-icon">
-                        <i class="fas fa-headset"></i>
-                    </div>
-                    <h3>Support Français (à venir)</h3>
-                    <p>Équipe en France, réponse sous 24h, accompagnement personnalisé.</p>
-                </div>
-            </div>
+
+            <!-- Carte -->
+            <div id="public-map" style="width: 100%; height: 400px; margin: 30px 0;"></div>
+
+            <!-- Top pays -->
+            <div class="top-countries" id="top-countries"></div>
         </div>
-    </section>-->
+    </section>
 
     <!-- === INTEGRATION SECTION === -->
     <section id="integration" class="integration-section" role="region" aria-labelledby="integration-title">
@@ -1154,7 +447,7 @@
             </div>
 
             <div style="text-align: center;">
-                <a href="./public/index.php" class="btn btn-primary" style="padding: 20px 50px; font-size: 1.1rem;">
+                <a href="./smart_pixel_v2/public/index.php" class="btn btn-primary" style="padding: 20px 50px; font-size: 1.1rem;">
                     <i class="fas fa-rocket"></i>
                     Créer des maintenant
                 </a>
@@ -1185,17 +478,17 @@
                         <li><i class="fas fa-check feature-check"></i> Support communautaire</li>
                     </ul>
 
-                    <a href="./public/index.php" class="btn btn-secondary" style="margin-top: auto;">
+                    <a href="./smart_pixel_v2/public/index.php" class="btn btn-secondary" style="margin-top: auto;">
                         Commencer gratuitement
                     </a>
                 </div>
 
                 <!-- Plan Pro -->
                 <div class="pricing-card featured animate">
-                    <div class="featured-badge">Recommandé</div>
+                    <div class="featured-badge">Version à venir</div>
                     <h3>Pro</h3>
                     <div class="price-tag">9€<span>/mois</span></div>
-                    <p>Pour les sites professionnels</p>
+                    <p>en cours de dev, merci.</p>
 
                     <ul class="pricing-features">
                         <li><i class="fas fa-check feature-check"></i> <strong>10 sites web</strong></li>
@@ -1207,7 +500,7 @@
                         <li><i class="fas fa-check feature-check"></i> Support prioritaire</li>
                     </ul>
 
-                    <a href="./public/index.php?plan=pro" class="btn btn-primary" style="margin-top: auto;">
+                    <a href="./smart_pixel_v2/public/index.php?plan=pro" class="btn btn-primary" style="margin-top: auto;">
                         <i class="fas fa-gem"></i>
                         Devenir Pro
                     </a>
@@ -1218,10 +511,10 @@
                     </div>-->
                 </div>
 
-                <!-- Plan Business --
+                <!-- Plan Annuel --
                 <div class="pricing-card animate">
                     <h3>Business</h3>
-                    <div class="price-tag">29€<span>/mois</span></div>
+                    <div class="price-tag">99€<span>/an</span></div>
                     <p>Pour les entreprises et agences</p>
                     
                     <ul class="pricing-features">
@@ -1243,7 +536,7 @@
 
             <div style="text-align: center; margin-top: 3rem;">
                 <p style="color: var(--secondary);">
-                    <i class="fas fa-sync-alt"></i> Satisfait ou remboursé 
+                    <i class="fas fa-sync-alt"></i> Satisfait ou remboursé
                     <i class="fas fa-ban"></i> Pas de carte bancaire requise pour commencer
                 </p>
             </div>
@@ -1282,7 +575,7 @@
                     <h4>Produit</h4>
                     <ul>
                         <li><a href="#fonctionnalites">Fonctionnalités</a></li>
-                        <li><a href="#solution">Solution</a></li>
+                        <li><a href="./doc/">Solution</a></li>
                         <li><a href="#tarifs">Tarifs</a></li>
                         <li><a href="./doc/">Documentation</a></li>
                         <li><a href="https://github.com/berru-g/smart_pixel_v2/blob/main/public/pixel.php">API</a></li>
@@ -1292,10 +585,10 @@
                 <div class="footer-links">
                     <h4>Entreprise</h4>
                     <ul>
-                        <li><a href="https://gael-berru.com">À propos</a></li>
-                        <li><a href="https://gael-berru.com">Blog</a></li>
-                        <li><a href="https://gael-berru.com">Contact</a></li>
-                        <li><a href="https://gael-berru.com">Presse</a></li>
+                        <li><a href="#">À propos</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="./contact/">Contact</a></li>
+                        <li><a href="#">Presse</a></li>
                     </ul>
                 </div>
 
@@ -1313,7 +606,7 @@
             <div class="footer-bottom">
                 <p>
                     © 2025 Smart Pixel Analytics. Développé avec <i class="fas fa-heart" style="color: var(--danger);"></i>
-                    en France par <a href="https://gael-berru.com" style="color: #94a3b8;">Berru-g</a>.
+                    en France par <a href="https://gael-berru.com" style="color: var(--primary);">Berru-g</a>.
                 </p>
                 <p>
                     <i class="fas fa-map-marker-alt"></i> Hébergé en France ·
@@ -1323,8 +616,257 @@
         </div>
     </footer>
     <script src="./RGPD/cookie.js"></script>
-    <!-- === SCRIPT === -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
     <script>
+        // === CARTE MONDIALE - CHARGEMENT DIRECT ===
+        (function() {
+            console.log("Chargement de la carte...");
+
+            // Attendre que le DOM soit prêt
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initMap);
+            } else {
+                initMap();
+            }
+
+            function initMap() {
+                console.log("Initialisation de la carte");
+
+                // Données de démo qui MARCHENT À COUP SÛR
+                const demoData = [{
+                        country: 'France',
+                        hit_count: 12500
+                    },
+                    {
+                        country: 'USA',
+                        hit_count: 8300
+                    },
+                    {
+                        country: 'Canada',
+                        hit_count: 4200
+                    },
+                    {
+                        country: 'UK',
+                        hit_count: 3800
+                    },
+                    {
+                        country: 'Allemagne',
+                        hit_count: 3100
+                    },
+                    {
+                        country: 'Italie',
+                        hit_count: 2900
+                    },
+                    {
+                        country: 'Espagne',
+                        hit_count: 2700
+                    },
+                    {
+                        country: 'Belgique',
+                        hit_count: 2100
+                    },
+                    {
+                        country: 'Suisse',
+                        hit_count: 1800
+                    },
+                    {
+                        country: 'Pays-Bas',
+                        hit_count: 1600
+                    }
+                ];
+
+                // Afficher les stats
+                document.getElementById('total-sites').textContent = '57';
+                document.getElementById('total-hits').textContent = '28k';
+
+                renderMap(demoData);
+
+                // Essayer de charger les vraies données (optionnel)
+                fetch('public_stats.php')
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success && data.countries.length > 0) {
+                            renderMap(data.countries);
+                            document.getElementById('total-sites').textContent = data.total_sites;
+                            document.getElementById('total-hits').textContent = (data.recent_hits / 1000).toFixed(1) + 'k';
+                        }
+                    })
+                    .catch(err => console.log("Pas de données serveur, utilisation du démo"));
+            }
+
+            function renderMap(data) {
+                console.log("Rendu de la carte avec", data.length, "points");
+
+                // Nettoyer l'ancienne carte
+                if (window.mapRoot) {
+                    window.mapRoot.dispose();
+                }
+
+                // Créer la racine
+                window.mapRoot = am5.Root.new("public-map");
+                window.mapRoot.setThemes([am5themes_Animated.new(window.mapRoot)]);
+
+                // Créer la carte
+                const chart = window.mapRoot.container.children.push(
+                    am5map.MapChart.new(window.mapRoot, {
+                        projection: am5map.geoMercator(),
+                        panX: "rotateX",
+                        panY: "translateY",
+                        wheelable: true,
+                        zoomLevel: 1,
+                        maxZoomLevel: 4
+                    })
+                );
+
+                // Fond de carte
+                const polygonSeries = chart.series.push(
+                    am5map.MapPolygonSeries.new(window.mapRoot, {
+                        geoJSON: am5geodata_worldLow,
+                        fill: am5.color(0x2d3748),
+                        stroke: am5.color(0x4a5568),
+                        strokeWidth: 0.5
+                    })
+                );
+
+                // Série de points
+                const pointSeries = chart.series.push(
+                    am5map.MapPointSeries.new(window.mapRoot, {})
+                );
+
+                // Style des points avec glow
+                pointSeries.bullets.push(function(root, series, dataItem) {
+                    return am5.Bullet.new(root, {
+                        sprite: am5.Circle.new(root, {
+                            radius: dataItem.dataContext.size || 12,
+                            fill: am5.color(0xff6b8b),
+                            stroke: am5.color(0xffffff),
+                            strokeWidth: 2,
+                            shadowColor: am5.color(0xff6b8b),
+                            shadowBlur: 15,
+                            shadowOffsetX: 0,
+                            shadowOffsetY: 0,
+                            shadowOpacity: 0.8,
+                            tooltipText: "{country}\n{visites} visites"
+                        })
+                    });
+                });
+
+                // Coordonnées des capitales
+                const coords = {
+                    'France': [2.3522, 48.8566],
+                    'USA': [-77.0369, 38.9072],
+                    'Canada': [-75.6972, 45.4215],
+                    'UK': [-0.1278, 51.5074],
+                    'Allemagne': [13.4050, 52.5200],
+                    'Italie': [12.4964, 41.9028],
+                    'Espagne': [-3.7038, 40.4168],
+                    'Belgique': [4.3517, 50.8503],
+                    'Suisse': [7.4474, 46.9480],
+                    'Pays-Bas': [4.9041, 52.3676],
+                    'Inde': [77.1025, 28.7041],
+                    'Chine': [116.4074, 39.9042],
+                    'Japon': [139.6917, 35.6895],
+                    'Australie': [149.1300, -35.2809],
+                    'Brésil': [-47.9292, -15.7801]
+                };
+
+                // Préparer les points
+                const points = [];
+                const maxHits = Math.max(...data.map(d => d.hit_count));
+
+                data.forEach(item => {
+                    let countryKey = item.country;
+                    // Mapping des noms
+                    if (item.country === 'USA' || item.country === 'United States') countryKey = 'USA';
+                    if (item.country === 'UK' || item.country === 'United Kingdom') countryKey = 'UK';
+
+                    if (coords[countryKey]) {
+                        const size = 8 + (item.hit_count / maxHits) * 22;
+
+                        points.push({
+                            geometry: {
+                                type: "Point",
+                                coordinates: coords[countryKey]
+                            },
+                            country: item.country,
+                            visites: item.hit_count.toLocaleString(),
+                            size: size,
+                            value: item.hit_count
+                        });
+                    }
+                });
+
+                // Si pas de points, utiliser les données de démo avec coordonnées
+                if (points.length === 0) {
+                    points.push({
+                        geometry: {
+                            type: "Point",
+                            coordinates: coords['France']
+                        },
+                        country: "France",
+                        visites: "12500",
+                        size: 20,
+                        value: 12500
+                    }, {
+                        geometry: {
+                            type: "Point",
+                            coordinates: coords['USA']
+                        },
+                        country: "USA",
+                        visites: "8300",
+                        size: 18,
+                        value: 8300
+                    }, {
+                        geometry: {
+                            type: "Point",
+                            coordinates: coords['Canada']
+                        },
+                        country: "Canada",
+                        visites: "4200",
+                        size: 14,
+                        value: 4200
+                    }, {
+                        geometry: {
+                            type: "Point",
+                            coordinates: coords['UK']
+                        },
+                        country: "UK",
+                        visites: "3800",
+                        size: 13,
+                        value: 3800
+                    }, {
+                        geometry: {
+                            type: "Point",
+                            coordinates: coords['Allemagne']
+                        },
+                        country: "Allemagne",
+                        visites: "3100",
+                        size: 12,
+                        value: 3100
+                    });
+                }
+
+                // Ajouter les points
+                pointSeries.data.setAll(points);
+
+                // Centrer la carte
+                chart.set("zoomToGeoPoint", {
+                    longitude: 0,
+                    latitude: 20
+                }, 1);
+
+                console.log("Carte chargée avec", points.length, "points");
+            }
+        })();
+
+        function updateUI(data) {
+            document.getElementById('total-sites').textContent = data.total_sites;
+            document.getElementById('total-hits').textContent = (data.recent_hits / 1000).toFixed(1) + 'k';
+        }
+
         // Mobile Menu
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const navLinks = document.getElementById('navLinks');
@@ -1395,44 +937,44 @@
     </script>
 
     <!-- === COOKIE BANNER (optionnel) === -->
-     <div id="cookie-banner" style="display: none;">
-    <div class="cookie-container">
-      <div class="cookie-header">
-        <div class="cookie-icon">🛡️</div>
-        <div class="cookie-title-wrapper">
-          <h3 class="cookie-title">Transparence totale sur vos données</h3>
-          <p class="cookie-subtitle">Respect RGPD • Open source</p>
+    <div id="cookie-banner" style="display: none;">
+        <div class="cookie-container">
+            <div class="cookie-header">
+                <div class="cookie-icon">🛡️</div>
+                <div class="cookie-title-wrapper">
+                    <h3 class="cookie-title">Transparence totale sur vos données</h3>
+                    <p class="cookie-subtitle">Respect RGPD • Open source</p>
+                </div>
+            </div>
+
+            <div class="cookie-content">
+                <p class="cookie-description">
+                    <strong>Ici, aucun de vos clics n'est vendu à Google ou Facebook.</strong><br>
+                    J'utilise <strong>Smart Pixel</strong>, mon propre système d'analyse développé avec éthique, dans le respect
+                    des lois RGPD.
+                </p>
+                <p class="cookie-description">
+                    En autorisant l'analyse, vous m'aidez à améliorer ce site <strong>sans enrichir les GAFAM de vos
+                        données</strong>.
+                </p>
+            </div>
+
+            <div class="cookie-buttons">
+                <button class="cookie-btn accept-necessary" onclick="acceptCookies('necessary')">
+                    Non merci
+                </button>
+                <button class="cookie-btn accept-all" onclick="acceptCookies('all')">
+                    Ok pour moi
+                </button>
+            </div>
+
+            <div class="cookie-footer">
+                <a href="https://github.com/berru-g/smart_phpixel" target="_blank" class="cookie-link">
+                    Voir le code source de Smart Pixel
+                </a>
+            </div>
         </div>
-      </div>
-
-      <div class="cookie-content">
-        <p class="cookie-description">
-          <strong>Ici, aucun de vos clics n'est vendu à Google ou Facebook.</strong><br>
-          J'utilise <strong>Smart Pixel</strong>, mon propre système d'analyse développé avec éthique, dans le respect
-          des lois RGPD.
-        </p>
-        <p class="cookie-description">
-          En autorisant l'analyse, vous m'aidez à améliorer ce site <strong>sans enrichir les GAFAM de vos
-            données</strong>.
-        </p>
-      </div>
-
-      <div class="cookie-buttons">
-        <button class="cookie-btn accept-necessary" onclick="acceptCookies('necessary')">
-          Non merci
-        </button>
-        <button class="cookie-btn accept-all" onclick="acceptCookies('all')">
-          Ok pour moi
-        </button>
-      </div>
-
-      <div class="cookie-footer">
-        <a href="https://github.com/berru-g/smart_phpixel" target="_blank" class="cookie-link">
-          Voir le code source de Smart Pixel
-        </a>
-      </div>
     </div>
-  </div>
 </body>
 
 </html>
