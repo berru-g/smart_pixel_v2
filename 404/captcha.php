@@ -38,5 +38,5 @@ imagestring($image, 5, 10, 10, $_SESSION['captcha_code'], $text_color);
 // Output l'image
 header('Content-Type: image/png');
 imagepng($image);
-imagedestroy($image);
+//imagedestroy($image);
 ?>

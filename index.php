@@ -224,7 +224,7 @@
                 </p>
 
                 <div class="hero-cta">
-                    <a href="./smart_pixel_v2/public/index.php" class="btn btn-primary" style="font-size: 1.1rem; padding: 20px 40px;">
+                    <a href="../smart_pixel_v2/public/dashboard.php" class="btn btn-primary" style="font-size: 1.1rem; padding: 20px 40px;">
                         <i class="fas fa-bolt"></i>
                         <strong>CRÉER MON PREMIER DASHBOARD</strong><br>
                         <!--<small style="font-size: 0.8rem; opacity: 0.9;">Aucune CB requise</small>-->
