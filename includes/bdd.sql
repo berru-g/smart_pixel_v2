@@ -129,3 +129,9 @@ CREATE TABLE IF NOT EXISTS `contacts` (
     `type` ENUM('bug', 'feature', 'support', 'other') DEFAULT 'other',
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Géneerations d'API Keys 
+UPDATE users
+SET api_key = CONCAT('sk_', UPPER(SUBSTRING(MD5(RAND()), 1, 24)))
+WHERE api_key IS NULL OR api_key = '';
+
