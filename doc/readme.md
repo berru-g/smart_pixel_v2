@@ -1,184 +1,60 @@
-# Guide Utilisateur - Smart Pixel Analytics
+# STEP
 
-Bienvenue sur Smart Pixel, l'alternative française simple et respectueuse à Google Analytics. Ce guide vous aidera à installer, configurer et utiliser votre tableau de bord analytics.
+        Reorga : analytics-souverain.fr/app
+        - tout les dossier dans /smart_pixel_v2/ doivent descendre et on efface ce dossier vide.
+        On renome /smart_phpixel/ par /analytics-souverain/ u le ndd chosi (.io, .fr ?)
+        On renome /public/ par /app/.
+        - Penser à renomer tout les lien, les url endpoint et tracker et les appel à config "/../../config.php" à descendre également.
 
----
+        - Etendre l'api des users à tout les tables sql.
 
-## Premiers pas
+        - Réorga le system d'abonnement :
+                - gratuit     = 1 dashboard
+                - pro 9€/mois = 20 dashboard + api
+                - pro 90€/ans = 20 dashboard + api
 
-### 1. Créer votre compte gratuit
-Rendez-vous sur [https://gael-berru.com/smart_phpixel/](https://gael-berru.com/smart_phpixel/) et cliquez sur **"CRÉER MON PREMIER DASHBOARD"**.
+        - Acheter ndd et heberger le site, refaiire bdd etc.
 
-Vous aurez besoin de :
-- Votre email
-- Un mot de passe
-- L'URL de votre site web
+        - Démarcher les PME, Agences, dev , local qui utilise GA et leur proposer mes services. Liste :
 
-✅ Le premier dashboard est gratuit.
+INSERT INTO leads (company_name, email, sector, website, status, notes) VALUES
+('La Boîte à Sel', 'contact@laboiteasel.fr', 'Épicerie en ligne', 'https://www.laboiteasel.fr', 'à faire', 'PME nantaise - épicerie en ligne. Intéressée par la souveraineté des données.'),
+('L\'Atelier du Vélociste', 'contact@latelierduvelociste.fr', 'Vélos', 'https://www.latelierduvelociste.fr', 'à faire', 'Artisan local avec boutique en ligne. Besoin de performance et conformité RGPD.'),
+('Nantes Tourisme', 'contact@nantes-tourisme.com', 'Tourisme', 'https://www.nantes-tourisme.com', 'à faire', 'Site institutionnel - trafic important mais sensible à la souveraineté.'),
+('La Fabrique à Gâteaux', 'contact@lafabriqueagateaux.com', 'Traiteur', 'https://www.lafabriqueagateaux.com', 'à faire', 'PME alimentaire en ligne. Sensible à la confiance client.'),
+('Koukaki', 'contact@koukaki.com', 'Agence Web', 'https://www.koukaki.com', 'à faire', 'Agence web nantaise - prescripteur potentiel pour d\'autres clients.'),
+('Le Comptoir du Miel', 'contact@lecomptoirdumiel.fr', 'Apiculture', 'https://www.lecomptoirdumiel.fr', 'à faire', 'PME agricole en ligne. Éthique et transparence importantes.'),
+('L\'Épicerie Moderne', 'bonjour@lepiceriemoderne.fr', 'Épicerie', 'https://www.lepiceriemoderne.fr', 'à faire', 'Commerce local avec forte identité éthique.'),
+('Atlantique Digital', 'contact@atlantiquedigital.fr', 'Agence SEO', 'https://www.atlantiquedigital.fr', 'à faire', 'Agence SEO - peut recommander Smart Pixel à ses clients.'),
+('La Maison du Jardin', 'contact@lamaisondujardin.fr', 'Jardinerie', 'https://www.lamaisondujardin.fr', 'à faire', 'PME locale avec boutique en ligne. Sensible à la confiance client.'),
+('Nantes Métropole', 'contact@nantesmetropole.fr', 'Institution', 'https://www.nantesmetropole.fr', 'à faire', 'Portail économique - besoin de souveraineté et budget pour une solution pro.');
 
-### 2. Récupérer votre code de tracking
-Une fois connecté, votre tableau de bord affiche votre **code d'intégration** :
+**mail type :**
+Bonjour [Prénom ou "l’équipe La Boîte à Sel"],
 
-```html
-<script data-sp-id="SP_79747769" 
-        src="https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/tracker.js" 
-        async>
-</script>
-```
+En parcourant [laboiteasel.fr](https://www.laboiteasel.fr), j’ai remarqué que vous utilisez **Google Analytics** pour suivre votre trafic. Comme vous le mentionnez dans votre [politique de confidentialité](https://www.laboiteasel.fr/politique-de-confidentialite), le RGPD est une priorité pour vous – mais saviez-vous que **GA transfère les données de vos clients vers les États-Unis**, ce qui n’est pas pleinement conforme ?
 
-### 3. Installer le script sur votre site
-Copiez-collez cette ligne **juste avant la balise `</head>`** de votre site web.
+**Smart Pixel** est une alternative **nantaise, open source et 100% hébergée en France**, conçue pour des PME comme la vôtre :
+✅ **Conforme RGPD** : Pas de transfert de données hors UE, anonymisation des IP.
+✅ **Léger et rapide** : Script de 4KB (vs 60KB pour GA), sans impact sur votre site.
+✅ **Gratuit pour 1 site** : Idéal pour tester sans risque.
+✅ **Support local** : Je suis basé en Loire-Atlantique et peux vous accompagner en direct.
 
-**Le script :**
-- Se charge en arrière-plan (async)
-- Ne ralentit pas votre site (4KB seulement)
-- Commence à tracker instantanément
+**Essayez gratuitement** :
+👉 [Créer un compte gratuit](https://gael-berru.com/smart_phpixel/)
+👉 [Voir la démo](https://gael-berru.com/smart_phpixel/doc/)
+👉 [Réserver un appel avec moi](lien-calendly.com/tonlien) (15 min pour répondre à vos questions).
 
----
+Je reste disponible pour échanger par retour de mail ou par téléphone.
 
-## Découvrir votre tableau de bord
+Bien cordialement,
+**Gaël Berru**
+Fondateur de Smart Pixel (Nantes)
+📧 contact@gael-berru.com
+🌐 [https://gael-berru.com/smart_phpixel/](https://gael-berru.com/smart_phpixel/)
 
-Une fois connecté, votre tableau de bord se compose de plusieurs onglets :
+**PS** : Comme vous, des épiceries locales ont migré vers Smart Pixel pour éviter les risques RGPD. Je peux vous partager leur retour si ça vous intéresse !
 
-### **Vue d'ensemble**
-- **Visites totales** : nombre de pages vues
-- **Visiteurs uniques** : comptés par adresse IP
-- **Sources de trafic** : d'où viennent vos visiteurs
-- **Évolution** : graphique des 7 derniers jours
-
-### **Géolocalisation**
-- Carte interactive des pays visiteurs
-- Top 10 des pays
-- Villes principales
-
-### **Détails**
-- Liste complète des dernières visites
-- Pages consultées
-- Adresses IP (anonymisées)
-- Horodatage
-
-### **Technique**
-- Répartition par appareil (mobile/desktop/tablette)
-- Navigateurs utilisés
-- Résolutions d'écran
-
----
-
-## Comprendre vos données
-
-### Les métriques essentielles
-
-| Métrique | Définition |
-|----------|------------|
-| **Visites** | Nombre total de pages vues (un visiteur peut faire plusieurs visites) |
-| **Visiteurs uniques** | Compté par adresse IP (approximatif, sans cookie) |
-| **Source** | D'où vient le visiteur (Google, lien direct, réseau social) |
-| **Pages vues** | Combien de pages ont été consultées |
-
-### Les sources de trafic expliquées
-- **Direct** : visiteur a tapé votre URL directement
-- **Google / Bing** : vient d'un moteur de recherche
-- **Facebook / Twitter** : vient d'un réseau social
-- **email** : vient d'une campagne email
-
----
-
-## Utiliser les paramètres UTM
-
-Les paramètres UTM vous permettent de **tracer précisément vos campagnes marketing**.
-
-### Comment ça marche ?
-Ajoutez ces paramètres à vos URLs :
-
-```
-https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/tracker.js?utm_source=facebook&utm_medium=social&utm_campaign=ete2026
-```
-
-### Paramètres disponibles
-- `utm_source` : d'où vient le trafic (facebook, newsletter, google)
-- `utm_medium` : le support (social, email, cpc)
-- `utm_campaign` : nom de votre campagne (promo_ete, lancement)
-
-👉 Ces données apparaîtront dans la colonne "Campagne" de votre tableau de bord.
-
----
-
-##  Gérer plusieurs sites
-
-Le plan gratuit vous permet de suivre **1 site**. Pour ajouter un site :
-
-1. Dans la barre latérale, cliquez sur **"Ajouter un site"**
-2. Donnez un nom à votre site
-3. Entrez l'URL
-4. Récupérez le nouveau code de tracking
-
-Chaque site a son propre **tracking code** (ex: `SP_79747769`). Installez le code correspondant sur chaque site.
-
----
-
-## Mettre à niveau votre compte
-
-### Plans disponibles
-
-| Fonctionnalité | Gratuit | Pro (9€/mois) | Business (29€/mois) |
-|----------------|---------|----------------|---------------------|
-| Sites | 1 | 10 | 50 |
-| Vues/mois | 1 000 | 100 000 | Illimité |
-| Historique | 365 jours | 365 jours | 2 ans |
-| API | ❌ | ✅ | ✅ |
-| Support | Communauté | Prioritaire | Téléphone |
-| Export données | ❌ | ✅ | ✅ |
-
-### Comment passer en Pro ?
-1. Allez dans l'onglet **"Mise à niveau"**
-2. Choisissez votre plan
-3. Renseignez votre email
-4. Paiement sécurisé via Lemon Squeezy
-5. Votre compte est mis à jour **instantanément**
-
----
-
-## ❓ F.A.Q
-
-### "Mes données sont-elles vraiment privées ?"
-**Oui.** Smart Pixel est hébergé en France. Aucune donnée n'est vendue à des tiers. Pas de GAFAM, pas de revente. Le code est [open source](https://github.com/berru-g/smart_pixel_v2).
-
-### "Est-ce que le pixel ralentit mon site ?"
-**Non.** Le script fait 4KB et se charge en async. C'est 15 fois plus léger que Google Analytics.
-
-### "Combien de temps les données sont-elles conservées ?"
-**365 jours** pour tous les plans. Le plan Business passe à 2 ans.
-
-### "Puis-je exporter mes données ?"
-**Oui** (plans payants). Format CSV ou JSON disponible dans l'onglet "Export".
-
-### "Le RGPD est-il géré ?"
-**Complètement.** Le script inclut une gestion des cookies conforme. Les données IP sont anonymisables.
-
----
-
-## Support & contact
-
-### Besoin d'aide ?
-- 📧 Email : contact@gael-berru.com
-- 💬 Discord : [Rejoindre le serveur Gitingest ](https://discord.gg/zerRaGK9EC) ( à venir )
-- 🐛 Signaler un bug : [GitHub Issues](https://github.com/berru-g/smart_pixel_v2/issues)
-
----
-
-## Glossaire
-
-| Terme | Définition |
-|-------|------------|
-| **Pixel** | Image 1x1 transparente qui enregistre une visite |
-| **Tracking code** | Identifiant unique de votre site (ex: SP_79747769) |
-| **Session** | Ensemble des actions d'un visiteur pendant une visite |
-| **Source** | Origine du trafic (moteur, site, direct) |
-| **UTM** | Paramètres d'URL pour tracer les campagnes |
-| **RGPD** | Règlement européen sur la protection des données |
-
----
-
-*Document généré le 14 février 2026 - Version 1.0.1*
-
-**Vous avez une question ?** N'hésitez pas à demander, cette documentation est faite pour vous !
+Nom Entreprise,Email,Secteur,Statut,Réponse,Prochaine Action
+La Boîte à Sel,[contact@laboiteasel.fr](mailto:contact@laboiteasel.fr),Épicerie,Email envoyé,-,Relance le 10/03
+L’Atelier du Vélociste,contact@...,Vélos,Intéressé,Oui,Planifier démo le 12/03
