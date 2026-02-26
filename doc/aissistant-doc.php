@@ -564,7 +564,7 @@
                     <i class="fas fa-robot"></i>
                 </div>
                 <div class="chat-header-text">
-                    <h3>Assistant Smart Pixel</h3>
+                    <h3>Assistant LibreAnalytics</h3>
                     <p><i class="fas fa-circle" style="font-size: 8px; color: #10b981;"></i> En ligne</p>
                 </div>
             </div>
@@ -580,7 +580,7 @@
                     <i class="fas fa-robot"></i>
                 </div>
                 <div class="message-content">
-                    👋 Bonjour <?php echo isset($_SESSION['user_email']) ? $_SESSION['user_email'] : 'non connecté'; ?>! Je suis l'assistant Smart Pixel. Comment puis-je vous aider ?
+                    👋 Bonjour <?php echo isset($_SESSION['user_email']) ? $_SESSION['user_email'] : 'non connecté'; ?>! Je suis l'assistant LibreAnalytics. Comment puis-je vous aider ?
                     <div class="message-time">À l'instant</div>
                 </div>
             </div>
@@ -640,7 +640,7 @@ const searchData = [
 // Contenu complet des sections (version simplifiée mais fonctionnelle)
  const sectionContent = {
             introduction: `
-                <h1>Bienvenue sur Smart Pixel <span class="version-badge">v2.0.1</span></h1>
+                <h1>Bienvenue sur LibreAnalytics <span class="version-badge">v2.0.1</span></h1>
 
                 <div class="alert alert-info">
                     <strong>Mise à jour du 15/01/2026 :</strong> Le pixel est maintenant multi-tenant, l'API REST est en
@@ -648,7 +648,7 @@ const searchData = [
                     l'outils reste gratuit.
                 </div>
 
-                <p><strong>Smart Pixel</strong> est une solution d'analytics web souveraine, open-source et respectueuse
+                <p><strong>LibreAnalytics</strong> est une solution d'analytics web souveraine, open-source et respectueuse
                     de la vie privée. Conçue comme une alternative souveraine à Google Analytics, elle vous permet de
                     reprendre le contrôle de vos données tout en bénéficiant d'un dashboard simple et intuitif.</p>
 
@@ -710,12 +710,12 @@ const searchData = [
                     <div class="code-block">
                         <div class="code-header">
                             <span><i class="fas fa-code"></i> tracker.js</span>
-                            <button class="copy-btn" onclick="copyToClipboard('<!-- Smart Pixel Analytics -->\\n<script data-sp-id=\\"SP_79747769\\" src=\\"https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/tracker.js\\" async><\\/script>')">
+                            <button class="copy-btn" onclick="copyToClipboard('<!-- LibreAnalytics -->\\n<script data-sp-id=\\"SP_79747769\\" src=\\"https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/tracker.js\\" async><\\/script>')">
                                 <i class="fas fa-copy"></i> Copier
                             </button>
                         </div>
-                        <pre><code>&lt;!-- Smart Pixel Analytics --&gt;
-&lt;script data-sp-id="SP_24031987" src="https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/tracker.js" async&gt;&lt;/script&gt;</code></pre>
+                        <pre><code>&lt;!-- LibreAnalytics --&gt;
+&lt;script data-sp-id="SP_24031987" src="https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/tracker.js" async&gt;&lt;/script&gt;</code></pre>
                     </div>
                 </div>
 
@@ -877,7 +877,7 @@ const searchData = [
             evenements: `
                 <h2>Tracking des clics et événements</h2>
 
-                <p>Smart Pixel tracke automatiquement tous les clics sur les liens et boutons, CTA (sauf si vous avez
+                <p>LibreAnalytics tracke automatiquement tous les clics sur les liens et boutons, CTA (sauf si vous avez
                     installé <code>data-sp-ignore</code>). Vous pouvez également envoyer des événements personnalisés.
                 </p>
 
@@ -934,7 +934,7 @@ SmartPixel.trackEvent('inscription', {
             sources: `
                 <h2>Sources de trafic et paramètres UTM</h2>
 
-                <p>Smart Pixel capture automatiquement les paramètres UTM de l'URL et les sources.</p>
+                <p>LibreAnalytics capture automatiquement les paramètres UTM de l'URL et les sources.</p>
 
                 <h3>Paramètres reconnus</h3>
                 <ul>
@@ -1064,7 +1064,7 @@ SmartPixel.getOrCreateSessionId(); // Récupère l'ID de session</code></pre>
 
                 <!-- Section Tutoriel -->
                 <div class="tutorial-section">
-                    <h2><i class="fas fa-graduation-cap"></i> Tutoriel : Utiliser l'API Smart Pixel</h2>
+                    <h2><i class="fas fa-graduation-cap"></i> Tutoriel : Utiliser l'API LibreAnalytics</h2>
 
                     <!-- Étape 1 : Récupérer les identifiants -->
                     <div class="tutorial-step">
@@ -1084,7 +1084,7 @@ SmartPixel.getOrCreateSessionId(); // Récupère l'ID de session</code></pre>
                     <div class="tutorial-step">
                         <h3><i class="fas fa-link"></i> 2. Construire l'URL de l'API</h3>
                         <p>L'URL de base est :</p>
-                        <code>https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/api.php</code>
+                        <code>https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php</code>
                         <p>Ajoute les paramètres suivants :</p>
                         <ul>
                             <li><code>site_id</code> : Ton code de tracking (ex: <code>SP_24m87bb</code>).</li>
@@ -1096,11 +1096,11 @@ SmartPixel.getOrCreateSessionId(); // Récupère l'ID de session</code></pre>
                             <div class="code-header">
                                 <span>Exemple d'URL complète :</span>
                                 <button class="copy-btn"
-                                    onclick="copyToClipboard('https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p&start_date=2026-01-01&end_date=2026-02-01')">
+                                    onclick="copyToClipboard('https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p&start_date=2026-01-01&end_date=2026-02-01')">
                                     <i class="fas fa-copy"></i> Copier
                                 </button>
                             </div>
-                            <pre><code>https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/api.php?site_id=<strong>SP_24m87bb</strong>&api_key=<strong>sk_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p</strong>&start_date=<strong>2026-01-01</strong>&end_date=<strong>2026-02-01</strong></code></pre>
+                            <pre><code>https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php?site_id=<strong>SP_24m87bb</strong>&api_key=<strong>sk_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p</strong>&start_date=<strong>2026-01-01</strong>&end_date=<strong>2026-02-01</strong></code></pre>
                         </div>
 
                         <!-- Étape 3 : Récupérer les données -->
@@ -1285,7 +1285,7 @@ fetch(\`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c.
                 <h2>RGPD et conformité</h2>
 
                 <div class="alert alert-success">
-                    <strong>Conforme par conception</strong> - Smart Pixel a été pensé pour respecter la vie privée dès
+                    <strong>Conforme par conception</strong> - LibreAnalytics a été pensé pour respecter la vie privée dès
                     la base.
                 </div>
 
@@ -1313,13 +1313,13 @@ fetch(\`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c.
                 <h2>F.A.Q</h2>
 
                 <div class="card">
-                    <h4>Smart Pixel est-il vraiment gratuit ?</h4>
+                    <h4>LibreAnalytics est-il vraiment gratuit ?</h4>
                     <p>Oui, le plan gratuit est illimité dans le temps pour 1 site et 1000 visites/mois. Pas de carte
                         bleue demandée.</p>
                 </div>
 
                 <div class="card">
-                    <h4>Puis-je auto-héberger Smart Pixel ?</h4>
+                    <h4>Puis-je auto-héberger LibreAnalytics ?</h4>
                     <p>Absolument ! Le code est open source (MIT). Suivez les instructions sur <a
                             href="https://github.com/berru-g/smart_pixel_v2" target="_blank">GitHub</a>.</p>
                 </div>
@@ -1409,7 +1409,7 @@ fetch(\`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c.
             multiSites: `
                 <h2>Gestion multi-sites</h2>
                 
-                <p>Smart Pixel vous permet de gérer plusieurs sites web depuis un seul compte. Chaque site possède son propre code de tracking et ses statistiques indépendantes.</p>
+                <p>LibreAnalytics vous permet de gérer plusieurs sites web depuis un seul compte. Chaque site possède son propre code de tracking et ses statistiques indépendantes.</p>
                 
                 <h3>Ajouter un site</h3>
                 <p>Dans la colonne de gauche du dashboard, cliquez sur le bouton <i class="fas fa-plus-circle"></i> "Ajouter un site". Remplissez les informations suivantes :</p>
@@ -1437,14 +1437,14 @@ fetch(\`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c.
         };
 
 // Compléter avec les autres sections de la version précédente
-sectionContent.evenements = `<h2>Tracking des clics</h2><p>Smart Pixel tracke tous les clics automatiquement.</p><div class="code-block"><pre><code>SmartPixel.trackEvent('inscription', { method: 'email' });</code></pre></div>`;
+sectionContent.evenements = `<h2>Tracking des clics</h2><p>LibreAnalytics tracke tous les clics automatiquement.</p><div class="code-block"><pre><code>SmartPixel.trackEvent('inscription', { method: 'email' });</code></pre></div>`;
 sectionContent.geolocalisation = `<h2>Géolocalisation</h2><p>Basée sur l'IP via ip-api.com. Stockage pays/ville uniquement.</p>`;
 sectionContent.sources = `<h2>Sources UTM</h2><p>Capture automatique de utm_source, utm_medium, utm_campaign.</p>`;
 sectionContent.scriptJs = `<h2>Tracker.js</h2><p>Script de 4KB, asynchrone.</p><div class="code-block"><pre><code>SmartPixel.load('SP_XXXXXX');</code></pre></div>`;
 sectionContent.pixelPhp = `<h2>Pixel.php</h2><p>Point d'entrée serveur, retourne un GIF 1x1.</p>`;
 sectionContent.webhooks = `<h2>Webhooks</h2><p>Notifications temps réel sur vos événements.</p>`;
 sectionContent.rgpd = `<h2>RGPD</h2><p>Hébergement France, pas de cookies tiers.</p>`;
-sectionContent.faq = `<h2>FAQ</h2><p>Smart Pixel est gratuit pour 1 site/1000 visites. Open source sur GitHub.</p>`;
+sectionContent.faq = `<h2>FAQ</h2><p>LibreAnalytics est gratuit pour 1 site/1000 visites. Open source sur GitHub.</p>`;
 sectionContent.support = `<h2>Support</h2><p>Email, GitHub Issues, Discord.</p>`;
 
 // État du chat
@@ -1570,7 +1570,7 @@ function showSection(section) {
             <div class="doc-content">
                 ${content}
                 <div style="margin-top: 10px; display: flex; gap: 5px;">
-                    <span class="quick-action" onclick="copySection('${section}')">📋 Copier</span>
+                    <span class="quick-action" onclick="copySection('${section}')">Copier</span>
                     <span class="quick-action" onclick="askQuestion('En savoir plus sur ${sectionData.title}')">❓ Question</span>
                 </div>
             </div>
@@ -1591,7 +1591,7 @@ function copySection(section) {
 // Copier dans le presse-papier
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
-        addMessage('📋 Texte copié !', 'bot');
+        addMessage('✅ Texte copié !', 'bot');
     });
 }
 
@@ -1658,7 +1658,7 @@ function sendMessage() {
                 <p>${result.content}</p>
                 <div style="margin-top: 8px;">
                     <span class="quick-action" onclick="showSection('${result.section}')">
-                        📖 Voir documentation complète
+                        Voir documentation complète
                     </span>
                 </div>
             `;
@@ -1718,7 +1718,7 @@ const userData = {
 // Personnaliser le message de bienvenue si utilisateur connecté
 if (userData.email) {
     setTimeout(() => {
-        addMessage(`Bonjour ${userData.name} ! 👋 Comment puis-je vous aider avec Smart Pixel ?`, 'bot');
+        addMessage(`Bonjour ${userData.name} ! 👋 Comment puis-je vous aider avec LibreAnalytics ?`, 'bot');
     }, 1000);
 }
 </script>

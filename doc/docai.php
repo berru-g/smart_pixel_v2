@@ -1,300 +1,34 @@
 <?php
+// public/account.php
+require_once '../includes/auth.php';
+require_once '../includes/config.php';
 
-require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/auth.php';
-
-// Vérifie si connecté
 if (!Auth::isLoggedIn()) {
-    // Redirige UNIQUEMENT si pas connecté
     header('Location: login.php');
-    exit;
-}
-
-$user_id = $_SESSION['user_id'];
-$pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8", DB_USER, DB_PASS);
-
-// 2. Récupérer les sites de l'utilisateur // dégager query pour prepare 
-$stmt = $pdo->prepare("SELECT * FROM user_sites WHERE user_id = ? ORDER BY id DESC");
-$stmt->execute([$user_id]);
-$userSites = $stmt->fetchAll();
-
-// 3. Gérer la création de site (TOUJOURS disponible, pas seulement si empty($userSites))
-// === CORRECTION DE LA LOGIQUE DE CRÉATION DE SITE ===
-
-// 1. TOUJOURS traiter la création de site (même si déjà des sites)
-if (isset($_POST['create_site'])) {
-    // AJOUTER LA VÉRIFICATION DE LIMITE ICI
-    $stmt = $pdo->prepare("SELECT plan, sites_limit FROM users WHERE id = ?");
-    $stmt->execute([$user_id]);
-    $userPlan = $stmt->fetch();
-
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM user_sites WHERE user_id = ?");
-    $stmt->execute([$user_id]);
-    $siteCount = $stmt->fetchColumn();
-
-    // Vérifier la limite
-    if ($siteCount >= ($userPlan['sites_limit'] ?? 1)) {
-        $_SESSION['limit_reached'] = true;
-        $_SESSION['error_message'] = "Limite atteinte pour le plan " . strtoupper($userPlan['plan'] ?? 'free');
-        header('Location: dashboard.php?create=site');
-        exit();
-    }
-
-    // Créer le site
-    $tracking_code = 'SP_' . bin2hex(random_bytes(4));
-    $public_key = bin2hex(random_bytes(32));
-
-    $stmt = $pdo->prepare("INSERT INTO user_sites (user_id, site_name, domain, tracking_code, public_key) VALUES (?, ?, ?, ?, ?)");
-    $stmt->execute([$user_id, $_POST['site_name'], $_POST['site_domain'], $tracking_code, $public_key]);
-
-    header('Location: dashboard.php?site_created=' . $tracking_code);
     exit();
 }
 
-// 2. Si pas de sites, FORCER l'affichage du formulaire
-// 2. Si pas de sites ET qu'on n'est pas déjà sur la page de création
-// 2. Si pas de sites, afficher le formulaire de création
-if (empty($userSites)) {
-    // Afficher directement le formulaire, pas de redirection
-    $showCreateForm = true;
-}
+$userId = $_SESSION['user_id'];
+$pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
 
-/* 3. Site sélectionné (depuis GET ou premier site)
-$selectedSiteId = $_GET['site_id'] ?? $userSites[0]['id'];
-    ?>
-        <h2>Créez votre premier site</h2>
-        <form method="POST">
-            <input type="text" name="site_name" placeholder="Nom du site" required>
-            <input type="text" name="site_domain" placeholder="mondomaine.com" required>
-            <button type="submit" name="create_site">Créer</button>
-        </form>
-    <?php
-    exit();
-}*/
-
-// 4. Site sélectionné (depuis GET ou premier site)
-$selectedSiteId = $_GET['site_id'] ?? $userSites[0]['id'];
-// RÉCUPÉRER LES DONNÉES UTILISATEUR POUR LA SIDEBAR
-$stmt = $pdo->prepare("SELECT plan, sites_limit FROM users WHERE id = ?");
-$stmt->execute([$user_id]);
-$userPlan = $stmt->fetch();
-
-$stmt = $pdo->prepare("SELECT COUNT(*) FROM user_sites WHERE user_id = ?");
-$stmt->execute([$user_id]);
-$siteCount = $stmt->fetchColumn();
-// === SÉCURITÉ : Vérifier que l'utilisateur possède ce site ===
-$stmt = $pdo->prepare("SELECT id FROM user_sites WHERE id = ? AND user_id = ?");
-$stmt->execute([$selectedSiteId, $user_id]);
-if (!$stmt->fetch()) {
-    die("Accès interdit à ce site");
-}
-
-// === PERIOD ===
-$period = isset($_GET['period']) ? $_GET['period'] : 365; // Par défaut 1 an
-$dateFilter = date('Y-m-d H:i:s', strtotime("-$period days"));
-
-// REPERER LE DASHOARD : Ajout de WHERE site_id = ?
-$stmt = $pdo->prepare("SELECT COUNT(*) FROM smart_pixel_tracking WHERE site_id = ?");
-$stmt->execute([$selectedSiteId]);
-$totalViews = $stmt->fetchColumn();
-
-// REPERER L'IP
-$stmt = $pdo->prepare("SELECT COUNT(DISTINCT ip_address) FROM smart_pixel_tracking WHERE site_id = ?");
-$stmt->execute([$selectedSiteId]);
-$uniqueVisitors = $stmt->fetchColumn();
-
-// REPERER LES SOURCES
+// Récupérer les infos utilisateur
 $stmt = $pdo->prepare("
-    SELECT COUNT(DISTINCT ip_address) 
-    FROM smart_pixel_tracking 
-    WHERE site_id = ? AND timestamp >= ?
+    SELECT email, api_key, created_at, plan,
+           (SELECT COUNT(*) FROM user_sites WHERE user_id = users.id) as sites_count
+    FROM users WHERE id = ?
 ");
-$stmt->execute([$selectedSiteId, $dateFilter]);
-$uniqueVisitorsPeriod = $stmt->fetchColumn();
-
-// REPERER LES SOURCES
-$stmt = $pdo->prepare("
-    SELECT source, COUNT(*) as count 
-    FROM smart_pixel_tracking 
-    WHERE site_id = ? AND timestamp >= ?
-    GROUP BY source 
-    ORDER BY count DESC
-");
-$stmt->execute([$selectedSiteId, $dateFilter]);
-$sources = $stmt->fetchAll();
-
-// REPERER LES PAGES
-$stmt = $pdo->prepare("
-    SELECT page_url, COUNT(*) as views 
-    FROM smart_pixel_tracking 
-    WHERE site_id = ? AND page_url != 'direct' AND timestamp >= ?
-    GROUP BY page_url 
-    ORDER BY views DESC 
-    LIMIT 10
-");
-$stmt->execute([$selectedSiteId, $dateFilter]);
-$topPages = $stmt->fetchAll();
-
-// REPERER LES PAYS
-$stmt = $pdo->prepare("
-    SELECT country, COUNT(*) as visits 
-    FROM smart_pixel_tracking 
-    WHERE site_id = ? AND timestamp >= ?
-    GROUP BY country 
-    ORDER BY visits DESC 
-    LIMIT 10
-");
-$stmt->execute([$selectedSiteId, $dateFilter]);
-$countries = $stmt->fetchAll();
-
-// REPERER LES APPAREILS
-$stmt = $pdo->prepare("
-    SELECT 
-        CASE 
-            WHEN user_agent LIKE '%Mobile%' THEN 'Mobile'
-            WHEN user_agent LIKE '%Tablet%' THEN 'Tablet'
-            ELSE 'Desktop'
-        END as device,
-        COUNT(*) as count
-    FROM smart_pixel_tracking
-    WHERE site_id = ? AND timestamp >= ?
-    GROUP BY device
-    ORDER BY count DESC
-");
-$stmt->execute([$selectedSiteId, $dateFilter]);
-$devices = $stmt->fetchAll();
-
-// REPERER LES NAVIGATEURS
-$stmt = $pdo->prepare("
-    SELECT 
-        CASE 
-            WHEN user_agent LIKE '%Chrome%' THEN 'Chrome'
-            WHEN user_agent LIKE '%Firefox%' THEN 'Firefox'
-            WHEN user_agent LIKE '%Safari%' THEN 'Safari'
-            WHEN user_agent LIKE '%Edge%' THEN 'Edge'
-            ELSE 'Other'
-        END as browser,
-        COUNT(*) as count
-    FROM smart_pixel_tracking
-    WHERE site_id = ? AND timestamp >= ?
-    GROUP BY browser
-    ORDER BY count DESC
-");
-$stmt->execute([$selectedSiteId, $dateFilter]);
-$browsers = $stmt->fetchAll();
-
-// REPERER LES STATISTIQUES JOURNALIÈRES
-$stmt = $pdo->prepare("
-    SELECT 
-        DATE(timestamp) as date,
-        COUNT(*) as visits,
-        COUNT(DISTINCT ip_address) as unique_visitors
-    FROM smart_pixel_tracking
-    WHERE site_id = ? AND timestamp >= DATE_SUB(NOW(), INTERVAL 7 DAY)
-    GROUP BY DATE(timestamp)
-    ORDER BY date ASC
-");
-$stmt->execute([$selectedSiteId]);
-$dailyStats = $stmt->fetchAll();
-
-// REPERER LES CLICS AVEC DATA
-$stmt = $pdo->prepare("
-    SELECT click_data
-    FROM smart_pixel_tracking
-    WHERE site_id = ? AND click_data IS NOT NULL AND click_data != '' AND timestamp >= ?
-    LIMIT 100
-");
-$stmt->execute([$selectedSiteId, $dateFilter]);
-$clickData = $stmt->fetchAll();
-
-// REPREER LES SESSIONS
-$stmt = $pdo->prepare("
-    SELECT 
-        session_id,
-        COUNT(*) as page_views,
-        MIN(timestamp) as first_visit,
-        MAX(timestamp) as last_visit
-    FROM smart_pixel_tracking
-    WHERE site_id = ? AND session_id != '' AND timestamp >= ?
-    GROUP BY session_id
-    ORDER BY page_views DESC
-    LIMIT 10
-");
-$stmt->execute([$selectedSiteId, $dateFilter]);
-$sessionData = $stmt->fetchAll();
-
-// RECUP LES DONNÉES DÉTAILLÉES
-$stmt = $pdo->prepare("
-    SELECT 
-        ip_address,
-        country,
-        city,
-        page_url,
-        timestamp,
-        user_agent,
-        source,
-        session_id
-    FROM smart_pixel_tracking
-    WHERE site_id = ? AND timestamp >= ?
-    ORDER BY timestamp DESC
-    LIMIT 250
-");
-$stmt->execute([$selectedSiteId, $dateFilter]);
-$detailedData = $stmt->fetchAll();
-
-// Calcul du temps moyen de session (identique)
-$avgSessionTime = 0;
-if (count($sessionData) > 0) {
-    $totalSessionTime = 0;
-    foreach ($sessionData as $session) {
-        $first = strtotime($session['first_visit']);
-        $last = strtotime($session['last_visit']);
-        $totalSessionTime += ($last - $first);
-    }
-    $avgSessionTime = round($totalSessionTime / count($sessionData) / 60, 1);
-}
-// MAP
-function getCountryCodeSimple($countryName)
-{
-    $countryMap = [
-        'france' => 'FR',
-        'united states' => 'US',
-        'germany' => 'DE',
-        'united kingdom' => 'GB',
-        'canada' => 'CA',
-        'australia' => 'AU',
-        'japan' => 'JP',
-        'china' => 'CN',
-        'brazil' => 'BR',
-        'india' => 'IN',
-        'italy' => 'IT',
-        'spain' => 'ES',
-        'netherlands' => 'NL',
-        'belgium' => 'BE',
-        'switzerland' => 'CH',
-        'portugal' => 'PT',
-        'russia' => 'RU',
-        'mexico' => 'MX',
-        'south korea' => 'KR',
-        'singapore' => 'SG',
-        'usa' => 'US',
-        'uk' => 'GB',
-    ];
-
-    $normalized = strtolower(trim($countryName));
-    return $countryMap[$normalized] ?? null;
-}
-
+$stmt->execute([$userId]);
+$user = $stmt->fetch();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Pixel - Assistant IA</title>
+    <title>LibreAnalytics - Assistant IA</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Styles précédents conservés */
+        /* Styles chat ia */
         * {
             margin: 0;
             padding: 0;
@@ -304,19 +38,19 @@ function getCountryCodeSimple($countryName)
         :root {
             --bg-primary: #ffffff;
             --bg-secondary: #f9fafb;
-            --bg-sidebar: #f9fafb;
-            --text-primary: #111827;
+            --bg-sidebar: #f5f5f5;
+            --text-primary: #333333;
             --text-secondary: #6b7280;
             --text-light: #9ca3af;
             --border-color: #e5e7eb;
-            --accent-color: #2563eb;
-            --accent-hover: #1d4ed8;
-            --success: #10b981;
+            --accent-color: #9d86ff;
+            --accent-hover: #4ecdc4;
+            --success: #4ecdc4;
             --warning: #f59e0b;
-            --error: #ef4444;
+            --error: #ff6b8b;
             --chat-user: #e5e7eb;
-            --chat-bot: #2563eb;
-            --chat-user-text: #111827;
+            --chat-bot: #9d86ff;
+            --chat-user-text: #333333;
             --chat-bot-text: #ffffff;
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
@@ -635,7 +369,7 @@ function getCountryCodeSimple($countryName)
 
         .message.user .message-content {
             background: var(--chat-bot);
-            color: var(--chat-bot-text);
+            color: var(--chat-user-text);
         }
 
         .message.bot .message-content {
@@ -1049,7 +783,7 @@ function getCountryCodeSimple($countryName)
                     <div class="logo-icon">
                         <i class="fa-regular fa-folder-open"></i>
                     </div>
-                    <span>Smart Pixel <span style="font-weight: 400;">Assistant</span></span>
+                    <span>LibreAnalytics <span style="font-weight: 400;">Assistant</span></span>
                 </a>
             </div>
 
@@ -1124,7 +858,7 @@ function getCountryCodeSimple($countryName)
                         <i class="fas fa-bars"></i>
                     </button>
                     <div>
-                        <h2>Assistant Smart Pixel</h2>
+                        <h2>Assistant LibreAnalytics</h2>
                         <div class="online-status">
                             <span class="status-dot"></span>
                             <span>En ligne</span>
@@ -1135,7 +869,7 @@ function getCountryCodeSimple($countryName)
                     <button class="btn-icon" onclick="clearChat()" title="Nouvelle conversation">
                         <i class="fas fa-plus"></i>
                     </button>
-                    <button class="btn-icon" onclick="window.open('https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/dashboard.php', '_blank')" title="Dashboard">
+                    <button class="btn-icon" onclick="window.open('https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/dashboard.php', '_blank')" title="Dashboard">
                         <i class="fas fa-chart-pie"></i>
                     </button>
                 </div>
@@ -1143,7 +877,7 @@ function getCountryCodeSimple($countryName)
 
             <!-- Quick Actions -->
             <div class="quick-actions">
-                <span class="quick-action" onclick="askQuestion('Comment installer Smart Pixel ?')">Installation</span>
+                <span class="quick-action" onclick="askQuestion('Comment installer LibreAnalytics ?')">Installation</span>
                 <span class="quick-action" onclick="askQuestion('Quels sont les tarifs ?')">Tarifs</span>
                 <span class="quick-action" onclick="askQuestion('Comment utiliser l\'API ?')">API</span>
                 <span class="quick-action" onclick="askQuestion('Problème de tracking')">Support</span>
@@ -1159,11 +893,11 @@ function getCountryCodeSimple($countryName)
                     </div>
                     <div class="message-content">
                         <div class="message-header">
-                            <span class="message-author">Assistant Smart Pixel</span>
+                            <span class="message-author">Assistant LibreAnalytics</span>
                             <span class="message-time">À l'instant</span>
                         </div>
                         <div class="message-text">
-                            <p>👋 Bonjour ! Je suis l'assistant virtuel de Smart Pixel.</p>
+                            <p>👋 Bonjour ! Je suis l'assistant virtuel de LibreAnalytics.</p>
                             <p>Je peux vous aider avec :</p>
                             <ul style="margin: 0.5rem 0 0 1.5rem;">
                                 <li>L'installation et la configuration</li>
@@ -1228,7 +962,7 @@ function getCountryCodeSimple($countryName)
         // Contenu complet des sections (basé sur la doc originale)
         const sectionContent = {
             introduction: `
-                <h1>Bienvenue sur Smart Pixel <span class="version-badge">v2.0.1</span></h1>
+                <h1>Bienvenue sur LibreAnalytics <span class="version-badge">v2.0.1</span></h1>
 
                 <div class="alert alert-info">
                     <strong>Mise à jour du 15/01/2026 :</strong> Le pixel est maintenant multi-tenant, l'API REST est en
@@ -1236,7 +970,7 @@ function getCountryCodeSimple($countryName)
                     l'outils reste gratuit.
                 </div>
 
-                <p><strong>Smart Pixel</strong> est une solution d'analytics web souveraine, open-source et respectueuse
+                <p><strong>LibreAnalytics</strong> est une solution d'analytics web souveraine, open-source et respectueuse
                     de la vie privée. Conçue comme une alternative souveraine à Google Analytics, elle vous permet de
                     reprendre le contrôle de vos données tout en bénéficiant d'un dashboard simple et intuitif.</p>
 
@@ -1298,12 +1032,12 @@ function getCountryCodeSimple($countryName)
                     <div class="code-block">
                         <div class="code-header">
                             <span><i class="fas fa-code"></i> tracker.js</span>
-                            <button class="copy-btn" onclick="copyToClipboard('<!-- Smart Pixel Analytics -->\\n<script data-sp-id=\\"SP_79747769\\" src=\\"https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/tracker.js\\" async><\\/script>')">
+                            <button class="copy-btn" onclick="copyToClipboard('<!-- LibreAnalytics -->\\n<script data-sp-id=\\"SP_79747769\\" src=\\"https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/tracker.js\\" async><\\/script>')">
                                 <i class="fas fa-copy"></i> Copier
                             </button>
                         </div>
-                        <pre><code>&lt;!-- Smart Pixel Analytics --&gt;
-&lt;script data-sp-id="SP_24031987" src="https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/tracker.js" async&gt;&lt;/script&gt;</code></pre>
+                        <pre><code>&lt;!-- LibreAnalytics --&gt;
+&lt;script data-sp-id="SP_24031987" src="https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/tracker.js" async&gt;&lt;/script&gt;</code></pre>
                     </div>
                 </div>
 
@@ -1465,7 +1199,7 @@ function getCountryCodeSimple($countryName)
             evenements: `
                 <h2>Tracking des clics et événements</h2>
 
-                <p>Smart Pixel tracke automatiquement tous les clics sur les liens et boutons, CTA (sauf si vous avez
+                <p>LibreAnalytics tracke automatiquement tous les clics sur les liens et boutons, CTA (sauf si vous avez
                     installé <code>data-sp-ignore</code>). Vous pouvez également envoyer des événements personnalisés.
                 </p>
 
@@ -1522,7 +1256,7 @@ SmartPixel.trackEvent('inscription', {
             sources: `
                 <h2>Sources de trafic et paramètres UTM</h2>
 
-                <p>Smart Pixel capture automatiquement les paramètres UTM de l'URL et les sources.</p>
+                <p>LibreAnalytics capture automatiquement les paramètres UTM de l'URL et les sources.</p>
 
                 <h3>Paramètres reconnus</h3>
                 <ul>
@@ -1652,7 +1386,7 @@ SmartPixel.getOrCreateSessionId(); // Récupère l'ID de session</code></pre>
 
                 <!-- Section Tutoriel -->
                 <div class="tutorial-section">
-                    <h2><i class="fas fa-graduation-cap"></i> Tutoriel : Utiliser l'API Smart Pixel</h2>
+                    <h2><i class="fas fa-graduation-cap"></i> Tutoriel : Utiliser l'API LibreAnalytics</h2>
 
                     <!-- Étape 1 : Récupérer les identifiants -->
                     <div class="tutorial-step">
@@ -1672,7 +1406,7 @@ SmartPixel.getOrCreateSessionId(); // Récupère l'ID de session</code></pre>
                     <div class="tutorial-step">
                         <h3><i class="fas fa-link"></i> 2. Construire l'URL de l'API</h3>
                         <p>L'URL de base est :</p>
-                        <code>https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/api.php</code>
+                        <code>https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php</code>
                         <p>Ajoute les paramètres suivants :</p>
                         <ul>
                             <li><code>site_id</code> : Ton code de tracking (ex: <code>SP_24m87bb</code>).</li>
@@ -1684,11 +1418,11 @@ SmartPixel.getOrCreateSessionId(); // Récupère l'ID de session</code></pre>
                             <div class="code-header">
                                 <span>Exemple d'URL complète :</span>
                                 <button class="copy-btn"
-                                    onclick="copyToClipboard('https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p&start_date=2026-01-01&end_date=2026-02-01')">
+                                    onclick="copyToClipboard('https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p&start_date=2026-01-01&end_date=2026-02-01')">
                                     <i class="fas fa-copy"></i> Copier
                                 </button>
                             </div>
-                            <pre><code>https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/api.php?site_id=<strong>SP_24m87bb</strong>&api_key=<strong>sk_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p</strong>&start_date=<strong>2026-01-01</strong>&end_date=<strong>2026-02-01</strong></code></pre>
+                            <pre><code>https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php?site_id=<strong>SP_24m87bb</strong>&api_key=<strong>sk_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p</strong>&start_date=<strong>2026-01-01</strong>&end_date=<strong>2026-02-01</strong></code></pre>
                         </div>
 
                         <!-- Étape 3 : Récupérer les données -->
@@ -1873,7 +1607,7 @@ fetch(\`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c.
                 <h2>RGPD et conformité</h2>
 
                 <div class="alert alert-success">
-                    <strong>Conforme par conception</strong> - Smart Pixel a été pensé pour respecter la vie privée dès
+                    <strong>Conforme par conception</strong> - LibreAnalytics a été pensé pour respecter la vie privée dès
                     la base.
                 </div>
 
@@ -1901,13 +1635,13 @@ fetch(\`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c.
                 <h2>F.A.Q</h2>
 
                 <div class="card">
-                    <h4>Smart Pixel est-il vraiment gratuit ?</h4>
+                    <h4>LibreAnalytics est-il vraiment gratuit ?</h4>
                     <p>Oui, le plan gratuit est illimité dans le temps pour 1 site et 1000 visites/mois. Pas de carte
                         bleue demandée.</p>
                 </div>
 
                 <div class="card">
-                    <h4>Puis-je auto-héberger Smart Pixel ?</h4>
+                    <h4>Puis-je auto-héberger LibreAnalytics ?</h4>
                     <p>Absolument ! Le code est open source (MIT). Suivez les instructions sur <a
                             href="https://github.com/berru-g/smart_pixel_v2" target="_blank">GitHub</a>.</p>
                 </div>
@@ -1997,7 +1731,7 @@ fetch(\`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c.
             multiSites: `
                 <h2>Gestion multi-sites</h2>
                 
-                <p>Smart Pixel vous permet de gérer plusieurs sites web depuis un seul compte. Chaque site possède son propre code de tracking et ses statistiques indépendantes.</p>
+                <p>LibreAnalytics vous permet de gérer plusieurs sites web depuis un seul compte. Chaque site possède son propre code de tracking et ses statistiques indépendantes.</p>
                 
                 <h3>Ajouter un site</h3>
                 <p>Dans la colonne de gauche du dashboard, cliquez sur le bouton <i class="fas fa-plus-circle"></i> "Ajouter un site". Remplissez les informations suivantes :</p>
@@ -2267,11 +2001,11 @@ fetch(\`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c.
                     </div>
                     <div class="message-content">
                         <div class="message-header">
-                            <span class="message-author">Assistant Smart Pixel</span>
+                            <span class="message-author">Assistant LibreAnalytics</span>
                             <span class="message-time">À l'instant</span>
                         </div>
                         <div class="message-text">
-                            <p>👋 Bonjour ! Je suis l'assistant virtuel de Smart Pixel.</p>
+                            <p>👋 Bonjour ! Je suis l'assistant virtuel de LibreAnalytics.</p>
                             <p>Je peux vous aider avec :</p>
                             <ul style="margin: 0.5rem 0 0 1.5rem;">
                                 <li>L'installation et la configuration</li>

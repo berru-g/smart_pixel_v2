@@ -5,12 +5,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentation - Smart Pixel Analytics</title>
+    <title>Documentation - LibreAnalytics</title>
     <meta name="description"
-        content="Documentation complète de Smart Pixel : installation, configuration, API, dépannage. L'alternative française à Google Analytics.">
+        content="Documentation complète de LibreAnalytics : installation, configuration, API, dépannage. L'alternative française à Google Analytics.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+        <!-- à intégrer dans la balise <head> de votre site --> <script data-sp-id="SP_79747769" src="https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/tracker.js" async></script>
     <style>
         * {
             margin: 0;
@@ -596,15 +597,14 @@
                     <div class="logo-icon">
                         <i class="fa-regular fa-folder-open"></i>
                     </div>
-                    <span>Smart Pixel <span style="font-weight: 400; color: var(--text-light);">Docs</span></span>
+                    <span>LibreAnalytics <span style="font-weight: 400; color: var(--text-light);">Docs</span></span>
                 </a>
 
                 <div class="nav-links">
-                    <a href="https://gael-berru.com/smart_phpixel/?utm_source=DOC" target="_blank">Accueil</a>
-                    <a href="../smart_pixel_v2/public/dashboard.php" target="_blank">Dashboard</a>
-                    <a href="./docai.php" target="_blank">Doc+ia</a>
-                    <a href="../smart_pixel_v2/public/login.php" class="btn btn-primary">
-                        <i class="fas fa-user"></i> Connexion
+                    <a href="https://gael-berru.com/LibreAnalytics/?utm_source=DOC" target="_blank">Accueil</a>
+                    <a href="./docai.php" target="_blank">Doc +</a>
+                    <a href="../smart_pixel_v2/public/dashboard.php" class="btn btn-primary">
+                        <i class="fas fa-user"></i> Dashboard
                     </a>
                 </div>
 
@@ -696,7 +696,7 @@
         <main class="content" id="mainContent">
             <!-- INTRODUCTION -->
             <section id="introduction" class="doc-section">
-                <h1>Bienvenue sur Smart Pixel <span class="version-badge">v2.0.1</span></h1>
+                <h1>Bienvenue sur LibreAnalytics <span class="version-badge">v2.0.1</span></h1>
 
                 <div class="alert alert-info">
                     <strong>Mise à jour du 15/01/2026 :</strong> Le pixel est maintenant multi-tenant, l'API REST est en
@@ -704,7 +704,7 @@
                     l'outils reste gratuit.
                 </div>
 
-                <p><strong>Smart Pixel</strong> est une solution d'analytics web souveraine, open-source et respectueuse
+                <p><strong>LibreAnalytics</strong> est une solution d'analytics web souveraine, open-source et respectueuse
                     de la vie privée. Conçue comme une alternative souveraine à Google Analytics, elle vous permet de
                     reprendre le contrôle de vos données tout en bénéficiant d'un dashboard simple et intuitif.</p>
 
@@ -749,7 +749,7 @@
                 <div class="card">
                     <div class="card-title">
                         <i class="fas fa-check-circle" style="color: var(--success);"></i>
-                        Étape 2 : Récupérer votre code de tracking
+                        Étape 2 : Récupérer votre code de tracking, le Smart Pixel !
                     </div>
                     <p>Une fois connecté, vous arrivez sur le dashboard. Vous verrez votre <span
                             class="highlight">tracking code</span> (ex: <code>SP_79747769</code>), situé en bas à gauche
@@ -768,12 +768,12 @@
                         <div class="code-header">
                             <span><i class="fas fa-code"></i> tracker.js</span>
                             <button class="copy-btn"
-                                onclick="copyToClipboard('&lt;!-- Smart Pixel Analytics --&gt;\n&lt;script data-sp-id=\&quot;SP_79747769\&quot; src=\&quot;https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/tracker.js\&quot; async&gt;&lt;/script&gt;')">
+                                onclick="copyToClipboard('&lt;!-- LibreAnalytics --&gt;\n&lt;script data-sp-id=\&quot;SP_79747769\&quot; src=\&quot;https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/tracker.js\&quot; async&gt;&lt;/script&gt;')">
                                 <i class="fas fa-copy"></i> Copier
                             </button>
                         </div>
-                        <pre><code>&lt;!-- Smart Pixel Analytics --&gt;
-&lt;script data-sp-id="SP_24031987" src="https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/tracker.js" async&gt;&lt;/script&gt;</code></pre>
+                        <pre><code>&lt;!-- LibreAnalytics --&gt;
+&lt;script data-sp-id="SP_24031987" src="https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/tracker.js" async&gt;&lt;/script&gt;</code></pre>
                     </div>
                 </div>
 
@@ -939,7 +939,7 @@
             <section id="evenements" class="doc-section">
                 <h2>Tracking des clics et événements</h2>
 
-                <p>Smart Pixel tracke automatiquement tous les clics sur les liens et boutons, CTA (sauf si vous avez
+                <p>LibreAnalytics tracke automatiquement tous les clics sur les liens et boutons, CTA (sauf si vous avez
                     installé <code>data-sp-ignore</code>). Vous pouvez également envoyer des événements personnalisés.
                 </p>
 
@@ -998,7 +998,7 @@ SmartPixel.trackEvent('inscription', {
             <section id="sources" class="doc-section">
                 <h2>Sources de trafic et paramètres UTM</h2>
 
-                <p>Smart Pixel capture automatiquement les paramètres UTM de l'URL et les sources.</p>
+                <p>LibreAnalytics capture automatiquement les paramètres UTM de l'URL et les sources.</p>
 
                 <h3>Paramètres reconnus</h3>
                 <ul>
@@ -1131,7 +1131,7 @@ SmartPixel.getOrCreateSessionId(); // Récupère l'ID de session</code></pre>
 
                 <!-- Section Tutoriel -->
                 <div class="tutorial-section">
-                    <h2><i class="fas fa-graduation-cap"></i> Tutoriel : Utiliser l'API Smart Pixel</h2>
+                    <h2><i class="fas fa-graduation-cap"></i> Tutoriel : Utiliser l'API LibreAnalytics</h2>
 
                     <!-- Étape 1 : Récupérer les identifiants -->
                     <div class="tutorial-step">
@@ -1151,7 +1151,7 @@ SmartPixel.getOrCreateSessionId(); // Récupère l'ID de session</code></pre>
                     <div class="tutorial-step">
                         <h3><i class="fas fa-link"></i> 2. Construire l'URL de l'API</h3>
                         <p>L'URL de base est :</p>
-                        <code>https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/api.php</code>
+                        <code>https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php</code>
                         <p>Ajoute les paramètres suivants :</p>
                         <ul>
                             <li><code>site_id</code> : Ton code de tracking (ex: <code>SP_24m87bb</code>).</li>
@@ -1167,7 +1167,7 @@ SmartPixel.getOrCreateSessionId(); // Récupère l'ID de session</code></pre>
                                     <i class="fas fa-copy"></i> Copier
                                 </button>
                             </div>
-                            <pre><code>https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/api.php?site_id=<strong>SP_24m87bb</strong>&api_key=<strong>sk_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p</strong>&start_date=<strong>2026-01-01</strong>&end_date=<strong>2026-02-01</strong></code></pre>
+                            <pre><code>https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php?site_id=<strong>SP_24m87bb</strong>&api_key=<strong>sk_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p</strong>&start_date=<strong>2026-01-01</strong>&end_date=<strong>2026-02-01</strong></code></pre>
                         </div>
 
                         <!-- Étape 3 : Récupérer les données -->
@@ -1358,7 +1358,7 @@ fetch(`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c..
                 <h2>RGPD et conformité</h2>
 
                 <div class="alert alert-success">
-                    <strong>Conforme par conception</strong> - Smart Pixel a été pensé pour respecter la vie privée dès
+                    <strong>Conforme par conception</strong> - LibreAnalytics a été pensé pour respecter la vie privée dès
                     la base.
                 </div>
 
@@ -1387,13 +1387,13 @@ fetch(`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c..
                 <h2>F.A.Q</h2>
 
                 <div class="card">
-                    <h4>Smart Pixel est-il vraiment gratuit ?</h4>
+                    <h4>LibreAnalytics est-il vraiment gratuit ?</h4>
                     <p>Oui, le plan gratuit est illimité dans le temps pour 1 site et 1000 visites/mois. Pas de carte
                         bleue demandée.</p>
                 </div>
 
                 <div class="card">
-                    <h4>Puis-je auto-héberger Smart Pixel ?</h4>
+                    <h4>Puis-je auto-héberger LibreAnalytics ?</h4>
                     <p>Absolument ! Le code est open source (MIT). Suivez les instructions sur <a
                             href="https://github.com/berru-g/smart_pixel_v2" target="_blank">GitHub</a>.</p>
                 </div>
@@ -1487,7 +1487,7 @@ fetch(`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c..
 
     <footer class="footer">
         <div class="container">
-            <p>© 2026 Smart Pixel Analytics - Documentation officielle - <a href="#">Mentions légales</a> - <a
+            <p>© 2026 LibreAnalytics - Documentation officielle - <a href="#">Mentions légales</a> - <a
                     href="#">Confidentialité</a></p>
             <p style="margin-top: 0.5rem; font-size: 0.9rem;">Dernière mise à jour : 15 janvier 2026 - v2.0.1</p>
         </div>

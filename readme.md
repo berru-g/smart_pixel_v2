@@ -1,11 +1,20 @@
-# Smart Pixel v2 - Analytics Platform
+# Libre Analytics v2 - Analytics Platform
 
-[![PHP Version](https://img.shields.io/badge/PHP-7.4%2B-blue.svg)](https://php.net)
+[![PHP Version](https://img.shields.io/badge/PHP-8.2%2B-777BB4?logo=php)](https://www.php.net/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Installation: 1 ligne](https://img.shields.io/badge/Installation-1_ligne-green.svg)](#installation)
+[![Installation](https://img.shields.io/badge/Installation-1_ligne-brightgreen)](https://gael-berru.com/LibreAnalytics/#installation)
+[![Made in France](https://img.shields.io/badge/Made%20in-France-0055A4?logo=fr)](https://gael-berru.com)
+[![Open Source](https://img.shields.io/badge/Open%20Source-80%25-important?logo=github)](https://github.com/berru-g/LibreAnalytics)
+[![No Cookies](https://img.shields.io/badge/No%20Cookies-RGPD%20Friendly-blueviolet)](https://gael-berru.com/LibreAnalytics/)
+[![Lightweight](https://img.shields.io/badge/Lightweight-4KB-success?logo=lightning)](https://gael-berru.com/LibreAnalytics/)
+[![Sovereign](https://img.shields.io/badge/Sovereign-No%20GAFAM-007EC6?logo=europeanunion)](https://gael-berru.com/LibreAnalytics/)
+[![Status](https://img.shields.io/badge/Status-Actively%20Developed-brightgreen)](https://github.com/berru-g/LibreAnalytics/commits/main)
 
-Avec Smart Pixel vos graphiques racontent une histoire et guident vers des insights actionnables.
+**Alternative 100% française et open source à Google Analytics**
+
+Avec Libre Analytics vos graphiques racontent une histoire et guident vers des insights actionnables.
 Analysez votre trafic sans compromettre la vie privée de vos visiteurs, avec un outil 100% européen et open source
+
 
 Disponible
 
@@ -14,7 +23,30 @@ Disponible
     ▶️ V.1.0.1 software friendly  | 2026 | statut - MVP fonctionnel + API
 
 
-## Fonctionnalités
+
+## 📋 Sommaire
+1. [Fonctionnalités](#fonctionnalités)
+2. [Versions et statut](#-actuellement-disponibles)
+3. **Guide Utilisateur**
+   - [Créer un compte](#1-créer-votre-compte-gratuit)
+   - [Installer le code de tracking](#2-récupérer-votre-code-de-tracking)
+   - [Tableau de bord](#découvrir-votre-tableau-de-bord)
+   - [Gérer plusieurs sites](#-gérer-plusieurs-sites)
+   - [Paramètres UTM](#-Utiliser-les-paramètres-UTM)
+4. **Tutoriel API** 
+   - [Récupérer ta clé API](#-prérequis)
+   - [Construire l’URL de l’API](#-2-construire-lurl-de-lapi)
+   - [Exemples de requêtes](#-3-récupérer-les-données)
+   - [Intégrations](#-5-intégrer-les-données-avec-des-outils)
+   - [Gestion des erreurs](#-6-gérer-les-erreurs)
+5. [Mise à niveau](#-mettre-à-niveau-votre-compte)
+6. [FAQ & Support](#-faq)
+7. [Glossaire](#glossaire)
+
+
+
+## Fonctionnalité
+
 
 ### ✅ **Actuellement disponibles**
 
@@ -50,20 +82,20 @@ Disponible
 
 
 
-[Crée ton premier dashboard gratuitement](https://gael-berru.com/smart_phpixel/)
+[Crée ton premier dashboard gratuitement](https://gael-berru.com/LibreAnalytics/)
 
 
 
-# Guide Utilisateur - Smart Pixel Analytics
+# Guide Utilisateur - Libre Analytics
 
-Bienvenue sur Smart Pixel, l'alternative française simple et respectueuse à Google Analytics. Ce guide vous aidera à installer, configurer et utiliser votre tableau de bord analytics.
+Bienvenue sur Libre Analytics, l'alternative française simple et respectueuse à Google Analytics. Ce guide vous aidera à installer, configurer et utiliser votre tableau de bord analytics.
 
 ---
 
 ## Premiers pas
 
 ### 1. Créer votre compte gratuit
-Rendez-vous sur [https://gael-berru.com/smart_phpixel/](https://gael-berru.com/smart_phpixel/) et cliquez sur **"CRÉER MON PREMIER DASHBOARD"**.
+Rendez-vous sur [https://gael-berru.com/LibreAnalytics/](https://gael-berru.com/LibreAnalytics/) et cliquez sur **"CRÉER MON PREMIER DASHBOARD"**.
 
 Vous aurez besoin de :
 - Votre email
@@ -77,7 +109,7 @@ Une fois connecté, votre tableau de bord affiche votre **code d'intégration** 
 
 ```html
 <script data-sp-id="SP_79747769" 
-        src="https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/tracker.js" 
+        src="https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/tracker.js" 
         async>
 </script>
 ```
@@ -147,7 +179,7 @@ Les paramètres UTM vous permettent de **tracer précisément vos campagnes mark
 Ajoutez ces paramètres à vos URLs :
 
 ```
-https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/tracker.js?utm_source=facebook&utm_medium=social&utm_campaign=ete2026
+https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/tracker.js?utm_source=facebook&utm_medium=social&utm_campaign=ete2026
 ```
 
 ### Paramètres disponibles
@@ -175,7 +207,7 @@ Chaque site a son propre **tracking code** (ex: `SP_79747769`). Installez le cod
 
 ### Ajoutez votre site id avant votre token et insérez vos requete entre les deux !
     URL d’exemple :
-    https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/api.php?site_id=SP_12345&start_date=2026-01-01&end_date=2026-02-01&api_token=TON_TOKEN
+    https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php?site_id=SP_12345&start_date=2026-01-01&end_date=2026-02-01&api_token=TON_TOKEN
 
 
 ### Intégrer avec ton dashboard ou outils externes. Depuis un script JS :
@@ -187,21 +219,22 @@ Chaque site a son propre **tracking code** (ex: `SP_79747769`). Installez le cod
 
 ```
 
-# **Tutoriel : Utiliser l’API Smart Pixel Analytics**
+
+# Tutoriel : Utiliser l’API Libre Analytics
 *Alternative open-source à Google Analytics*
 
 ---
 
 ## **🔑 Prérequis**
-- Un **compte Smart Pixel** (gratuit pour 1 site).
-- Une **clé API** (disponible dans ton [tableau de bord](https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/account.php)).
-- Le **code de tracking** de ton site (ex: `SP_7f9505cc`).
+- Un **compte Libre Analytics** (gratuit pour 1 site).
+- Une **clé API** (disponible dans ton [tableau de bord](https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/account.php)).
+- Le **code de tracking** de ton site (ex: `SP_2m4789lg`).
 
 ---
 
 ## **📌 1. Récupérer ta clé API et ton code de tracking**
 ### **Étape 1 : Accède à ton compte**
-1. Connecte-toi à ton [tableau de bord Smart Pixel](https://gael-berru.com/smart_phpixel/smart_pixel_v2/dashboard.php).
+1. Connecte-toi à ton [tableau de bord Libre Analytics](https://gael-berru.com/LibreAnalytics/smart_pixel_v2/dashboard.php).
 2. Clique sur **"Mon compte"** dans le menu.
 
    ![Exemple de menu](https://via.placeholder.com/600x200/4a6bff/ffffff?text=Menu+Smart+Pixel)
@@ -210,27 +243,27 @@ Chaque site a son propre **tracking code** (ex: `SP_79747769`). Installez le cod
 - Dans la section **"Clé API"**, clique sur l’icône **🖉** pour copier ta clé.
 - **Ne partage jamais cette clé** (elle donne accès à tes données).
 
-   ![Exemple de clé API](https://via.placeholder.com/600x300/4a6bff/ffffff?text=Cl%C3%A9+API%3A+sk_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p)
+   ![Exemple de clé API](https://via.placeholder.com/600x300/4a6bff/ffffff?text=Cl%C3%A9+API%3A+1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p)
 
 ### **Étape 3 : Récupère ton code de tracking**
 1. Va dans **"Mes sites"** dans le menu.
-2. Copie le **code de tracking** (ex: `SP_7f9505cc`).
+2. Copie le **code de tracking** (ex: `SP_2m4789lg`).
 
-   ![Exemple de code de tracking](https://via.placeholder.com/600x200/4a6bff/ffffff?text=Code+de+tracking%3A+SP_7f9505cc)
+   ![Exemple de code de tracking](https://via.placeholder.com/600x200/4a6bff/ffffff?text=Code+de+tracking%3A+SP_2m4789lg)
 
 ---
 
 ## **🔗 2. Construire l’URL de l’API**
 L’URL de base pour accéder à tes données est :
 ```
-https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/api.php
+https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php
 ```
 
 ### **Paramètres obligatoires**
 | Paramètre     | Description                          | Exemple                     |
 |---------------|--------------------------------------|-----------------------------|
-| `site_id`     | Code de tracking de ton site.        | `SP_7f9505cc`               |
-| `api_key`     | Ta clé API (copiée plus tôt).        | `sk_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p` |
+| `site_id`     | Code de tracking de ton site.        | `SP_2m4789lg`               |
+| `api_key`     | Ta clé API (copiée plus tôt).        | `1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p` |
 
 ### **Paramètres optionnels**
 | Paramètre     | Description                          | Exemple       | Défaut          |
@@ -240,9 +273,9 @@ https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/api.php
 
 ### **Exemple d’URL complète**
 ```
-https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/api.php?
-site_id=SP_7f9505cc&
-api_key=sk_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p&
+https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php?
+site_id=SP_2m4789lg&
+api_key=1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p&
 start_date=2026-01-01&
 end_date=2026-02-01
 ```
@@ -258,21 +291,21 @@ end_date=2026-02-01
 
 ### **Méthode 2 : Avec cURL (terminal)**
 ```bash
-curl "https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/api.php?
-site_id=SP_7f9505cc&
-api_key=sk_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p&
+curl "https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php?
+site_id=SP_2m4789lg&
+api_key=1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p&
 start_date=2026-01-01&
 end_date=2026-02-01"
 ```
 
 ### **Méthode 3 : Avec JavaScript (fetch)**
 ```javascript
-const siteId = 'SP_7f9505cc';
-const apiKey = 'sk_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p';
+const siteId = 'SP_2m4789lg';
+const apiKey = '1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p';
 const startDate = '2026-01-01';
 const endDate = '2026-02-01';
 
-fetch(`https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/api.php?
+fetch(`https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php?
   site_id=${siteId}&
   api_key=${apiKey}&
   start_date=${startDate}&
@@ -304,7 +337,7 @@ Voici à quoi ressemble une réponse typique :
     }
   ],
   "meta": {
-    "site_id": "SP_7f9505cc",
+    "site_id": "SP_2m4789lg",
     "start_date": "2026-01-01",
     "end_date": "2026-02-01",
     "total_visits": 92,
@@ -344,7 +377,7 @@ Voici à quoi ressemble une réponse typique :
 2. **Dans Google Sheets** :
    - Utilise la formule `=IMPORTDATA()` :
      ```excel
-     =IMPORTDATA("https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/api.php?site_id=SP_7f9505cc&api_key=sk_1a2b3c...")
+     =IMPORTDATA("https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php?site_id=SP_2m4789lg&api_key=1a2b3c...")
      ```
 
 ### **C. Tableau de bord custom (HTML/JS)**
@@ -352,7 +385,7 @@ Voici à quoi ressemble une réponse typique :
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dashboard Smart Pixel</title>
+  <title>Dashboard Libre Analytics</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -360,12 +393,12 @@ Voici à quoi ressemble une réponse typique :
   <canvas id="visitsChart" width="800" height="400"></canvas>
 
   <script>
-    const siteId = 'SP_7f9505cc';
-    const apiKey = 'sk_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p';
+    const siteId = 'SP_2m4789lg';
+    const apiKey = '1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p';
     const startDate = '2026-01-01';
     const endDate = '2026-02-01';
 
-    fetch(`https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/api.php?
+    fetch(`https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php?
       site_id=${siteId}&
       api_key=${apiKey}&
       start_date=${startDate}&
@@ -426,8 +459,8 @@ startDate.setDate(startDate.getDate() - 30);
 const formattedStartDate = startDate.toISOString().split('T')[0];
 
 fetch(`https://gael-berru.com/.../api.php?
-  site_id=SP_7f9505cc&
-  api_key=sk_1a2b3c...&
+  site_id=SP_2m4789lg&
+  api_key=1a2b3c...&
   start_date=${formattedStartDate}&
   end_date=${today}`)
 ```
@@ -436,15 +469,15 @@ fetch(`https://gael-berru.com/.../api.php?
 Modifie l’URL pour inclure des données géographiques :
 ```
 https://gael-berru.com/.../api.php?
-site_id=SP_7f9505cc&
-api_key=sk_1a2b3c...&
+site_id=SP_2m4789lg&
+api_key=1a2b3c...&
 group_by=country
 ```
 *(À implémenter côté serveur si besoin.)*
 
 ---
 ## **📢 9. Support et contact**
-- **Problème technique** ? Ouvre un ticket via [le formulaire de contact](https://gael-berru.com/smart_phpixel/smart_pixel_v2/public/contact.php).
+- **Problème technique** ? Ouvre un ticket via [le formulaire de contact](https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/contact.php).
 - **Idée d’amélioration** ? Propose-la sur [GitHub](https://github.com/berru-g/smart_pixel_v2).
 
 ---
@@ -491,7 +524,7 @@ Tu peux maintenant :
 ## ❓ F.A.Q
 
 ### "Mes données sont-elles vraiment privées ?"
-**Oui.** Smart Pixel est hébergé en France. Aucune donnée n'est vendue à des tiers. Pas de GAFAM, pas de revente. Le code est [open source](https://github.com/berru-g/smart_pixel_v2).
+**Oui.** Libre Analytics est hébergé en France. Aucune donnée n'est vendue à des tiers. Pas de GAFAM, pas de revente. Le code est [open source](https://github.com/berru-g/smart_pixel_v2).
 
 ### "Est-ce que le pixel ralentit mon site ?"
 **Non.** Le script fait 4KB et se charge en async. C'est 15 fois plus léger que Google Analytics.
