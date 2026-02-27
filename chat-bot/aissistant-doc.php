@@ -1,701 +1,118 @@
+<?php
 
+?>
 <!DOCTYPE html>
 <html lang="fr">
+<!-- 
+    ╔══════════════════════════════════════════════════╗
+    ║                       ██                         ║
+    ╠══════════════════════════════════════════════════╣
+    ║  Project      : Aissistant             ║
+    ║  First commit : February 27, 2025                ║ 
+    ║  Version      : 2.1.0                            ║
+    ║  Copyright    : 2025 https://github.com/berru-g/ ║
+    ╚══════════════════════════════════════════════════╝
+-->
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentation - LibreAnalytics</title>
-    <meta name="description"
-        content="Documentation complète de LibreAnalytics : installation, configuration, API, dépannage. L'alternative française à Google Analytics.">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
-        <!-- à intégrer dans la balise <head> de votre site --> <script data-sp-id="SP_79747769" src="https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/tracker.js" async></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #9d86ff;
-            --primary-dark: #7c6bd9;
-            --primary-light: rgba(157, 134, 255, 0.1);
-            --secondary: #6c757d;
-            --success: #4ecdc4;
-            --warning: #f59e0b;
-            --danger: #ff6b8b;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --border: #e2e8f0;
-            --bg: #ffffff;
-            --text: #0f172a;
-            --text-light: #64748b;
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 20px 40px -15px rgba(0, 0, 0, 0.15);
-            --radius: 12px;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg: #151515;
-                --text: #f0f0f0;
-                --text-light: #b0b0b0;
-                --border: rgba(255, 255, 255, 0.15);
-                --light: #1d1d1e;
-                --dark: #f0f0f0;
-            }
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        /* Header */
-        .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: var(--bg);
-            border-bottom: 1px solid var(--border);
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            background: rgba(var(--bg-rgb), 0.95);
-        }
-
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 80px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 700;
-            font-size: 1rem;
-            color: var(--text);
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            border-radius: var(--radius);
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-
-        /* Layout principal */
-        .docs-wrapper {
-            display: flex;
-            margin-top: 80px;
-            min-height: calc(100vh - 80px);
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 320px;
-            background: var(--light);
-            border-right: 1px solid var(--border);
-            padding: 2rem 1.5rem;
-            position: fixed;
-            height: calc(100vh - 80px);
-            overflow-y: auto;
-            transition: transform 0.3s;
-        }
-
-        .search-container {
-            position: relative;
-            margin-bottom: 2rem;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-light);
-        }
-
-        #searchInput {
-            width: 100%;
-            padding: 12px 12px 12px 40px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            background: var(--bg);
-            color: var(--text);
-            font-size: 0.95rem;
-            transition: all 0.3s;
-        }
-
-        #searchInput:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px var(--primary-light);
-        }
-
-        .search-results {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            margin-top: 4px;
-            max-height: 300px;
-            overflow-y: auto;
-            display: none;
-            z-index: 100;
-            box-shadow: var(--shadow);
-        }
-
-        .search-result-item {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--border);
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .search-result-item:hover {
-            background: var(--primary-light);
-        }
-
-        .search-result-item h4 {
-            font-size: 0.95rem;
-            margin-bottom: 4px;
-            color: var(--text);
-        }
-
-        .search-result-item p {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            margin: 0;
-        }
-
-        .nav-section {
-            margin-bottom: 2rem;
-        }
-
-        .nav-section h3 {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-light);
-            margin-bottom: 1rem;
-        }
-
-        .nav-section ul {
-            list-style: none;
-        }
-
-        .nav-section li {
-            margin-bottom: 0.5rem;
-        }
-
-        .nav-section a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 12px;
-            color: var(--text);
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.2s;
-            font-size: 0.95rem;
-        }
-
-        .nav-section a:hover {
-            background: var(--primary-light);
-            color: var(--primary);
-        }
-
-        .nav-section a.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        .nav-section i {
-            width: 20px;
-            font-size: 1rem;
-        }
-
-        /* Contenu principal */
-        .content {
-            flex: 1;
-            margin-left: 320px;
-            padding: 3rem 3rem 3rem 4rem;
-            max-width: 900px;
-        }
-
-        .doc-section {
-            margin-bottom: 4rem;
-            scroll-margin-top: 100px;
-        }
-
-        .doc-section h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .doc-section h2 {
-            font-size: 1.8rem;
-            margin: 2rem 0 1rem;
-            color: var(--text);
-        }
-
-        .doc-section h3 {
-            font-size: 1.3rem;
-            margin: 1.5rem 0 1rem;
-            color: var(--text);
-        }
-
-        .doc-section p {
-            color: var(--text-light);
-            margin-bottom: 1.2rem;
-            font-size: 1.05rem;
-        }
-
-        .doc-section ul,
-        .doc-section ol {
-            margin: 1rem 0 1.5rem 1.5rem;
-            color: var(--text-light);
-        }
-
-        .doc-section li {
-            margin-bottom: 0.5rem;
-        }
-
-        /* Cartes d'exemple */
-        .card {
-            background: var(--light);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .card-title i {
-            color: var(--primary);
-        }
-
-        /* Blocs de code */
-        .code-block {
-            background: var(--text);
-            color: var(--bg);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            position: relative;
-            overflow-x: auto;
-        }
-
-        code pre {
-            color: var(--text);
-        }
-
-        .code-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            color: #1e293b;
-            font-size: 0.9rem;
-        }
-
-        .copy-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text);
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: background 0.3s;
-        }
-
-        .copy-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        pre {
-            margin: 0;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-
-        /* Tableaux */
-        .table-container {
-            overflow-x: auto;
-            margin: 1.5rem 0;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border: 1px solid var(--border);
-        }
-
-        th {
-            background: var(--light);
-            padding: 12px;
-            text-align: left;
-            font-weight: 600;
-            border-bottom: 2px solid var(--border);
-        }
-
-        td {
-            padding: 12px;
-            border-bottom: 1px solid var(--border);
-            color: var(--text-light);
-        }
-
-        tr:hover {
-            background: var(--primary-light);
-        }
-
-        /* Badges */
-        .badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-right: 8px;
-        }
-
-        .badge-success {
-            background: rgba(78, 205, 196, 0.1);
-            color: var(--success);
-            border: 1px solid var(--success);
-        }
-
-        .badge-warning {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--warning);
-            border: 1px solid var(--warning);
-        }
-
-        .badge-info {
-            background: var(--primary-light);
-            color: var(--primary);
-            border: 1px solid var(--primary);
-        }
-
-        /* Tags */
-        .tag {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 12px;
-            background: var(--light);
-            color: var(--text-light);
-            font-size: 0.75rem;
-            margin-right: 4px;
-        }
-
-        /* Alertes */
-        .alert {
-            padding: 1rem 1.5rem;
-            border-radius: var(--radius);
-            margin: 1.5rem 0;
-            border: 1px solid var(--border);
-        }
-
-        .alert-info {
-            background: var(--primary-light);
-            border-left-color: var(--primary);
-        }
-
-        .alert-success {
-            background: rgba(78, 205, 196, 0.1);
-            border-left-color: var(--success);
-        }
-
-        .alert-warning {
-            background: rgba(245, 158, 11, 0.1);
-            border-left-color: var(--warning);
-        }
-
-        /* Grille de fonctionnalités */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .feature-item {
-            background: var(--light);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            text-align: center;
-            transition: transform 0.3s;
-        }
-
-        .feature-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--primary-light);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            color: var(--primary);
-            font-size: 1.5rem;
-        }
-
-        /* Footer */
-        .footer {
-            background: var(--light);
-            border-top: 1px solid var(--border);
-            padding: 2rem 0;
-            text-align: center;
-            color: var(--text-light);
-            margin-left: 320px;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .sidebar {
-                transform: translateX(-100%);
-                z-index: 900;
-            }
-
-            .sidebar.active {
-                transform: translateX(0);
-            }
-
-            .content {
-                margin-left: 0;
-                padding: 2rem;
-            }
-
-            .footer {
-                margin-left: 0;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--text);
-            cursor: pointer;
-        }
-
-        .version-badge {
-            display: inline-block;
-            padding: 4px 8px;
-            background: var(--primary-light);
-            color: var(--primary);
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-left: 8px;
-        }
-
-        .highlight {
-            background: var(--primary-light);
-            padding: 2px 4px;
-            border-radius: 4px;
-            font-weight: 500;
-        }
-
-        a {
-            color: var(--primary);
-            text-decoration: underline;
-        }
-    </style>
+   <link rel="stylesheet" href="aissistant-doc.css">
 </head>
 
-<body>
-    <header class="header">
-        <div class="container">
-            <nav class="nav">
-                <a href="../index.php" class="logo">
-                    <div class="logo-icon">
-                        <i class="fa-regular fa-folder-open"></i>
-                    </div>
-                    <span>LibreAnalytics <span style="font-weight: 400; color: var(--text-light);">Docs</span></span>
-                </a>
+<!-- Interface du chat -->
+<div class="chat-assistant" id="chatAssistant">
+    <!-- Bouton flottant -->
+    <button class="chat-assistant-button" id="chatToggleBtn" onclick="toggleChat()">
+        <i class="fas fa-comment" id="chatIcon"></i>
+        <span class="chat-notification" id="chatNotification" style="display: none;">1</span>
+    </button>
 
-                <div class="nav-links">
-                    <a href="https://gael-berru.com/LibreAnalytics/?utm_source=DOC" target="_blank">Accueil</a>
-                    <a href="../pour_les_dev/" target="_blank">Chat</a>
-                    <a href="../smart_pixel_v2/public/dashboard.php" class="btn btn-primary">
-                        <i class="fas fa-user"></i> Dashboard
-                    </a>
+    <!-- Fenêtre de chat -->
+    <div class="chat-assistant-window" id="chatWindow">
+        <!-- Header cliquable -->
+        <div class="chat-window-header" onclick="toggleChat()">
+            <div class="chat-header-info">
+                <div class="chat-header-avatar">
+                    <i class="fas fa-robot"></i>
                 </div>
-
-                <button class="mobile-menu-btn" id="mobileMenuBtn">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </nav>
+                <div class="chat-header-text">
+                    <h3>Assistant LibreAnalytics</h3>
+                    <p><i class="fas fa-circle" style="font-size: 8px; color: #10b981;"></i> En ligne</p>
+                </div>
+            </div>
+            <button class="chat-header-close" onclick="event.stopPropagation(); toggleChat()">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
-    </header>
 
-    <div class="docs-wrapper">
-        <!-- Sidebar avec recherche -->
-        <aside class="sidebar" id="sidebar">
-            <div class="search-container">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" id="searchInput" placeholder="Rechercher dans la doc...">
-                <div class="search-results" id="searchResults"></div>
+        <!-- Messages -->
+        <div class="chat-window-messages" id="chatMessages">
+            <div class="chat-message bot">
+                <div class="message-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="message-content">
+                    👋 Bonjour <?php echo isset($_SESSION['user_email']) ? $_SESSION['user_email'] : 'non connecté'; ?>! Je suis l'assistant LibreAnalytics. Comment puis-je vous aider ?
+                    <div class="message-time">À l'instant</div>
+                </div>
             </div>
+        </div>
 
-            <div class="nav-section">
-                <h3>DÉMARRAGE</h3>
-                <ul>
-                    <li><a href="#introduction" class="nav-link" data-section="introduction"><i
-                                class="fas fa-rocket"></i> Introduction</a></li>
-                    <li><a href="#installation" class="nav-link" data-section="installation"><i class="fas fa-code"></i>
-                            Installation 2min</a></li>
-                    <li><a href="#premiers-pas" class="nav-link" data-section="premiers-pas"><i
-                                class="fas fa-shoe-prints"></i> Premiers pas</a></li>
-                    <li><a href="#plans" class="nav-link" data-section="plans"><i class="fas fa-tags"></i> Plans &
-                            Tarifs</a></li>
-                </ul>
+        <!-- Quick actions -->
+        <div class="quick-actions" id="quickActions">
+            <span class="quick-action" onclick="askQuestion('Comment installer ?')">📦 Installation</span>
+            <span class="quick-action" onclick="askQuestion('Quels sont les tarifs ?')">💰 Tarifs</span>
+            <span class="quick-action" onclick="askQuestion('Comment utiliser l\'API ?')">🔌 API</span>
+            <span class="quick-action" onclick="askQuestion('RGPD')">🔒 RGPD</span>
+        </div>
+
+        <!-- Input area avec recherche -->
+        <div class="chat-input-area">
+            <div class="search-results" id="searchResults"></div>
+            <div class="input-wrapper">
+                <textarea 
+                    class="message-input" 
+                    id="messageInput" 
+                    placeholder="Posez votre question..." 
+                    rows="1"
+                    oninput="autoResize(this)"
+                ></textarea>
+                <button class="btn-send" id="sendButton" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
             </div>
+        </div>
+    </div>
+</div>
 
-            <div class="nav-section">
-                <h3>FONCTIONNALITÉS</h3>
-                <ul>
-                    <li><a href="#dashboard" class="nav-link" data-section="dashboard"><i class="fas fa-chart-pie"></i>
-                            Dashboard</a></li>
-                    <li><a href="#evenements" class="nav-link" data-section="evenements"><i
-                                class="fas fa-mouse-pointer"></i> Événements & Clics</a></li>
-                    <li><a href="#geolocalisation" class="nav-link" data-section="geolocalisation"><i
-                                class="fas fa-map-marker-alt"></i> Géolocalisation</a></li>
-                    <li><a href="#sources" class="nav-link" data-section="sources"><i class="fas fa-link"></i> Sources
-                            trafic & UTM</a></li>
-                    <li><a href="#multi-sites" class="nav-link" data-section="multi-sites"><i class="fas fa-globe"></i>
-                            Multi-sites</a></li>
-                </ul>
-            </div>
 
-            <div class="nav-section">
-                <h3>INTÉGRATION</h3>
-                <ul>
-                    <li><a href="#script-js" class="nav-link" data-section="script-js"><i class="fab fa-js"></i>
-                            Tracker.js</a></li>
-                    <li><a href="#pixel-php" class="nav-link" data-section="pixel-php"><i class="fas fa-database"></i>
-                            Pixel PHP</a></li>
-                    <li><a href="#api" class="nav-link" data-section="api"><i class="fas fa-plug"></i> API REST</a></li>
-                    <li><a href="#webhooks" class="nav-link" data-section="webhooks"><i class="fas fa-webhook"></i>
-                            Webhooks</a></li>
-                </ul>
-            </div>
+<script>
+    // Données de recherche
+const searchData = [
+    { title: "Installation en 2 minutes", section: "installation", content: "Créer un compte, récupérer tracking code, coller script", tags: "installer configurer tracker" },
+            { title: "Plans et tarifs", section: "plans", content: "Gratuit 1 site, Pro 9€, Business 29€, limites visites", tags: "prix abonnement payer" },
+            { title: "Tracking des clics", section: "evenements", content: "Clics automatiques, événements personnalisés, API JavaScript", tags: "click event conversion" },
+            { title: "Géolocalisation", section: "geolocalisation", content: "Pays, ville via IP, ip-api.com, anonymisation", tags: "geo ip pays ville" },
+            { title: "Sources UTM", section: "sources", content: "utm_source, utm_medium, utm_campaign, referrer", tags: "campagne marketing tracking" },
+            { title: "Tracker.js", section: "script-js", content: "Fichier JS, fonctions, paramètres URL du pixel", tags: "javascript script api" },
+            { title: "Pixel.php", section: "pixel-php", content: "Point d'entrée serveur, GIF 1x1, insertion base", tags: "backend php gif" },
+            { title: "API REST", section: "api", content: "Endpoints, authentification, export JSON/CSV", tags: "api rest json csv developpeur" },
+            { title: "Webhooks", section: "webhooks", content: "Notifications temps réel, événements, configuration", tags: "webhook realtime alert" },
+            { title: "Multi-sites", section: "multi-sites", content: "Gérer plusieurs sites par compte, tracking code par site", tags: "plusieurs sites domains" },
+            { title: "RGPD", section: "rgpd", content: "Conformité, données en France, pas de cookies tiers", tags: "gdpr privacy cookies" },
+            { title: "Paiement LemonSqueezy", section: "paiement", content: "Processus checkout, webhook de confirmation", tags: "payment lemon squeezy carte" },
+            { title: "FAQ", section: "faq", content: "Questions fréquentes : gratuit, auto-hébergement, données", tags: "questions aide" },
+            { title: "Codes erreur", section: "erreurs", content: "ERR_INVALID_TRACKING, ERR_SITE_INACTIVE, dépannage", tags: "error bug problème" },
+            { title: "Support", section: "support", content: "Email, GitHub, Discord, délais de réponse", tags: "contact aide assistance" },
+            { title: "Dashboard", section: "dashboard", content: "Onglets, métriques, filtres période, gestion sites", tags: "interface graphique stats" },
+            { title: "Premiers pas", section: "premiers-pas", content: "Comprendre les métriques, utiliser les filtres", tags: "debutant guide" },
+            { title: "Gestion compte", section: "compte", content: "Mot de passe, ajout site, clé API", tags: "account profil settings" },
+];
 
-            <div class="nav-section">
-                <h3>ADMINISTRATION</h3>
-                <ul>
-                    <li><a href="#compte" class="nav-link" data-section="compte"><i class="fas fa-user-cog"></i> Gestion
-                            compte</a></li>
-                    <li><a href="#paiement" class="nav-link" data-section="paiement"><i class="fas fa-credit-card"></i>
-                            Paiement LemonSqueezy</a></li>
-                    <li><a href="#rgpd" class="nav-link" data-section="rgpd"><i class="fas fa-shield-alt"></i> RGPD &
-                            Conformité</a></li>
-                </ul>
-            </div>
-
-            <div class="nav-section">
-                <h3>❓ DÉPANNAGE</h3>
-                <ul>
-                    <li><a href="#faq" class="nav-link" data-section="faq"><i class="fas fa-question-circle"></i>
-                            FAQ</a></li>
-                    <li><a href="#erreurs" class="nav-link" data-section="erreurs"><i
-                                class="fas fa-exclamation-triangle"></i> Codes erreur</a></li>
-                    <li><a href="#support" class="nav-link" data-section="support"><i class="fas fa-headset"></i>
-                            Support</a></li>
-                </ul>
-            </div>
-        </aside>
-
-        <!-- Contenu principal -->
-        <main class="content" id="mainContent">
-            <!-- INTRODUCTION -->
-            <section id="introduction" class="doc-section">
+// Contenu complet des sections (version simplifiée mais fonctionnelle)
+ const sectionContent = {
+            introduction: `
                 <h1>Bienvenue sur LibreAnalytics <span class="version-badge">v2.0.1</span></h1>
 
                 <div class="alert alert-info">
@@ -730,10 +147,9 @@
                         <p>Code auditable sur GitHub. Vous pouvez même auto-héberger.</p>
                     </div>
                 </div>
-            </section>
-
-            <!-- INSTALLATION 2MIN -->
-            <section id="installation" class="doc-section">
+            `,
+            
+            installation: `
                 <h2>Installation en 2 minutes</h2>
 
                 <div class="card">
@@ -749,7 +165,7 @@
                 <div class="card">
                     <div class="card-title">
                         <i class="fas fa-check-circle" style="color: var(--success);"></i>
-                        Étape 2 : Récupérer votre code de tracking, le Smart Pixel !
+                        Étape 2 : Récupérer votre code de tracking
                     </div>
                     <p>Une fois connecté, vous arrivez sur le dashboard. Vous verrez votre <span
                             class="highlight">tracking code</span> (ex: <code>SP_79747769</code>), situé en bas à gauche
@@ -767,8 +183,7 @@
                     <div class="code-block">
                         <div class="code-header">
                             <span><i class="fas fa-code"></i> tracker.js</span>
-                            <button class="copy-btn"
-                                onclick="copyToClipboard('&lt;!-- LibreAnalytics --&gt;\n&lt;script data-sp-id=\&quot;SP_79747769\&quot; src=\&quot;https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/tracker.js\&quot; async&gt;&lt;/script&gt;')">
+                            <button class="copy-btn" onclick="copyToClipboard('<!-- LibreAnalytics -->\\n<script data-sp-id=\\"SP_79747769\\" src=\\"https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/tracker.js\\" async><\\/script>')">
                                 <i class="fas fa-copy"></i> Copier
                             </button>
                         </div>
@@ -782,10 +197,9 @@
                     minutes mais peuvent dans certain cas, prendre jusqu'à 24H. Le script collecte automatiquement :
                     pages vues, clics, source, UTM, géolocalisation, appareil, navigateur...
                 </div>
-            </section>
-
-            <!-- PREMIERS PAS -->
-            <section id="premiers-pas" class="doc-section">
+            `,
+            
+            premiersPas: `
                 <h2>Premiers pas</h2>
 
                 <h3>Comprendre les métriques</h3>
@@ -834,10 +248,9 @@
                     <i class="fas fa-lightbulb"></i> <strong>Astuce :</strong> Passez la souris sur les graphiques pour
                     voir les valeurs précises. Les tableaux sous les graphiques sont triables par colonne.
                 </div>
-            </section>
-
-            <!-- PLANS ET TARIFS -->
-            <section id="plans" class="doc-section">
+            `,
+            
+            plans: `
                 <h2>Plans et tarifs</h2>
 
                 <div class="table-container">
@@ -908,10 +321,9 @@
 
                 <p>Pour passer en Pro/Business : <code>Dashboard → Mon compte → Mise à niveau</code>. Le changement est
                     instantané.</p>
-            </section>
-
-            <!-- DASHBOARD -->
-            <section id="dashboard" class="doc-section">
+            `,
+            
+            dashboard: `
                 <h2>Utilisation du dashboard</h2>
 
                 <h3>Onglets disponibles</h3>
@@ -933,10 +345,9 @@
                         ses données. Le <span class="badge badge-info">code de suivi</span> affiché est unique pour
                         chaque site.</p>
                 </div>
-            </section>
-
-            <!-- ÉVÉNEMENTS ET CLICS -->
-            <section id="evenements" class="doc-section">
+            `,
+            
+            evenements: `
                 <h2>Tracking des clics et événements</h2>
 
                 <p>LibreAnalytics tracke automatiquement tous les clics sur les liens et boutons, CTA (sauf si vous avez
@@ -954,7 +365,7 @@
                     <div class="code-header">
                         <span>JavaScript</span>
                         <button class="copy-btn"
-                            onclick="copyToClipboard('// Envoyer un événement personnalisé\nSmartPixel.trackEvent(\'inscription\', {\n  method: \'email\',\n  user_id: 123\n});')">
+                            onclick="copyToClipboard('// Envoyer un événement personnalisé\\nSmartPixel.trackEvent(\\'inscription\\', {\\n  method: \\'email\\',\\n  user_id: 123\\n});')">
                             <i class="fas fa-copy"></i> Copier
                         </button>
                     </div>
@@ -969,10 +380,9 @@ SmartPixel.trackEvent('inscription', {
                     <strong>Important :</strong> Les événements ne sont envoyés qu'après le chargement complet de la
                     page (évite les doublons). L'objet eventData est limité à 500 caractères.
                 </div>
-            </section>
-
-            <!-- GÉOLOCALISATION -->
-            <section id="geolocalisation" class="doc-section">
+            `,
+            
+            geolocalisation: `
                 <h2>Géolocalisation</h2>
 
                 <p>La géolocalisation est effectuée côté serveur via l'API <code>ip-api.com</code> (limitation : 45
@@ -992,10 +402,9 @@ SmartPixel.trackEvent('inscription', {
                     évidement pas accessible pour des raison de sécurité et de normes RGPD. Vous pouvez désactiver la
                     géoloc dans votre<code>config.php</code>.
                 </div>
-            </section>
-
-            <!-- SOURCES UTM -->
-            <section id="sources" class="doc-section">
+            `,
+            
+            sources: `
                 <h2>Sources de trafic et paramètres UTM</h2>
 
                 <p>LibreAnalytics capture automatiquement les paramètres UTM de l'URL et les sources.</p>
@@ -1017,10 +426,9 @@ SmartPixel.trackEvent('inscription', {
                     <li>Moteurs de recherche : Google, Bing, DuckDuckGo → "organic"</li>
                     <li>Direct : pas de referrer → "direct"</li>
                 </ul>
-            </section>
-
-            <!-- SCRIPT JS -->
-            <section id="script-js" class="doc-section">
+            `,
+            
+            scriptJs: `
                 <h2>Tracker - Documentation technique</h2>
 
                 <p>Notre code <code>JavaScript</code> est le cœur de la collecte côté client. Il est conçu pour être
@@ -1031,7 +439,7 @@ SmartPixel.trackEvent('inscription', {
                     <div class="code-header">
                         <span>API JavaScript</span>
                         <button class="copy-btn"
-                            onclick="copyToClipboard('SmartPixel.load(\'SP_XXXXXX\'); // Chargement manuel\nSmartPixel.trackEvent(\'eventName\', {data}); // Événement personnalisé\nSmartPixel.getOrCreateSessionId(); // Récupère l\'ID de session')">
+                            onclick="copyToClipboard('SmartPixel.load(\\'SP_XXXXXX\\'); // Chargement manuel\\nSmartPixel.trackEvent(\\'eventName\\', {data}); // Événement personnalisé\\nSmartPixel.getOrCreateSessionId(); // Récupère l\\'ID de session')">
                             <i class="fas fa-copy"></i> Copier
                         </button>
                     </div>
@@ -1089,10 +497,9 @@ SmartPixel.getOrCreateSessionId(); // Récupère l'ID de session</code></pre>
                         </tbody>
                     </table>
                 </div>
-            </section>
-
-            <!-- PIXEL PHP -->
-            <section id="pixel-php" class="doc-section">
+            `,
+            
+            pixelPhp: `
                 <h2>Pixel.php - Point d'entrée serveur</h2>
 
                 <p>Notre code <code>PHP</code> reçoit les données, valide le tracking code, enrichit avec la géoloc, et
@@ -1113,10 +520,9 @@ SmartPixel.getOrCreateSessionId(); // Récupère l'ID de session</code></pre>
                     <li>Les erreurs sont loggées silencieusement (pas d'affichage).</li>
                     <li>Le cache est désactivé (headers no-cache).</li>
                 </ul>
-            </section>
-
-            <!-- API REST -->
-            <section id="api" class="doc-section">
+            `,
+            
+            api: `
                 <h2>🔌 API REST (Pro & Business) Fonctionnalitées en beta test</h2>
 
                 <p>L'API REST vous permet d'accéder à vos données programmatiquement. Elle est en bêta depuis janvier
@@ -1163,7 +569,7 @@ SmartPixel.getOrCreateSessionId(); // Récupère l'ID de session</code></pre>
                             <div class="code-header">
                                 <span>Exemple d'URL complète :</span>
                                 <button class="copy-btn"
-                                    onclick="copyToClipboard('SmartPixel.load(\'SP_XXXXXX\'); // Chargement manuel\nSmartPixel.trackEvent(\'eventName\', {data}); // Événement personnalisé\nSmartPixel.getOrCreateSessionId(); // Récupère l\'ID de session')">
+                                    onclick="copyToClipboard('https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p&start_date=2026-01-01&end_date=2026-02-01')">
                                     <i class="fas fa-copy"></i> Copier
                                 </button>
                             </div>
@@ -1185,7 +591,7 @@ SmartPixel.getOrCreateSessionId(); // Récupère l'ID de session</code></pre>
                                 </li>
                                 <li><strong>Avec JavaScript</strong> (fetch) :
                                     <code>
-fetch(`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c...`)
+fetch(\`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c...\`)
   .then(response => response.json())
   .then(data => console.log(data));
                             </code>
@@ -1248,7 +654,7 @@ fetch(`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c..
 &lt;canvas id="visitsChart" width="800" height="400"&gt;&lt;/canvas&gt;
 &lt;script src="https://cdn.jsdelivr.net/npm/chart.js"&gt;&lt;/script&gt;
 &lt;script&gt;
-  fetch(`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c...`)
+  fetch(\`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c...\`)
     .then(response => response.json())
     .then(data => {
       const labels = data.data.map(item => item.date);
@@ -1276,13 +682,10 @@ fetch(`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c..
                             </ul>
                         </div>
                     </div>
-
-            </section>
-
-
-
-            <!-- WEBHOOKS -->
-            <section id="webhooks" class="doc-section">
+                </div>
+            `,
+            
+            webhooks: `
                 <h2>Webhooks (Business)</h2>
 
                 <p>Recevez des notifications en temps réel sur vos événements analytics.</p>
@@ -1312,10 +715,9 @@ fetch(`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c..
   }
 }</code></pre>
                 </div>
-            </section>
-
-            <!-- GESTION COMPTE -->
-            <section id="compte" class="doc-section">
+            `,
+            
+            compte: `
                 <h2>Gestion de votre compte</h2>
 
                 <h3>Changer de mot de passe</h3>
@@ -1330,10 +732,9 @@ fetch(`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c..
                 <h3>Clé API ( en cours de dev, peut ne pas focntionner correctement )</h3>
                 <p>Disponible dans Mon compte → API. Régénérez-la si nécessaire (cela cassera les anciennes
                     intégrations).</p>
-            </section>
-
-            <!-- PAIEMENT LEMONSQUEEZY -->
-            <section id="paiement" class="doc-section">
+            `,
+            
+            paiement: `
                 <h2>Paiement avec Lemon Squeezy</h2>
 
                 <p>Nous utilisons <a href="https://lemonsqueezy.com" target="_blank">Lemon Squeezy</a>, une plateforme
@@ -1351,10 +752,9 @@ fetch(`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c..
                 <h3>Gestion des abonnements</h3>
                 <p>Vous pouvez annuler, modifier ou consulter votre abonnement directement sur le portail client Lemon
                     Squeezy (lien dans l'email de confirmation).</p>
-            </section>
-
-            <!-- RGPD -->
-            <section id="rgpd" class="doc-section">
+            `,
+            
+            rgpd: `
                 <h2>RGPD et conformité</h2>
 
                 <div class="alert alert-success">
@@ -1380,10 +780,9 @@ fetch(`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c..
                 <h3>Hébergement</h3>
                 <p>Toutes les données sont hébergées sur des serveurs en France. Aucune donnée ne transite par les USA.
                 </p>
-            </section>
-
-            <!-- FAQ -->
-            <section id="faq" class="doc-section">
+            `,
+            
+            faq: `
                 <h2>F.A.Q</h2>
 
                 <div class="card">
@@ -1417,10 +816,9 @@ fetch(`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c..
                         console navigateur pour d'éventuelles erreurs.
                     </p>
                 </div>
-            </section>
-
-            <!-- CODES ERREUR -->
-            <section id="erreurs" class="doc-section">
+            `,
+            
+            erreurs: `
                 <h2>Codes erreur et dépannage</h2>
 
                 <div class="table-container">
@@ -1456,10 +854,9 @@ fetch(`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c..
                         </tbody>
                     </table>
                 </div>
-            </section>
-
-            <!-- SUPPORT -->
-            <section id="support" class="doc-section">
+            `,
+            
+            support: `
                 <h2>Support</h2>
 
                 <div class="features-grid">
@@ -1480,168 +877,321 @@ fetch(`https://gael-berru.com/.../api.php?site_id=SP_24m87bb&api_key=sk_1a2b3c..
                         <p><a href="#">Serveur communautaire</a><br>Entraide entre utilisateurs</p>
                     </div>
                 </div>
-            </section>
-        </main>
-    </div>
-    <?php include 'aissistant-doc.php'; ?>
-
-    <footer class="footer">
-        <div class="container">
-            <p>© 2026 LibreAnalytics - Documentation officielle - <a href="#">Mentions légales</a> - <a
-                    href="#">Confidentialité</a></p>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Dernière mise à jour : 15 janvier 2026 - v2.0.1</p>
-        </div>
-    </footer>
-
-    <script>
-        // Données de recherche (titre, section, contenu)
-        const searchData = [
-            { title: "Installation en 2 minutes", section: "installation", content: "Créer un compte, récupérer tracking code, coller script", tags: "installer configurer tracker" },
-            { title: "Plans et tarifs", section: "plans", content: "Gratuit 1 site, Pro 9€, Business 29€, limites visites", tags: "prix abonnement payer" },
-            { title: "Tracking des clics", section: "evenements", content: "Clics automatiques, événements personnalisés, API JavaScript", tags: "click event conversion" },
-            { title: "Géolocalisation", section: "geolocalisation", content: "Pays, ville via IP, ip-api.com, anonymisation", tags: "geo ip pays ville" },
-            { title: "Sources UTM", section: "sources", content: "utm_source, utm_medium, utm_campaign, referrer", tags: "campagne marketing tracking" },
-            { title: "Tracker.js", section: "script-js", content: "Fichier JS, fonctions, paramètres URL du pixel", tags: "javascript script api" },
-            { title: "Pixel.php", section: "pixel-php", content: "Point d'entrée serveur, GIF 1x1, insertion base", tags: "backend php gif" },
-            { title: "API REST", section: "api", content: "Endpoints, authentification, export JSON/CSV", tags: "api rest json csv developpeur" },
-            { title: "Webhooks", section: "webhooks", content: "Notifications temps réel, événements, configuration", tags: "webhook realtime alert" },
-            { title: "Multi-sites", section: "multi-sites", content: "Gérer plusieurs sites par compte, tracking code par site", tags: "plusieurs sites domains" },
-            { title: "RGPD", section: "rgpd", content: "Conformité, données en France, pas de cookies tiers", tags: "gdpr privacy cookies" },
-            { title: "Paiement LemonSqueezy", section: "paiement", content: "Processus checkout, webhook de confirmation", tags: "payment lemon squeezy carte" },
-            { title: "FAQ", section: "faq", content: "Questions fréquentes : gratuit, auto-hébergement, données", tags: "questions aide" },
-            { title: "Codes erreur", section: "erreurs", content: "ERR_INVALID_TRACKING, ERR_SITE_INACTIVE, dépannage", tags: "error bug problème" },
-            { title: "Support", section: "support", content: "Email, GitHub, Discord, délais de réponse", tags: "contact aide assistance" },
-            { title: "Dashboard", section: "dashboard", content: "Onglets, métriques, filtres période, gestion sites", tags: "interface graphique stats" },
-            { title: "Premiers pas", section: "premiers-pas", content: "Comprendre les métriques, utiliser les filtres", tags: "debutant guide" },
-            { title: "Gestion compte", section: "compte", content: "Mot de passe, ajout site, clé API", tags: "account profil settings" },
-        ];
-
-        // Recherche en temps réel
-        const searchInput = document.getElementById('searchInput');
-        const searchResults = document.getElementById('searchResults');
-        const navLinks = document.querySelectorAll('.nav-link');
-        const sections = document.querySelectorAll('.doc-section');
-
-        function performSearch(query) {
-            if (!query.trim()) {
-                searchResults.style.display = 'none';
-                return;
-            }
-
-            const results = searchData.filter(item =>
-                item.title.toLowerCase().includes(query.toLowerCase()) ||
-                item.content.toLowerCase().includes(query.toLowerCase()) ||
-                (item.tags && item.tags.toLowerCase().includes(query.toLowerCase()))
-            ).slice(0, 5);
-
-            if (results.length === 0) {
-                searchResults.innerHTML = '<div class="search-result-item">Aucun résultat</div>';
-                searchResults.style.display = 'block';
-                return;
-            }
-
-            searchResults.innerHTML = results.map(r => `
-                <div class="search-result-item" data-section="${r.section}">
-                    <h4>${r.title}</h4>
-                    <p>${r.content.substring(0, 80)}...</p>
+            `,
+            
+            multiSites: `
+                <h2>Gestion multi-sites</h2>
+                
+                <p>LibreAnalytics vous permet de gérer plusieurs sites web depuis un seul compte. Chaque site possède son propre code de tracking et ses statistiques indépendantes.</p>
+                
+                <h3>Ajouter un site</h3>
+                <p>Dans la colonne de gauche du dashboard, cliquez sur le bouton <i class="fas fa-plus-circle"></i> "Ajouter un site". Remplissez les informations suivantes :</p>
+                <ul>
+                    <li><strong>Nom du site</strong> : Un nom pour identifier votre site (ex: "Blog personnel")</li>
+                    <li><strong>URL du site</strong> : L'adresse web complète (ex: https://monblog.fr)</li>
+                </ul>
+                <p>Un nouveau code de tracking unique sera automatiquement généré pour ce site.</p>
+                
+                <h3>Basculer entre les sites</h3>
+                <p>La liste de vos sites apparaît dans la colonne de gauche. Cliquez simplement sur un site pour afficher ses statistiques dans le dashboard principal.</p>
+                
+                <h3>Supprimer un site</h3>
+                <p>Survolez un site dans la liste et cliquez sur l'icône de corbeille qui apparaît. Confirmez la suppression - attention, cette action est irréversible et toutes les données associées seront effacées.</p>
+                
+                <div class="alert alert-info">
+                    <strong>Limites :</strong> Le nombre de sites disponibles dépend de votre formule d'abonnement :
+                    <ul>
+                        <li>Gratuit : 1 site</li>
+                        <li>Pro : 10 sites</li>
+                        <li>Business : 50 sites</li>
+                    </ul>
                 </div>
-            `).join('');
-            searchResults.style.display = 'block';
-
-            // Ajouter événement clic sur les résultats
-            document.querySelectorAll('.search-result-item').forEach(el => {
-                el.addEventListener('click', function () {
-                    const sectionId = this.dataset.section;
-                    const targetSection = document.getElementById(sectionId);
-                    if (targetSection) {
-                        targetSection.scrollIntoView({ behavior: 'smooth' });
-                        searchResults.style.display = 'none';
-                        searchInput.value = '';
-
-                        // Mettre à jour la classe active
-                        navLinks.forEach(l => l.classList.remove('active'));
-                        document.querySelector(`.nav-link[data-section="${sectionId}"]`).classList.add('active');
-                    }
-                });
-            });
-        }
-
-        searchInput.addEventListener('input', (e) => performSearch(e.target.value));
-        document.addEventListener('click', (e) => {
-            if (!searchResults.contains(e.target) && e.target !== searchInput) {
-                searchResults.style.display = 'none';
-            }
-        });
-
-        // Navigation active et scroll spy
-        function setActiveLink() {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 100;
-                const sectionBottom = sectionTop + section.offsetHeight;
-                if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.dataset.section === current) {
-                    link.classList.add('active');
-                }
-            });
-        }
-
-        window.addEventListener('scroll', setActiveLink);
-        window.addEventListener('load', setActiveLink);
-
-        // Smooth scroll pour les liens de navigation
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = link.dataset.section;
-                const targetSection = document.getElementById(targetId);
-                if (targetSection) {
-                    targetSection.scrollIntoView({ behavior: 'smooth' });
-
-                    // Mise à jour active
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    link.classList.add('active');
-                }
-
-                // Fermer le menu mobile si ouvert
-                if (window.innerWidth <= 1024) {
-                    document.getElementById('sidebar').classList.remove('active');
-                }
-            });
-        });
-
-        // Copie de code
-        window.copyToClipboard = function (text) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Code copié !');
-            }).catch(() => {
-                alert('Erreur de copie, sélectionnez manuellement.');
-            });
+            `
         };
 
-        // Menu mobile
-        const mobileBtn = document.getElementById('mobileMenuBtn');
-        const sidebar = document.getElementById('sidebar');
+// Compléter avec les autres sections de la version précédente
+sectionContent.evenements = `<h2>Tracking des clics</h2><p>LibreAnalytics tracke tous les clics automatiquement.</p><div class="code-block"><pre><code>SmartPixel.trackEvent('inscription', { method: 'email' });</code></pre></div>`;
+sectionContent.geolocalisation = `<h2>Géolocalisation</h2><p>Basée sur l'IP via ip-api.com. Stockage pays/ville uniquement.</p>`;
+sectionContent.sources = `<h2>Sources UTM</h2><p>Capture automatique de utm_source, utm_medium, utm_campaign.</p>`;
+sectionContent.scriptJs = `<h2>Tracker.js</h2><p>Script de 4KB, asynchrone.</p><div class="code-block"><pre><code>SmartPixel.load('SP_XXXXXX');</code></pre></div>`;
+sectionContent.pixelPhp = `<h2>Pixel.php</h2><p>Point d'entrée serveur, retourne un GIF 1x1.</p>`;
+sectionContent.webhooks = `<h2>Webhooks</h2><p>Notifications temps réel sur vos événements.</p>`;
+sectionContent.rgpd = `<h2>RGPD</h2><p>Hébergement France, pas de cookies tiers.</p>`;
+sectionContent.faq = `<h2>FAQ</h2><p>LibreAnalytics est gratuit pour 1 site/1000 visites. Open source sur GitHub.</p>`;
+sectionContent.support = `<h2>Support</h2><p>Email, GitHub Issues, Discord.</p>`;
 
-        if (mobileBtn) {
-            mobileBtn.addEventListener('click', () => {
-                sidebar.classList.toggle('active');
-            });
-        }
+// État du chat
+let isChatOpen = false;
+let isTyping = false;
+let unreadCount = 1; // Pour la notification
 
-        // Ajuster la largeur du contenu sur redimensionnement
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 1024) {
-                sidebar.classList.remove('active');
-            }
+// Éléments DOM
+const chatWindow = document.getElementById('chatWindow');
+const chatToggleBtn = document.getElementById('chatToggleBtn');
+const chatIcon = document.getElementById('chatIcon');
+const chatNotification = document.getElementById('chatNotification');
+const chatMessages = document.getElementById('chatMessages');
+const searchInput = document.getElementById('messageInput');
+const searchResults = document.getElementById('searchResults');
+
+// Toggle chat
+function toggleChat() {
+    isChatOpen = !isChatOpen;
+    
+    if (isChatOpen) {
+        chatWindow.classList.add('open');
+        chatToggleBtn.classList.add('active');
+        chatIcon.className = 'fas fa-times';
+        chatNotification.style.display = 'none';
+        unreadCount = 0;
+        
+        // Focus sur l'input
+        setTimeout(() => {
+            document.getElementById('messageInput').focus();
+        }, 300);
+    } else {
+        chatWindow.classList.remove('open');
+        chatToggleBtn.classList.remove('active');
+        chatIcon.className = 'fas fa-comment';
+    }
+}
+
+// Auto-resize textarea
+function autoResize(textarea) {
+    textarea.style.height = 'auto';
+    textarea.style.height = (textarea.scrollHeight) + 'px';
+    performSearch(textarea.value);
+}
+
+// Recherche en temps réel
+function performSearch(query) {
+    if (!query.trim() || query.length < 2 || !isChatOpen) {
+        searchResults.style.display = 'none';
+        return;
+    }
+
+    const results = searchData.filter(item =>
+        item.title.toLowerCase().includes(query.toLowerCase()) ||
+        item.content.toLowerCase().includes(query.toLowerCase())
+    ).slice(0, 3);
+
+    if (results.length === 0) {
+        searchResults.innerHTML = '<div class="search-result-item">Aucun résultat</div>';
+        searchResults.style.display = 'block';
+        return;
+    }
+
+    searchResults.innerHTML = results.map(r => `
+        <div class="search-result-item" data-section="${r.section}">
+            <h4>${r.title}</h4>
+            <p>${r.content.substring(0, 50)}...</p>
+        </div>
+    `).join('');
+    searchResults.style.display = 'block';
+
+    document.querySelectorAll('.search-result-item').forEach(el => {
+        el.addEventListener('click', function() {
+            const section = this.dataset.section;
+            showSection(section);
+            searchResults.style.display = 'none';
+            searchInput.value = '';
+            autoResize(searchInput);
         });
-    </script>
-</body>
+    });
+}
 
-</html>
+// Ajouter un message
+function addMessage(text, sender, isHtml = false) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `chat-message ${sender}`;
+    
+    const time = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    
+    let avatar = sender === 'user' 
+        ? '<div class="message-avatar"><i class="fas fa-user"></i></div>'
+        : '<div class="message-avatar"><i class="fas fa-robot"></i></div>';
+    
+    let messageContent = isHtml ? text : `<p>${text}</p>`;
+    
+    messageDiv.innerHTML = `
+        ${avatar}
+        <div class="message-content">
+            ${messageContent}
+            <div class="message-time">${time}</div>
+        </div>
+    `;
+    
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Afficher une section
+function showSection(section) {
+    const sectionData = searchData.find(d => d.section === section);
+    if (!sectionData) return;
+    
+    addMessage(`Afficher: ${sectionData.title}`, 'user');
+    
+    // Simuler la frappe
+    showTypingIndicator();
+    
+    setTimeout(() => {
+        removeTypingIndicator();
+        
+        const content = sectionContent[section] || sectionContent.default;
+        const response = `
+            <div class="doc-content">
+                ${content}
+                <div style="margin-top: 10px; display: flex; gap: 5px;">
+                    <span class="quick-action" onclick="copySection('${section}')">Copier</span>
+                    <span class="quick-action" onclick="askQuestion('En savoir plus sur ${sectionData.title}')">❓ Question</span>
+                </div>
+            </div>
+        `;
+        addMessage(response, 'bot', true);
+    }, 600);
+}
+
+// Copier une section
+function copySection(section) {
+    const content = sectionContent[section] || '';
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = content;
+    const text = tempDiv.textContent || tempDiv.innerText || '';
+    copyToClipboard(text);
+}
+
+// Copier dans le presse-papier
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        addMessage('✅ Texte copié !', 'bot');
+    });
+}
+
+// Afficher l'indicateur de frappe
+function showTypingIndicator() {
+    if (isTyping) return;
+    isTyping = true;
+    
+    const indicator = document.createElement('div');
+    indicator.className = 'chat-message bot';
+    indicator.id = 'typingIndicator';
+    indicator.innerHTML = `
+        <div class="message-avatar">
+            <i class="fas fa-robot"></i>
+        </div>
+        <div class="message-content">
+            <div class="typing-indicator">
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+            </div>
+        </div>
+    `;
+    
+    chatMessages.appendChild(indicator);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Supprimer l'indicateur de frappe
+function removeTypingIndicator() {
+    const indicator = document.getElementById('typingIndicator');
+    if (indicator) {
+        indicator.remove();
+    }
+    isTyping = false;
+}
+
+// Envoyer un message
+function sendMessage() {
+    const input = document.getElementById('messageInput');
+    const message = input.value.trim();
+    
+    if (!message || !isChatOpen) return;
+    
+    addMessage(message, 'user');
+    input.value = '';
+    autoResize(input);
+    searchResults.style.display = 'none';
+    
+    // Réponse automatique
+    showTypingIndicator();
+    
+    setTimeout(() => {
+        removeTypingIndicator();
+        
+        // Chercher une correspondance
+        const result = searchData.find(item => 
+            message.toLowerCase().includes(item.title.toLowerCase()) ||
+            item.title.toLowerCase().includes(message.toLowerCase())
+        );
+        
+        if (result) {
+            const response = `
+                <p>${result.content}</p>
+                <div style="margin-top: 8px;">
+                    <span class="quick-action" onclick="showSection('${result.section}')">
+                        Voir documentation complète
+                    </span>
+                </div>
+            `;
+            addMessage(response, 'bot', true);
+        } else {
+            addMessage("Je peux vous aider avec l'installation, les tarifs, l'API, ou la configuration. Que souhaitez-vous savoir ?", 'bot');
+        }
+    }, 800);
+}
+
+// Question rapide
+window.askQuestion = function(question) {
+    if (!isChatOpen) {
+        toggleChat();
+    }
+    setTimeout(() => {
+        document.getElementById('messageInput').value = question;
+        sendMessage();
+    }, 300);
+};
+
+// Fermer les résultats en cliquant ailleurs
+document.addEventListener('click', (e) => {
+    if (!searchResults.contains(e.target) && e.target !== searchInput) {
+        searchResults.style.display = 'none';
+    }
+});
+
+// Envoyer avec Entrée
+document.getElementById('messageInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+    }
+});
+
+// Notification périodique (optionnel)
+setInterval(() => {
+    if (!isChatOpen && unreadCount === 0) {
+        unreadCount = 1;
+        chatNotification.style.display = 'flex';
+        chatNotification.textContent = '1';
+    }
+}, 30000); // Toutes les 30 secondes
+
+// Version pour mobile
+if (window.innerWidth <= 640) {
+    // Ajustements mobiles
+}
+
+// Passer les données PHP au JavaScript
+const userData = {
+    email: '<?php echo isset($userEmail) ? addslashes($userEmail) : ""; ?>',
+    name: '<?php echo addslashes($userName); ?>'
+};
+
+// Personnaliser le message de bienvenue si utilisateur connecté
+if (userData.email) {
+    setTimeout(() => {
+        addMessage(`Bonjour ${userData.name} ! 👋 Comment puis-je vous aider avec LibreAnalytics ?`, 'bot');
+    }, 1000);
+}
+</script>

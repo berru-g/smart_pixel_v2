@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Installation](https://img.shields.io/badge/Installation-1_ligne-brightgreen)](https://gael-berru.com/LibreAnalytics/#installation)
 [![Made in France](https://img.shields.io/badge/Made%20in-France-0055A4?logo=fr)](https://gael-berru.com)
-[![Open Source](https://img.shields.io/badge/Open%20Source-80%25-important?logo=github)](https://github.com/berru-g/LibreAnalytics)
+[![Open Source](https://img.shields.io/badge/Open%20Source-100%25-important?logo=github)](https://github.com/berru-g/LibreAnalytics)
 [![No Cookies](https://img.shields.io/badge/No%20Cookies-RGPD%20Friendly-blueviolet)](https://gael-berru.com/LibreAnalytics/)
 [![Lightweight](https://img.shields.io/badge/Lightweight-4KB-success?logo=lightning)](https://gael-berru.com/LibreAnalytics/)
 [![Sovereign](https://img.shields.io/badge/Sovereign-No%20GAFAM-007EC6?logo=europeanunion)](https://gael-berru.com/LibreAnalytics/)
@@ -14,6 +14,59 @@
 
 Avec Libre Analytics vos graphiques racontent une histoire et guident vers des insights actionnables.
 Analysez votre trafic sans compromettre la vie privée de vos visiteurs, avec un outil 100% européen et open source
+
+   ![LibreAnalytics-Dashboard](https://gael-berru.com/img/demo_dashboard.gif)
+
+
+## Pourquoi choisir LibreAnalytics ? :
+
+**Architecture optimisée pour les PME**
+
+  - *Base de données légère* : LibreAnalytics utilise une base de données MySQL pour stocker les données de manière efficace, sans dépendre de solutions externes.
+  - *Pas de frameworks lourds* : Développé en PHP natif, sans dépendances inutiles, pour une maintenance simple et des performances maximales.
+  - *Hébergement souverain* : 
+
+## **Points clés à mettre en avant (d’après le dashboard et la doc)**
+
+### **1. Architecture et Sécurité**
+- **Base de données MySQL** : Stockage structuré et sécurisé des données (tables `user_sites`, `smart_pixel_tracking`).
+- **Authentification robuste** : Gestion des sessions PHP, vérification des droits d’accès, protection contre les accès non autorisés.
+- **Génération de clés uniques** : `tracking_code` et `public_key` aléatoires pour chaque site, garantissant l’isolation des données.
+- **Limitation des sites par plan** : Logique de quota (ex: 1 site en gratuit, 10 en Pro), avec messages d’erreur clairs.
+
+### **2. Fonctionnalités avancées du dashboard**
+- **Multi-sites** : Gestion de plusieurs sites depuis un seul compte, avec bascule facile entre les tableaux de bord.
+- **Filtrage par période** : 7 jours, 30 jours, 90 jours, 1 an.
+- **Statistiques en temps réel** :
+  - Vues totales, visiteurs uniques, pages/session, temps moyen.
+  - Sources de trafic (Google, réseaux sociaux, direct, etc.).
+  - Géolocalisation (pays, villes).
+  - Appareils (mobile, desktop, tablette).
+  - Navigateurs (Chrome, Firefox, Safari, etc.).
+- **Visualisation des données** :
+  - Graphiques interactifs (Chart.js, amCharts).
+  - Cartes géographiques des visiteurs.
+  - Tableaux de données détaillées (IP, pages visitées, horodatage).
+- **Insights automatisés** :
+  - Analyse des tendances (ex: "+20% de trafic cette semaine").
+  - Recommandations d’amélioration (ex: "Votre taux de rebond est élevé, optimisez vos landing pages").
+
+### **3. API et Intégrations**
+- **Accès programmatique** : Récupération des données via API (JSON/CSV), idéal pour les devs et les intégrations externes.
+- **Exemples d’utilisation** :
+  - Intégration avec Google Data Studio, Excel, ou des dashboards custom (HTML/JS).
+  - Webhooks et notifications en temps réel (en développement).
+
+### **4. Expérience utilisateur**
+- **Design moderne et responsive** : Sidebar rétractable, interface intuitive, dark mode.
+- **Code d’intégration simplifié** : Un seul script à copier-coller dans le `<head>`.
+- **Gestion des limites** : Messages clairs quand l’utilisateur atteint sa limite de sites/visites.
+
+### **5. Souveraineté et Conformité**
+- **Hébergement 100% français** : Pas de dépendance aux GAFAM, conformité RGPD native.
+- **Anonymisation des IP** : Respect de la vie privée.
+- **Pas de cookies intrusifs** : Solution "no cookies" ou barre de consentement intégrée.
+
 
 
 Disponible
@@ -105,7 +158,7 @@ Vous aurez besoin de :
 ✅ Le premier dashboard est gratuit.
 
 ### 2. Récupérer votre code de tracking
-Une fois connecté, votre tableau de bord affiche votre **code d'intégration** :
+Une fois connecté, votre tableau de bord affiche votre **code d'intégration** : 
 
 ```html
 <script data-sp-id="SP_79747769" 
@@ -235,21 +288,17 @@ Chaque site a son propre **tracking code** (ex: `SP_79747769`). Installez le cod
 ## **📌 1. Récupérer ta clé API et ton code de tracking**
 ### **Étape 1 : Accède à ton compte**
 1. Connecte-toi à ton [tableau de bord Libre Analytics](https://gael-berru.com/LibreAnalytics/smart_pixel_v2/dashboard.php).
-2. Clique sur **"Mon compte"** dans le menu.
+2. Clique sur **"Parametre"** dans le menu puis sur **L'API et sa Documentation**
 
-   ![Exemple de menu](https://via.placeholder.com/600x200/4a6bff/ffffff?text=Menu+Smart+Pixel)
 
 ### **Étape 2 : Copie ta clé API**
-- Dans la section **"Clé API"**, clique sur l’icône **🖉** pour copier ta clé.
+- Dans la section **"Clé API"**, clique sur l’icône pour copier ta clé.
 - **Ne partage jamais cette clé** (elle donne accès à tes données).
 
-   ![Exemple de clé API](https://via.placeholder.com/600x300/4a6bff/ffffff?text=Cl%C3%A9+API%3A+1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p)
 
 ### **Étape 3 : Récupère ton code de tracking**
-1. Va dans **"Mes sites"** dans le menu.
+1. Retour au menu dans la section **Code d'intégration**
 2. Copie le **code de tracking** (ex: `SP_2m4789lg`).
-
-   ![Exemple de code de tracking](https://via.placeholder.com/600x200/4a6bff/ffffff?text=Code+de+tracking%3A+SP_2m4789lg)
 
 ---
 
@@ -354,6 +403,38 @@ Voici à quoi ressemble une réponse typique :
 | `sessions`          | Nombre de sessions.                         |
 | `total_visits`     | Somme des visites sur la période.           |
 
+
+#### **Ajouts techniques**
+- **Exemple de requête SQL** (pour les devs qui veulent self-hoster) :
+  ```sql
+  -- Exemple de requête pour récupérer les stats par jour
+  SELECT
+      DATE(timestamp) as date,
+      COUNT(*) as visits,
+      COUNT(DISTINCT ip_address) as unique_visitors
+  FROM smart_pixel_tracking
+  WHERE site_id = 'SP_12345'
+  GROUP BY DATE(timestamp)
+  ORDER BY date ASC;
+  ```
+- **Intégration de l’API en Python** :
+  ```python
+  import requests
+  response = requests.get(
+      "https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php",
+      params={
+          "site_id": "SP_12345",
+          "api_key": "VOTRE_CLE_API",
+          "start_date": "2026-01-01",
+          "end_date": "2026-02-01"
+      }
+  )
+  data = response.json()
+  print(data["data"])
+  ```
+- **Cas d’usage avancé** :
+  - Comment utiliser vos données LibreAnalytics via l'api pour alimenter un bot Discord ou un script d’alertes (ex: "Si trafic > 1000 visites/jour, envoyer une alerte").
+  
 ---
 
 ## **📈 5. Intégrer les données avec des outils**
@@ -385,28 +466,47 @@ Voici à quoi ressemble une réponse typique :
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dashboard Libre Analytics</title>
+  <title>Dashboard Smart Pixel</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <h1>Visites par jour</h1>
-  <canvas id="visitsChart" width="800" height="400"></canvas>
+  <h1>Dashboard pour les utilisateurs de <a href="https://gael-berru.com/smart_phpixel/">LibreAnalytics, l'analytics souverains"</a></h1>
+  <div id="status" class="loading">Chargement des données...</div>
+  <div class="chart-container">
+    <canvas id="visitsChart"></canvas>
+  </div>
 
   <script>
-    const siteId = 'SP_2m4789lg';
-    const apiKey = '1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p';
+    const siteId = 'SP_ton_id';  // Remplace par ton vrai site_id
+    const apiKey = 'ton_api_key';  // Remplace par ta vraie api_key
     const startDate = '2026-01-01';
-    const endDate = '2026-02-01';
+    const endDate = '2026-02-26';
 
-    fetch(`https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php?
-      site_id=${siteId}&
-      api_key=${apiKey}&
-      start_date=${startDate}&
-      end_date=${endDate}`)
-      .then(response => response.json())
+    // Remplace l'URL dans ton code JS par :
+const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+const url = `${proxyUrl}https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php?
+  site_id=${encodeURIComponent(siteId)}&
+  api_key=${encodeURIComponent(apiKey)}&
+  start_date=${encodeURIComponent(startDate)}&
+  end_date=${encodeURIComponent(endDate)}`;
+
+
+    console.log("URL de l'API :", url);  // Affiche l'URL dans la console
+
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP : ${response.status}`);
+        }
+        return response.json();
+      })
       .then(data => {
+        document.getElementById('status').textContent = "Données chargées avec succès !";
+        console.log("Données reçues :", data);  // Affiche les données dans la console
+
         const labels = data.data.map(item => item.date);
         const visits = data.data.map(item => item.visits);
+
         new Chart(document.getElementById('visitsChart'), {
           type: 'line',
           data: {
@@ -414,37 +514,47 @@ Voici à quoi ressemble une réponse typique :
             datasets: [{
               label: 'Visites',
               data: visits,
-              borderColor: '#4a6bff',
+              borderColor: '#9d86ff',
               backgroundColor: 'rgba(74, 107, 255, 0.1)',
-              tension: 0.3
+              tension: 0.3,
+              fill: true
             }]
           },
           options: {
             responsive: true,
+            maintainAspectRatio: false,
             scales: {
               y: { beginAtZero: true }
             }
           }
         });
+      })
+      .catch(error => {
+        console.error("Erreur :", error);
+        document.getElementById('status').textContent = `Erreur : ${error.message}`;
+        document.getElementById('status').className = "error";
       });
   </script>
 </body>
 </html>
 ```
 
+[Ouvrir le template dasn codepen](https://codepen.io/h-lautre/pen/EayBqeE?editors=1000)
+
+
 ---
 ## **⚠️ 6. Gérer les erreurs**
 | Code d’erreur | Cause probable                          | Solution                                  |
 |---------------|-----------------------------------------|-------------------------------------------|
 | `400`         | Paramètres manquants (`site_id` ou `api_key`). | Vérifie l’URL.                           |
-| `403`         | Clé API ou code de tracking invalide.   | Vérifie tes identifiants dans "Mon compte". |
+| `403`         | Clé API ou code de tracking invalide.   | Vérifie tes identifiants dans "Parametre". |
 | `404`         | Site non trouvé.                        | Vérifie que le `site_id` est correct.      |
 | `500`         | Erreur serveur.                         | Contacte le support (avec le message d’erreur). |
 
 ---
 ## **🔄 7. Régénérer ta clé API**
 Si ta clé API est compromise :
-1. Va dans **"Mon compte"**.
+1. Va dans **"Parametre"**.
 2. Clique sur **"Régénérer la clé API"**.
 3. **Met à jour tes intégrations** avec la nouvelle clé.
 
@@ -565,3 +675,13 @@ Tu peux maintenant :
 *Document généré le 14 février 2026 - Version 1.0.1*
 
 **Vous avez une question ?** N'hésitez pas à demander, cette documentation est faite pour vous !
+
+
+
+Merci pour le partage du code de ton dashboard. Voici une analyse détaillée des fonctionnalités et points forts de **Libre Analytics v2**, ainsi que des éléments à mettre en avant dans tes articles pour chaque plateforme. Je vais aussi t’aider à enrichir tes contenus avec des détails techniques et des cas d’usage concrets tirés de ton code.
+
+
+
+
+
+
