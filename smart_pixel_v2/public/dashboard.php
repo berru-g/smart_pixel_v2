@@ -444,7 +444,7 @@ function getCountryCodeSimple($countryName)
             <!-- Carte dédiée au code SP_ (simplifié) -->
             <div class="integration-card" style="">
                 <div class="integration-header">
-                    <h4>Votre SmartPixel</h4>
+                    <h4>Votre Smart Pixel</h4>
                     <button class="copy-btn" onclick="copyTrackingCode('<?= htmlspecialchars($currentSite['tracking_code']) ?>')" title="Copier le code SP_">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
@@ -1357,7 +1357,7 @@ function getCountryCodeSimple($countryName)
         </dialog>
     </div>
 
-    <?php include "aissistant.php" ?>
+    <?php include "/../../chat-bot/aissistant.php" ?>
 
     <script>
         // Fonction pour changer d'onglet
