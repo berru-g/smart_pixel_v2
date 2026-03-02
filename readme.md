@@ -99,7 +99,6 @@ Disponible
 
 ## Fonctionnalité
 
-
 ### ✅ **Actuellement disponibles**
 
 #### Plan Gratuit
@@ -673,4 +672,18 @@ Tu peux maintenant :
 
 *Document généré le 14 février 2026 - Version 1.0.1*
 
-**Vous avez une question ?** N'hésitez pas à demander, cette documentation est faite pour vous !
+
+**Note pour toi utilisateur** 
+Pour tendre vers la souveraineté total de nos données, je suis confronter à remplacer des outils gafam qu'il m'as fallu développer au fur et à mesure. Des tool tel que :
+
+  - L'API
+  - System de Captcha
+  - Séquence email automatique (via cron)
+
+Si vous avez un besoin spécifique [n'hésitez pas à me contacter](mailto:contact@gael-berru.com)
+
+
+
+
+
+

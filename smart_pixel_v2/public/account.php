@@ -54,7 +54,7 @@ $user = $stmt->fetch();
 
 // Régénérer la clé API si demandé
 if (isset($_POST['regenerate_api_key'])) {
-    $newApiKey = '' . bin2hex(random_bytes(16));
+    $newApiKey = bin2hex(random_bytes(16));
     $stmt = $pdo->prepare("UPDATE users SET api_key = ? WHERE id = ?");
     $stmt->execute([$newApiKey, $userId]);
     $user['api_key'] = $newApiKey;
@@ -533,7 +533,7 @@ if (isset($_POST['regenerate_api_key'])) {
                 <div class="api-key-display">
                     <code id="apiUrlExample">
                         https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/api.php?&
-                        site_id=<strong>SP_VOTRE_SMART_PIXEL</strong>?&
+                        site_id=<strong>SP_<?= htmlspecialchars(substr($user['api_key'], 0, 6)) ?></strong>?&
                         api_key=<strong>VOTRE_CLE_API</strong>?&
                         start_date=2026-01-01&
                         end_date=2026-02-01
