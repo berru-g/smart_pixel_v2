@@ -702,9 +702,12 @@ Pour tendre vers la souveraineté total de nos données, je suis confronter à r
 
 ## plan de l'architecture :
 
+<<<<<<< HEAD
 
 
 Mars 26 gl
+=======
+>>>>>>> 90f2a385d30e5eaa9627c031d0e6e36eb9ec5c08
 
 
 
