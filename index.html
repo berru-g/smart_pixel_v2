@@ -130,6 +130,7 @@
     <meta name="robots" content="index, follow">
     <link rel="stylesheet" href="./RGPD/cookie.css" hreflang="fr">
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
     <script data-sp-id="SP_79747769" src="https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/tracker.js"
         async></script>
 
@@ -560,12 +561,50 @@
     </div>
 </section>
 
-<button id="installPWA" class="install-btn">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-    </svg>
-    Installer l'app
-</button>
+<button id="installButton" class="btn btn-primary" style="margin: 40px auto;"><i class="fa-regular fa-folder-open"></i> Installer l'app</button>
+
+<script>
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('installButton').style.display = 'block';
+    });
+
+    document.getElementById('installButton').addEventListener('click', async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                console.log('Installation acceptée');
+            } else {
+                console.log('Installation refusée');
+            }
+            deferredPrompt = null;
+            document.getElementById('installButton').style.display = 'none';
+        }
+    });
+
+    window.addEventListener('appinstalled', () => {
+        console.log('PWA installée !');
+        document.getElementById('installButton').style.display = 'none';
+    });
+
+    // Enregistrement du service worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then((registration) => {
+                    console.log('ServiceWorker enregistré:', registration);
+                })
+                .catch((error) => {
+                    console.log('Échec de l\'enregistrement du ServiceWorker:', error);
+                });
+        });
+    }
+</script>
+
 
 <!-- === FOOTER === -->
 <footer class="footer" role="contentinfo">
