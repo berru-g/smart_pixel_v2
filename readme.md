@@ -16,6 +16,10 @@ Analysez votre trafic sans compromettre la vie privée de vos visiteurs, avec un
 
   [Dashboard](https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/dashboard.php) - [Api](https://gael-berru.com/LibreAnalytics/smart_pixel_v2/public/account.php) - [Doc](https://gael-berru.com/LibreAnalytics/doc/) - [Chat](https://gael-berru.com/LibreAnalytics/chat/) - [Articles](https://gael-berru.com/LibreAnalytics/articles/)
 
+### 🔌 Mise à Jour :
+ - API Fonctionnel.
+ - [Call api depuis un Esp32](/smart_pixel_v2/) .
+
 
 <img src="https://gael-berru.com/img/demo_dashboard.gif" style="width:90%; display:flex;margin:20px auto; border-radius: 12px;">
 
